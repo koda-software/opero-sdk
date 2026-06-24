@@ -47,8 +47,10 @@ describe('output rendering', () => {
     })
 
     const output = stdoutText(log)
-    expect(output).toContain('available: true')
-    expect(output).toContain('source: config')
+    expect(output).toContain('available')
+    expect(output).toContain('true')
+    expect(output).toContain('source')
+    expect(output).toContain('config')
   })
 
   it('renders arrays as oclif tables', () => {

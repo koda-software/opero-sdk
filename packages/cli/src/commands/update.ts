@@ -1,12 +1,14 @@
 import {Flags} from '@oclif/core'
 import {homedir} from 'node:os'
 import {resolve} from 'node:path'
+import pc from 'picocolors'
 
 import {BaseCommand} from '../base-command.js'
 import {OperoCliError} from '../api/errors.js'
 import {fetchRelease, findChecksumsAsset, findReleaseAsset} from '../update/github.js'
 import {installUpdate} from '../update/install.js'
 import {currentInstallLayout} from '../update/platform.js'
+import {isSourceCheckout} from '../update/source-checkout.js'
 
 export default class Update extends BaseCommand {
   static description = 'Update standalone Opero CLI from GitHub Releases.'
@@ -46,12 +48,16 @@ export default class Update extends BaseCommand {
     }
   }> {
     const {flags} = await this.parse(Update)
+    const progress = createProgress(this.jsonEnabled())
     const layout = currentInstallLayout()
+    progress(`Checking GitHub Releases for ${flags.repo}`)
     const release = await fetchRelease(flags.repo, flags.version)
+    progress(`Found ${release.tag_name}`)
     const asset = findReleaseAsset(release, layout.target)
     const checksums = findChecksumsAsset(release)
     const currentVersion = `v${this.config.version}`
     const updateAvailable = release.tag_name !== currentVersion
+    progress(`Selected ${asset.name}`)
 
     if (flags.check) {
       const result = {
@@ -65,7 +71,15 @@ export default class Update extends BaseCommand {
         },
       }
 
-      if (!this.jsonEnabled()) this.printOutput(result, flags)
+      if (!this.jsonEnabled()) {
+        if (updateAvailable) {
+          this.log(`${pc.cyan('Update available')}: ${release.tag_name} ${pc.dim(`(current ${currentVersion})`)}`)
+          this.log(`Run ${pc.bold('opero update')} to install it.`)
+        } else {
+          this.log(`${pc.green('Already up to date')}: ${currentVersion}`)
+        }
+      }
+
       return result
     }
 
@@ -79,12 +93,14 @@ export default class Update extends BaseCommand {
 
     const installDir = resolve(flags['install-dir'] ?? process.env.OPERO_INSTALL_DIR ?? resolve(homedir(), '.local/share/opero-cli'))
     const binDir = resolve(flags['bin-dir'] ?? process.env.OPERO_BIN_DIR ?? resolve(homedir(), '.local/bin'))
+    if (!updateAvailable) progress(`Reinstalling ${currentVersion}`)
     const install = await installUpdate({
       asset,
       binDir,
       checksums,
       installDir,
       layout,
+      onProgress: progress,
       tag: release.tag_name,
     })
 
@@ -109,7 +125,8 @@ export default class Update extends BaseCommand {
   }
 }
 
-function isSourceCheckout(): boolean {
-  const argvPath = process.argv[1] ?? ''
-  return argvPath.includes('/packages/cli/bin/') || argvPath.includes('\\packages\\cli\\bin\\')
+function createProgress(jsonEnabled: boolean): (message: string) => void {
+  return (message: string) => {
+    if (!jsonEnabled) process.stderr.write(`${pc.dim('->')} ${message}\n`)
+  }
 }

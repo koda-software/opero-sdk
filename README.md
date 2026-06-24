@@ -1,6 +1,6 @@
 # Opero CLI
 
-This repository contains the first tooling surface for the Opero external API:
+This repository contains the first tooling surface for the Opero API:
 the `opero` command-line interface.
 
 The current direction is CLI-first. The CLI talks to the API directly through a
@@ -130,6 +130,16 @@ Check for a released standalone update:
 ```bash
 opero --json update --check
 ```
+
+Install the latest standalone release:
+
+```bash
+opero update
+```
+
+Human, interactive commands may show a debounced update notice after command
+output. The notice is skipped for `--json`, CI, non-TTY usage, source checkouts,
+and `opero update` itself. Disable it with `OPERO_NO_UPDATE_CHECK=1`.
 
 ## Output Formats
 
@@ -286,7 +296,7 @@ confirmation.
 
 ## OpenAPI Contract
 
-The external API OpenAPI document is pinned at:
+The Opero API OpenAPI document is pinned at:
 
 ```text
 openapi/external-v1.openapi.json

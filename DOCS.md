@@ -9,7 +9,7 @@ the public repository.
 
 ## Design Model
 
-The CLI is the stable automation surface for the Opero external API.
+The CLI is the stable automation surface for the Opero API.
 
 ```text
 Opero API
@@ -335,9 +335,38 @@ Install a specific version:
 opero update --version v0.2.0
 ```
 
+The update command prints progress for each phase: checking GitHub Releases,
+selecting the matching artifact, downloading the tarball and checksums,
+verifying the checksum, extracting the archive, and linking the executable.
+
 The updater downloads release artifacts from GitHub Releases, verifies
 `checksums.txt`, extracts the matching OS/architecture tarball, and repoints the
 local `opero` symlink or Windows shim.
+
+For human interactive commands, the CLI also performs a small debounced update
+check after normal command output. When a newer standalone release exists, it
+prints a short stderr notice:
+
+```text
+Update available: v0.2.3 (current v0.2.2, linux-x64). Run opero update.
+```
+
+Automatic update notices are skipped for:
+
+- `--json`
+- CI
+- non-TTY stdin/stdout/stderr
+- source checkouts
+- `opero update`
+- `opero autocomplete`
+
+The default debounce interval is 24 hours. Configure or disable it with:
+
+```bash
+OPERO_UPDATE_CHECK_INTERVAL_MS=604800000
+OPERO_NO_UPDATE_CHECK=1
+OPERO_SKIP_UPDATE_CHECK=1
+```
 
 The updater refuses to update a source checkout unless `--force` is provided.
 For source checkouts, use:

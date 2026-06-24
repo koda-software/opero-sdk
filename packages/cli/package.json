@@ -1,12 +1,13 @@
 {
   "name": "@koda/opero-cli",
   "version": "0.2.2",
-  "description": "CLI for the Opero external API",
+  "description": "CLI for the Opero API",
   "type": "module",
   "bin": {
     "opero": "./bin/run.js"
   },
   "files": [
+    "agent-skills",
     "bin",
     "dist",
     "oclif.manifest.json"
@@ -33,11 +34,23 @@
   "oclif": {
     "bin": "opero",
     "commands": "./dist/commands",
+    "helpClass": "./dist/help.js",
     "plugins": [
       "@oclif/plugin-autocomplete"
     ],
     "theme": {
-      "flagRequired": "yellowBright"
+      "bin": "cyan",
+      "command": "cyan",
+      "commandSummary": "gray",
+      "dollarSign": "gray",
+      "flag": "yellow",
+      "flagDefaultValue": "gray",
+      "flagOptions": "gray",
+      "flagRequired": "yellowBright",
+      "sectionDescription": "gray",
+      "sectionHeader": "cyan",
+      "topic": "cyan",
+      "version": "gray"
     },
     "topicSeparator": " ",
     "topics": {
@@ -91,6 +104,12 @@
       },
       "service-catalog": {
         "description": "Manage service catalog items."
+      },
+      "skills": {
+        "description": "List and install Opero agent skills."
+      },
+      "skills install": {
+        "description": "Install bundled Opero agent skills."
       }
     }
   },

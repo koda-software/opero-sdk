@@ -14,6 +14,7 @@ export type InstallUpdateOptions = {
   checksums: ReleaseAsset
   installDir: string
   layout: InstallLayout
+  onProgress?: (message: string) => void
   tag: string
 }
 
@@ -31,14 +32,19 @@ export async function installUpdate(options: InstallUpdateOptions): Promise<Inst
   await mkdir(tmpDir, {recursive: true})
 
   try {
+    options.onProgress?.(`Downloading ${options.asset.name}`)
     await downloadFile(options.asset.browser_download_url, archivePath)
+    options.onProgress?.('Downloading checksums.txt')
     await downloadFile(options.checksums.browser_download_url, checksumsPath)
+    options.onProgress?.('Verifying checksum')
     await verifyChecksum(archivePath, checksumsPath, options.asset.name)
 
     const versionDir = resolve(options.installDir, options.tag)
+    options.onProgress?.(`Preparing ${versionDir}`)
     await rm(versionDir, {force: true, recursive: true})
     await mkdir(versionDir, {recursive: true})
 
+    options.onProgress?.('Extracting archive')
     const tar = spawnSync('tar', ['-xzf', archivePath, '-C', versionDir], {stdio: 'inherit'})
     if (tar.status !== 0) {
       throw new OperoCliError({
@@ -50,6 +56,7 @@ export async function installUpdate(options: InstallUpdateOptions): Promise<Inst
 
     const executable = resolve(versionDir, options.layout.executableRelativePath)
     const linkPath = resolve(options.binDir, platform === 'win32' ? 'opero.cmd' : 'opero')
+    options.onProgress?.(`Linking ${linkPath}`)
     await mkdir(dirname(linkPath), {recursive: true})
 
     if (platform === 'win32') {

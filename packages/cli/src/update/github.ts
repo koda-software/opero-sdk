@@ -11,7 +11,7 @@ export type GitHubRelease = {
   tag_name: string
 }
 
-export async function fetchRelease(repo: string, version: string): Promise<GitHubRelease> {
+export async function fetchRelease(repo: string, version: string, options: {signal?: AbortSignal} = {}): Promise<GitHubRelease> {
   const endpoint =
     version === 'latest'
       ? `https://api.github.com/repos/${repo}/releases/latest`
@@ -22,6 +22,7 @@ export async function fetchRelease(repo: string, version: string): Promise<GitHu
       accept: 'application/vnd.github+json',
       'user-agent': 'opero-cli-updater',
     },
+    signal: options.signal,
   })
 
   if (!response.ok) {

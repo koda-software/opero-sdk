@@ -80,14 +80,14 @@ function renderHumanList(items: unknown[], meta: unknown): void {
     return
   }
 
-  ux.stdout(pc.bold(`${items.length} item${items.length === 1 ? '' : 's'}`))
+  ux.stdout(`${pc.bold(pc.cyan(`${items.length} item${items.length === 1 ? '' : 's'}`))}`)
   for (const item of items.slice(0, 20)) {
     if (!isPlainObject(item)) {
-      ux.stdout(`- ${formatScalar(item)}`)
+      ux.stdout(`${pc.dim('-')} ${formatScalar(item)}`)
       continue
     }
 
-    ux.stdout(`- ${pc.cyan(getHumanTitle(item))}`)
+    ux.stdout(`${pc.dim('-')} ${pc.cyan(getHumanTitle(item))}`)
     const fields = getSummaryFields(item)
     for (const [key, fieldValue] of fields) {
       ux.stdout(`  ${pc.dim(key)}: ${formatScalar(fieldValue)}`)
@@ -106,7 +106,7 @@ function renderHumanObject(value: Row): void {
   if (title !== 'Object') ux.stdout(pc.cyan(pc.bold(title)))
 
   for (const [key, item] of Object.entries(value)) {
-    ux.stdout(`${pc.dim(key)}: ${formatScalar(item)}`)
+    ux.stdout(`${pc.dim(key.padEnd(Math.min(maxKeyLength(value), 24)))}  ${formatScalar(item)}`)
   }
 }
 
@@ -202,10 +202,22 @@ function formatScalar(value: unknown): string {
   if (value === undefined) return pc.dim('undefined')
   if (typeof value === 'boolean') return value ? pc.green('true') : pc.red('false')
   if (typeof value === 'number') return pc.yellow(String(value))
-  if (typeof value === 'string') return value
+  if (typeof value === 'string') return formatString(value)
   return JSON.stringify(value)
 }
 
 function isPlainObject(value: unknown): value is Row {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+}
+
+function formatString(value: string): string {
+  if (['ACTIVE', 'VALID', 'SUCCESS', 'OK', 'UP'].includes(value.toUpperCase())) return pc.green(value)
+  if (['ARCHIVED', 'SKIPPED', 'PENDING'].includes(value.toUpperCase())) return pc.yellow(value)
+  if (['ERROR', 'FAILED', 'INVALID', 'DOWN', 'INACTIVE'].includes(value.toUpperCase())) return pc.red(value)
+  if (value.startsWith('http://') || value.startsWith('https://')) return pc.cyan(value)
+  return value
+}
+
+function maxKeyLength(value: Row): number {
+  return Math.max(...Object.keys(value).map((key) => key.length), 0)
 }
