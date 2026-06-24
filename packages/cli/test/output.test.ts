@@ -84,5 +84,9 @@ describe('output rendering', () => {
 })
 
 function stdoutText(log: ReturnType<typeof vi.spyOn>): string {
-  return log.mock.calls.map((call) => String(call[0])).join('\n')
+  return stripAnsi(log.mock.calls.map((call) => String(call[0])).join('\n'))
+}
+
+function stripAnsi(value: string): string {
+  return value.replaceAll(/\u001B\[[0-?]*[ -/]*[@-~]/g, '')
 }
