@@ -1,0 +1,20 @@
+{
+  "name": "opero-sdk",
+  "private": true,
+  "packageManager": "pnpm@11.6.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "install-local": "pnpm build && node scripts/install-local-cli.mjs",
+    "pack:standalone": "node scripts/pack-standalone.mjs",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "openapi:pull:local": "mkdir -p openapi && curl -fsSL http://localhost:3001/swagger/v1/json -o openapi/external-v1.openapi.json",
+    "openapi:pull:prod": "mkdir -p openapi && curl -fsSL https://api.kodasoft.pl/swagger/v1/json -o openapi/external-v1.openapi.json",
+    "openapi:check": "jq -e '.openapi and .paths and .components.securitySchemes[\"api-token\"]' openapi/external-v1.openapi.json >/dev/null",
+    "openapi:summary": "jq '{openapi, info, operationCount: ([.paths | to_entries[] as $p | $p.value | to_entries[]] | length), tags: ([.paths | to_entries[] as $p | $p.value | to_entries[] | .value.tags[]?] | group_by(.) | map({tag: .[0], count: length}))}' openapi/external-v1.openapi.json",
+    "openapi:types": "pnpm exec openapi-typescript openapi/external-v1.openapi.json -o packages/cli/src/api/openapi-types.ts"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.10.1"
+  }
+}

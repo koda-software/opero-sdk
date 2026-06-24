@@ -1,0 +1,46 @@
+{
+  "name": "@koda/opero-cli",
+  "version": "0.1.0",
+  "description": "CLI for the Opero external API",
+  "type": "module",
+  "bin": {
+    "opero": "./bin/run.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "oclif.manifest.json"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "node ./bin/dev.js",
+    "pack:standalone": "node ../../scripts/pack-standalone.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@oclif/core": "^4.11.11"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "oclif": "^4.23.21",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15"
+  },
+  "oclif": {
+    "bin": "opero",
+    "commands": "./dist/commands",
+    "topicSeparator": " ",
+    "topics": {
+      "auth": {
+        "description": "Manage Opero API authentication."
+      },
+      "request": {
+        "description": "Run raw authenticated Opero API requests."
+      }
+    }
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
