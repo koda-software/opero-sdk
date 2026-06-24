@@ -19,7 +19,13 @@ call this CLI instead of duplicating API access logic.
 
 ## Install
 
-From this repository:
+Public standalone install for Linux/macOS:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/koda-software/opero-sdk/main/scripts/install.sh | bash
+```
+
+From a source checkout:
 
 ```bash
 pnpm install
@@ -38,13 +44,22 @@ opero --version
 Set the target API endpoint:
 
 ```bash
-opero init --base-url https://api.kodasoft.pl
+opero init
 ```
 
-For local backend development:
+`opero init` prompts for the API base URL and API token, validates the token with
+`/v1/ping`, and saves the config.
+
+For non-interactive setup:
 
 ```bash
-opero init --base-url http://localhost:3001
+opero init --base-url https://api.kodasoft.pl --api-token "$OPERO_API_TOKEN"
+```
+
+To save only the base URL without token validation:
+
+```bash
+opero init --base-url http://localhost:3001 --no-token
 ```
 
 Authenticate with an API token:
@@ -90,6 +105,18 @@ Show auth status without printing the full token:
 opero --json auth status
 ```
 
+Show resolved config:
+
+```bash
+opero --json config show
+```
+
+Check for a released standalone update:
+
+```bash
+opero --json update --check
+```
+
 ## Raw API Requests
 
 The initial CLI includes a raw request escape hatch so every API endpoint is
@@ -124,9 +151,7 @@ pnpm openapi:summary
 pnpm openapi:types
 ```
 
-Current note: local and production may differ during backend development. The
-local snapshot currently includes `Custom Scripts` endpoints that production may
-not expose yet.
+Current note: public releases should use the production OpenAPI snapshot.
 
 ## Development
 
@@ -151,6 +176,9 @@ Artifacts are copied to:
 dist/standalone/
 ```
 
+Release artifacts include `checksums.txt` for installer and updater
+verification.
+
 Run the CLI from source:
 
 ```bash
@@ -161,5 +189,3 @@ node packages/cli/bin/run.js --json doctor --base-url http://localhost:3001
 ## Documentation
 
 - [CLI documentation](DOCS.md)
-- [CLI-first technical specification](docs/cli-first-technical-spec.md)
-- [SDK tooling comparison](docs/sdk-tooling-comparison.md)

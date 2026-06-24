@@ -2,13 +2,14 @@
 import {cp, mkdir, readdir, readFile, rm, writeFile} from 'node:fs/promises'
 import {basename, resolve} from 'node:path'
 import {spawnSync} from 'node:child_process'
+import {createHash} from 'node:crypto'
 
 const repoRoot = resolve(import.meta.dirname, '..')
 const cliRoot = resolve(repoRoot, 'packages/cli')
 const packRoot = resolve(cliRoot, '.pack/opero')
 const artifactDir = resolve(repoRoot, 'dist/standalone')
 const targets = process.env.OPERO_PACK_TARGETS ?? 'linux-x64,darwin-x64,darwin-arm64,win32-x64'
-const sha = process.env.OPERO_PACK_SHA ?? '0000000'
+const sha = (process.env.OPERO_PACK_SHA ?? '0000000').slice(0, 7)
 
 run('pnpm', ['--dir', cliRoot, 'build'], repoRoot)
 
@@ -30,6 +31,7 @@ run('pnpm', ['--dir', cliRoot, 'exec', 'oclif', 'pack', 'tarballs', '--root', pa
 await rm(artifactDir, {force: true, recursive: true})
 await mkdir(artifactDir, {recursive: true})
 await copyArtifacts(resolve(packRoot, 'dist'), artifactDir)
+await writeChecksums(artifactDir)
 
 console.log(`Standalone artifacts copied to ${artifactDir}`)
 
@@ -52,4 +54,21 @@ async function copyArtifacts(sourceDir, targetDir) {
     if (!entry.name.endsWith('.tar.gz') && !entry.name.endsWith('.tar.xz')) continue
     await cp(resolve(sourceDir, entry.name), resolve(targetDir, basename(entry.name)))
   }
+}
+
+async function writeChecksums(sourceDir) {
+  const entries = (await readdir(sourceDir, {withFileTypes: true}))
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.name)
+    .filter((name) => name !== 'checksums.txt')
+    .sort()
+
+  const lines = []
+  for (const name of entries) {
+    const bytes = await readFile(resolve(sourceDir, name))
+    const hash = createHash('sha256').update(bytes).digest('hex')
+    lines.push(`${hash}  ${name}`)
+  }
+
+  await writeFile(resolve(sourceDir, 'checksums.txt'), `${lines.join('\n')}\n`)
 }

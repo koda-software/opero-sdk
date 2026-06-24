@@ -52,6 +52,18 @@ opero --version
 opero --help
 ```
 
+Public Linux/macOS install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/koda-software/opero-sdk/main/scripts/install.sh | bash
+```
+
+Windows PowerShell install:
+
+```powershell
+iwr https://raw.githubusercontent.com/koda-software/opero-sdk/main/scripts/install.ps1 -useb | iex
+```
+
 ## Configuration
 
 Configuration precedence:
@@ -102,11 +114,42 @@ The CLI must never print the full API token.
 
 ## Auth Commands
 
-Save non-secret CLI settings:
+Run interactive setup:
 
 ```bash
-opero init --base-url https://api.kodasoft.pl
-opero init --base-url http://localhost:3001
+opero init
+```
+
+`opero init` prompts for:
+
+- Opero API base URL
+- Opero API token
+
+It validates the token with authenticated `/v1/ping` before saving config.
+
+Run non-interactive setup:
+
+```bash
+opero init --base-url https://api.kodasoft.pl --api-token "$OPERO_API_TOKEN"
+```
+
+Save only the base URL without token validation:
+
+```bash
+opero init --base-url http://localhost:3001 --no-token
+```
+
+Manage non-secret CLI settings directly:
+
+```bash
+opero config set --base-url https://api.kodasoft.pl
+opero config set --base-url http://localhost:3001
+```
+
+Show resolved config:
+
+```bash
+opero --json config show
 ```
 
 Validate and save an API token:
@@ -217,6 +260,37 @@ Check authenticated access only:
 opero --json ping
 ```
 
+## Updates
+
+Check for a released standalone update:
+
+```bash
+opero --json update --check
+```
+
+Install the latest released standalone CLI:
+
+```bash
+opero update
+```
+
+Install a specific version:
+
+```bash
+opero update --version v0.2.0
+```
+
+The updater downloads release artifacts from GitHub Releases, verifies
+`checksums.txt`, extracts the matching OS/architecture tarball, and repoints the
+local `opero` symlink or Windows shim.
+
+The updater refuses to update a source checkout unless `--force` is provided.
+For source checkouts, use:
+
+```bash
+pnpm install-local
+```
+
 ## Raw Requests
 
 Raw request commands use the same config, auth, timeout, error handling, and JSON
@@ -280,15 +354,18 @@ opero ping
 opero auth login
 opero auth logout
 opero auth status
+opero config set
+opero config show
 opero request get
 opero request post
 opero request patch
 opero request delete
+opero update
 ```
 
 Curated resource commands for contractors, custom data, files, rules, service
-catalog, comments, attachments, dictionaries, currencies, and custom scripts are
-planned next. Until then, use `opero request ...`.
+catalog, comments, attachments, dictionaries, and currencies are planned next.
+Until then, use `opero request ...`.
 
 ## OpenAPI Workflow
 
@@ -364,6 +441,12 @@ Artifacts are copied to:
 
 ```text
 dist/standalone/
+```
+
+The generated artifact directory includes:
+
+```text
+checksums.txt
 ```
 
 To package a subset of targets, set `OPERO_PACK_TARGETS`:

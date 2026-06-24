@@ -1,6 +1,6 @@
 import {BaseCommand} from '../../base-command.js'
 import {OperoCliError} from '../../api/errors.js'
-import {writeConfig} from '../../config/write.js'
+import {validateAndSaveToken} from '../../config/save-token.js'
 
 export default class AuthLogin extends BaseCommand {
   static description = 'Validate and save an Opero API token.'
@@ -18,13 +18,12 @@ export default class AuthLogin extends BaseCommand {
 
     const {config, settings} = await this.loadSettings(flags)
     const client = this.createApiClient({...settings, apiToken: flags['api-token']})
-    await client.get('/v1/ping')
-
-    await writeConfig(this.configPath, {
-      ...config,
+    await validateAndSaveToken({
       apiToken: flags['api-token'],
-      baseUrl: settings.baseUrl,
-      timeoutMs: settings.timeoutMs,
+      client,
+      config,
+      configPath: this.configPath,
+      settings,
     })
 
     const result = {

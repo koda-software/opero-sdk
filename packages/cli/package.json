@@ -35,6 +35,9 @@
       "auth": {
         "description": "Manage Opero API authentication."
       },
+      "config": {
+        "description": "Manage Opero CLI configuration."
+      },
       "request": {
         "description": "Run raw authenticated Opero API requests."
       }
