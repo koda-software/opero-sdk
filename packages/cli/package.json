@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@oclif/core": "^4.11.11",
+    "@oclif/plugin-autocomplete": "^3.2.52",
     "@oclif/table": "^0.5.9",
     "picocolors": "^1.1.1"
   },
@@ -32,6 +33,12 @@
   "oclif": {
     "bin": "opero",
     "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-autocomplete"
+    ],
+    "theme": {
+      "flagRequired": "yellowBright"
+    },
     "topicSeparator": " ",
     "topics": {
       "auth": {
@@ -41,19 +48,25 @@
         "description": "Manage Opero CLI configuration."
       },
       "contractors": {
-        "description": "Read Opero contractors."
+        "description": "Manage Opero contractors."
       },
       "currencies": {
         "description": "Read supported currencies."
       },
       "custom-modules": {
-        "description": "Read custom data modules."
+        "description": "Manage custom data modules and module schema drafts."
+      },
+      "custom-modules schema-drafts": {
+        "description": "Manage custom module schema drafts."
       },
       "custom-objects": {
-        "description": "Read custom data objects."
+        "description": "Manage custom data objects and object schema drafts."
+      },
+      "custom-objects schema-drafts": {
+        "description": "Manage custom object schema drafts."
       },
       "custom-records": {
-        "description": "Read custom data records."
+        "description": "Manage custom data records."
       },
       "dictionaries": {
         "description": "Read dictionaries and entries."
@@ -61,11 +74,17 @@
       "entity-attachments": {
         "description": "Manage file attachments on entities."
       },
+      "entity-comments": {
+        "description": "Manage comments on entities."
+      },
       "files": {
         "description": "Upload, inspect, and download files."
       },
       "request": {
         "description": "Run raw authenticated Opero API requests."
+      },
+      "rules": {
+        "description": "Manage automation rules and rule execution history."
       },
       "service-catalog": {
         "description": "Manage service catalog items."

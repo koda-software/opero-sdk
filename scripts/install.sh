@@ -160,3 +160,30 @@ if [[ ":$PATH:" != *":${BIN_DIR}:"* && "$NO_PATH_WARNING" -ne 1 ]]; then
 fi
 
 "${BIN_DIR}/opero" --version
+
+print_completion_hint() {
+  local shell_name
+  shell_name="$(basename "${SHELL:-}")"
+
+  case "$shell_name" in
+    zsh)
+      echo ""
+      echo "To enable zsh autocomplete:"
+      echo "  opero autocomplete zsh"
+      echo "Then run the setup command printed by opero."
+      ;;
+    bash)
+      echo ""
+      echo "To enable bash autocomplete:"
+      echo "  opero autocomplete bash"
+      echo "Then run the setup command printed by opero."
+      ;;
+    *)
+      echo ""
+      echo "To enable shell autocomplete, run:"
+      echo "  opero autocomplete"
+      ;;
+  esac
+}
+
+print_completion_hint

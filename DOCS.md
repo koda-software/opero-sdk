@@ -53,6 +53,36 @@ opero --version
 opero --help
 ```
 
+## Shell Autocomplete
+
+The CLI includes oclif autocomplete support for command names and flags.
+
+Run this once after installation:
+
+```bash
+opero autocomplete
+```
+
+The command detects the current shell when possible and prints setup
+instructions. You can also choose explicitly:
+
+```bash
+opero autocomplete zsh
+opero autocomplete bash
+opero autocomplete powershell
+```
+
+After setup, command and flag completion works through the shell:
+
+```bash
+opero ent<Tab>
+opero service-catalog <Tab>
+opero files download --<Tab>
+```
+
+Autocomplete covers static CLI commands and flags. It does not complete API data
+such as contractor IDs, file IDs, or custom module keys.
+
 Public Linux/macOS install:
 
 ```bash
@@ -369,10 +399,11 @@ The CLI rejects manual `Authorization` headers. Use `OPERO_API_TOKEN`,
 Raw non-GET commands are live writes. The CLI performs the named action
 immediately.
 
-## Curated Read Commands
+## Curated API Commands
 
-Curated read commands wrap common GET endpoints with stable command names and
-agent-friendly flags. Prefer these before using `opero request get`.
+Curated commands wrap common API endpoints with stable command names and
+agent-friendly flags. Prefer these before using raw `opero request ...`
+commands.
 
 ### List Flags
 
@@ -413,6 +444,19 @@ Get one contractor:
 opero --json contractors get <id>
 ```
 
+Create or update a contractor:
+
+```bash
+opero contractors create --body-file contractor.json
+opero contractors update <id> --body-file contractor.json
+```
+
+Update contractor status:
+
+```bash
+opero contractors update-status <id> --body-file status.json
+```
+
 ### Dictionaries
 
 List dictionaries:
@@ -447,6 +491,41 @@ Get one custom module:
 opero --json custom-modules get <moduleKey>
 ```
 
+Create and update custom module metadata:
+
+```bash
+opero custom-modules create --body-file module.json
+opero custom-modules update <moduleKey> --body-file module.json
+```
+
+Preview and perform module deletion:
+
+```bash
+opero --json custom-modules delete-impact <moduleKey>
+opero custom-modules delete <moduleKey>
+```
+
+Deletion is immediate. The CLI sends the API-required `confirmModuleKey` query
+using the path module key; it does not prompt.
+
+Read module schema context:
+
+```bash
+opero --json custom-modules schema <moduleKey>
+```
+
+Manage module-level schema drafts:
+
+```bash
+opero --json custom-modules schema-drafts list <moduleKey>
+opero --json custom-modules schema-drafts get <moduleKey> <draftId>
+opero custom-modules schema-drafts create <moduleKey> --body-file draft.json
+opero custom-modules schema-drafts update <moduleKey> <draftId> --body-file draft.json
+opero custom-modules schema-drafts validate <moduleKey> <draftId> --body-file validate.json
+opero custom-modules schema-drafts apply <moduleKey> <draftId> --body-file apply.json
+opero custom-modules schema-drafts delete <moduleKey> <draftId>
+```
+
 ### Custom Objects
 
 List custom objects inside a module:
@@ -459,6 +538,35 @@ Get one custom object:
 
 ```bash
 opero --json custom-objects get <moduleKey> <objectKey>
+```
+
+Read object schema context:
+
+```bash
+opero --json custom-objects schema <moduleKey> <objectKey>
+opero --json custom-objects schema <moduleKey> <objectKey> --mode edit
+```
+
+Preview and perform object deletion:
+
+```bash
+opero --json custom-objects delete-impact <moduleKey> <objectKey>
+opero custom-objects delete <moduleKey> <objectKey> --body-file delete.json
+```
+
+Object deletion uses the API's POST delete endpoint and requires the
+confirmation body expected by the API.
+
+Manage object-level schema drafts:
+
+```bash
+opero --json custom-objects schema-drafts list <moduleKey> <objectKey>
+opero --json custom-objects schema-drafts get <moduleKey> <objectKey> <draftId>
+opero custom-objects schema-drafts create <moduleKey> <objectKey> --body-file draft.json
+opero custom-objects schema-drafts update <moduleKey> <objectKey> <draftId> --body-file draft.json
+opero custom-objects schema-drafts validate <moduleKey> <objectKey> <draftId>
+opero custom-objects schema-drafts apply <moduleKey> <objectKey> <draftId> --body-file apply.json
+opero custom-objects schema-drafts delete <moduleKey> <objectKey> <draftId>
 ```
 
 ### Custom Records
@@ -486,6 +594,20 @@ Get a singleton custom record:
 
 ```bash
 opero --json custom-records singleton <moduleKey> <objectKey>
+```
+
+Create, update, and delete records:
+
+```bash
+opero custom-records create <moduleKey> <objectKey> --body-file record.json
+opero custom-records update <moduleKey> <objectKey> <recordId> --body-file record.json
+opero custom-records delete <moduleKey> <objectKey> <recordId>
+```
+
+Update a singleton custom record:
+
+```bash
+opero custom-records update-singleton <moduleKey> <objectKey> --body-file record.json
 ```
 
 ### Files
@@ -612,6 +734,126 @@ Delete is immediate. It does not prompt for confirmation.
 The current OpenAPI snapshot does not expose `GET /v1/entity-attachments/{id}`,
 so there is no `entity-attachments get` command.
 
+### Entity Comments
+
+List comments for an entity:
+
+```bash
+opero --json entity-comments list --entity-type contractor --entity-id <id>
+opero --json entity-comments list --entity-type custom_record.crm.deal --entity-id <id>
+```
+
+List supports the shared pagination/query flags:
+
+```bash
+opero --table entity-comments list \
+  --entity-type contractor \
+  --entity-id <id> \
+  --limit 20
+```
+
+Get one comment:
+
+```bash
+opero --json entity-comments get <id>
+```
+
+Create a comment from a plain body string:
+
+```bash
+opero --json entity-comments create \
+  --entity-type contractor \
+  --entity-id <id> \
+  --body "Please verify billing address"
+```
+
+Add metadata during create:
+
+```bash
+opero entity-comments create \
+  --entity-type contractor \
+  --entity-id <id> \
+  --body "Please verify billing address" \
+  --metadata-json '{"source":"cli"}'
+```
+
+Create or update from a JSON file:
+
+```bash
+opero entity-comments create \
+  --entity-type contractor \
+  --entity-id <id> \
+  --body-file comment.json
+
+opero entity-comments update <id> --body-file comment.json
+```
+
+Delete a comment:
+
+```bash
+opero entity-comments delete <id>
+```
+
+Delete is immediate. It does not prompt for confirmation.
+
+### Rules
+
+Read rule-builder configuration:
+
+```bash
+opero --json rules config
+opero --json rules step-types --search webhook --limit 20
+opero --json rules entity-fields --entity-type contractor
+opero --json rules entity-fields --entity-type custom_record --module-key crm --object-key deal
+```
+
+Compute draft context schemas and validate scripts:
+
+```bash
+opero rules context-schemas --body-file context-request.json
+opero rules validate-script --body-file script-request.json
+```
+
+List and read rules:
+
+```bash
+opero --json rules list --limit 20
+opero --json rules get <id>
+```
+
+Create, update, execute, and delete rules:
+
+```bash
+opero rules create --body-file rule.json
+opero rules update <id> --body-file rule.json
+opero rules execute <id> --body-file execute.json
+opero rules delete <id>
+```
+
+`rules execute` runs a manual active rule synchronously as the API token actor.
+`rules delete` is immediate.
+
+Read context schema for a saved step:
+
+```bash
+opero --json rules context-schema <id> --step-position 1
+```
+
+Read execution history:
+
+```bash
+opero --json rules executions <id>
+opero --json rules execution <id> <execId>
+```
+
+Find rules related to custom data:
+
+```bash
+opero --json rules related-custom-module <moduleKey>
+opero --json rules related-custom-object <moduleKey> <objectKey>
+opero --json rules related-custom-field <fieldDefinitionId>
+```
+
 ## Current Implemented Command Surface
 
 ```text
@@ -624,16 +866,45 @@ opero auth logout
 opero auth status
 opero config set
 opero config show
+opero contractors create
 opero contractors get
 opero contractors list
+opero contractors update
+opero contractors update-status
 opero currencies list
+opero custom-modules create
+opero custom-modules delete
+opero custom-modules delete-impact
 opero custom-modules get
 opero custom-modules list
+opero custom-modules schema
+opero custom-modules schema-drafts apply
+opero custom-modules schema-drafts create
+opero custom-modules schema-drafts delete
+opero custom-modules schema-drafts get
+opero custom-modules schema-drafts list
+opero custom-modules schema-drafts update
+opero custom-modules schema-drafts validate
+opero custom-modules update
+opero custom-objects delete
+opero custom-objects delete-impact
 opero custom-objects get
 opero custom-objects list
+opero custom-objects schema
+opero custom-objects schema-drafts apply
+opero custom-objects schema-drafts create
+opero custom-objects schema-drafts delete
+opero custom-objects schema-drafts get
+opero custom-objects schema-drafts list
+opero custom-objects schema-drafts update
+opero custom-objects schema-drafts validate
+opero custom-records create
+opero custom-records delete
 opero custom-records get
 opero custom-records list
 opero custom-records singleton
+opero custom-records update
+opero custom-records update-singleton
 opero dictionaries entries
 opero dictionaries get
 opero dictionaries list
@@ -641,6 +912,11 @@ opero entity-attachments create
 opero entity-attachments delete
 opero entity-attachments list
 opero entity-attachments update
+opero entity-comments create
+opero entity-comments delete
+opero entity-comments get
+opero entity-comments list
+opero entity-comments update
 opero files download
 opero files get
 opero files upload
@@ -648,6 +924,23 @@ opero request get
 opero request post
 opero request patch
 opero request delete
+opero rules config
+opero rules context-schema
+opero rules context-schemas
+opero rules create
+opero rules delete
+opero rules entity-fields
+opero rules execution
+opero rules executions
+opero rules execute
+opero rules get
+opero rules list
+opero rules related-custom-field
+opero rules related-custom-module
+opero rules related-custom-object
+opero rules step-types
+opero rules update
+opero rules validate-script
 opero service-catalog archive
 opero service-catalog create
 opero service-catalog get
@@ -656,9 +949,6 @@ opero service-catalog restore
 opero service-catalog update
 opero update
 ```
-
-Curated coverage for rules and entity-comments is planned next. Until then, use
-`opero request ...` for endpoints without curated commands.
 
 ## OpenAPI Workflow
 

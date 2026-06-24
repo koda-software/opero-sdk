@@ -39,6 +39,20 @@ command -v opero
 opero --version
 ```
 
+Enable shell autocomplete:
+
+```bash
+opero autocomplete
+```
+
+You can also request a specific shell:
+
+```bash
+opero autocomplete zsh
+opero autocomplete bash
+opero autocomplete powershell
+```
+
 ## Configure
 
 Set the target API endpoint:
@@ -132,9 +146,9 @@ opero --json currencies list
 - `--table` uses oclif table rendering for scanning lists and objects
 - `--json` is stable machine-readable API output for scripts and agents
 
-## Curated Read Commands
+## Curated API Commands
 
-Use curated commands for common read workflows. They use the same config, auth,
+Use curated commands for common API workflows. They use the same config, auth,
 timeouts, JSON mode, and error handling as raw requests.
 
 ```bash
@@ -142,6 +156,9 @@ opero --json currencies list
 
 opero --json contractors list --limit 20
 opero --json contractors get <id>
+opero contractors create --body-file contractor.json
+opero contractors update <id> --body-file contractor.json
+opero contractors update-status <id> --body-file status.json
 
 opero --json dictionaries list
 opero --json dictionaries get <id>
@@ -149,13 +166,26 @@ opero --json dictionaries entries <dictionaryId>
 
 opero --json custom-modules list
 opero --json custom-modules get <moduleKey>
+opero custom-modules create --body-file module.json
+opero custom-modules update <moduleKey> --body-file module.json
+opero custom-modules delete-impact <moduleKey>
+opero custom-modules delete <moduleKey>
+opero custom-modules schema <moduleKey>
+opero custom-modules schema-drafts create <moduleKey> --body-file draft.json
+opero custom-modules schema-drafts apply <moduleKey> <draftId> --body-file apply.json
 
 opero --json custom-objects list <moduleKey>
 opero --json custom-objects get <moduleKey> <objectKey>
+opero custom-objects schema <moduleKey> <objectKey>
+opero custom-objects delete-impact <moduleKey> <objectKey>
+opero custom-objects schema-drafts validate <moduleKey> <objectKey> <draftId>
 
 opero --json custom-records list <moduleKey> <objectKey> --expand field1,field2
 opero --json custom-records get <moduleKey> <objectKey> <recordId> --expand field1
 opero --json custom-records singleton <moduleKey> <objectKey>
+opero custom-records create <moduleKey> <objectKey> --body-file record.json
+opero custom-records update <moduleKey> <objectKey> <recordId> --body-file record.json
+opero custom-records update-singleton <moduleKey> <objectKey> --body-file record.json
 ```
 
 File commands:
@@ -187,6 +217,35 @@ opero --json entity-attachments list --entity-type contractor --entity-id <id>
 opero --json entity-attachments create --entity-type contractor --entity-id <id> --file-id <fileId>
 opero entity-attachments update <id> --body-file attachment.json
 opero entity-attachments delete <id>
+```
+
+Entity comment commands:
+
+```bash
+opero --json entity-comments list --entity-type contractor --entity-id <id>
+opero --json entity-comments get <id>
+opero --json entity-comments create --entity-type contractor --entity-id <id> --body "Please verify billing address"
+opero entity-comments update <id> --body-file comment.json
+opero entity-comments delete <id>
+```
+
+Rule commands:
+
+```bash
+opero --json rules config
+opero --json rules step-types --search webhook
+opero --json rules entity-fields --entity-type custom_record --module-key crm --object-key deal
+opero --json rules list --limit 20
+opero --json rules get <id>
+opero rules create --body-file rule.json
+opero rules update <id> --body-file rule.json
+opero rules validate-script --body-file script.json
+opero rules context-schemas --body-file request.json
+opero rules context-schema <id> --step-position 1
+opero rules execute <id> --body-file execute.json
+opero --json rules executions <id>
+opero --json rules execution <id> <execId>
+opero rules delete <id>
 ```
 
 List commands support API pagination/query flags where the endpoint supports

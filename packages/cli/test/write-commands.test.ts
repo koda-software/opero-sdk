@@ -8,6 +8,11 @@ import EntityAttachmentsCreate from '../src/commands/entity-attachments/create.j
 import EntityAttachmentsDelete from '../src/commands/entity-attachments/delete.js'
 import EntityAttachmentsList from '../src/commands/entity-attachments/list.js'
 import EntityAttachmentsUpdate from '../src/commands/entity-attachments/update.js'
+import EntityCommentsCreate from '../src/commands/entity-comments/create.js'
+import EntityCommentsDelete from '../src/commands/entity-comments/delete.js'
+import EntityCommentsGet from '../src/commands/entity-comments/get.js'
+import EntityCommentsList from '../src/commands/entity-comments/list.js'
+import EntityCommentsUpdate from '../src/commands/entity-comments/update.js'
 import ServiceCatalogArchive from '../src/commands/service-catalog/archive.js'
 import ServiceCatalogCreate from '../src/commands/service-catalog/create.js'
 import ServiceCatalogGet from '../src/commands/service-catalog/get.js'
@@ -163,6 +168,128 @@ describe('entity attachment commands', () => {
       body: {displayName: 'Updated'},
     })
     expect(client.delete).toHaveBeenCalledWith('/v1/entity-attachments/attachment%201')
+    await rm(dir, {force: true, recursive: true})
+  })
+})
+
+describe('entity comment commands', () => {
+  it('lists entity comments with path params and list flags', async () => {
+    const client = mockClient()
+
+    await runCommand(EntityCommentsList, client, {
+      flags: {
+        columns: 'id,body',
+        'entity-id': 'contractor 1',
+        'entity-type': 'contractor',
+        limit: 5,
+        page: 2,
+      },
+    })
+
+    expect(client.get).toHaveBeenCalledWith('/v1/entity-comments/contractor/contractor%201', {
+      query: {
+        columns: '["id","body"]',
+        limit: 5,
+        page: 2,
+      },
+    })
+  })
+
+  it('gets one entity comment', async () => {
+    const client = mockClient()
+
+    await runCommand(EntityCommentsGet, client, {args: {id: 'comment 1'}})
+
+    expect(client.get).toHaveBeenCalledWith('/v1/entity-comments/comment%201', {query: undefined})
+  })
+
+  it('creates entity comments from direct body flags', async () => {
+    const client = mockClient()
+
+    await runCommand(EntityCommentsCreate, client, {
+      flags: {
+        body: 'Please verify billing address',
+        'entity-id': 'contractor 1',
+        'entity-type': 'contractor',
+        'metadata-json': '{"source":"cli"}',
+      },
+    })
+
+    expect(client.post).toHaveBeenCalledWith('/v1/entity-comments', {
+      body: {
+        body: 'Please verify billing address',
+        entityId: 'contractor 1',
+        entityType: 'contractor',
+        metadata: {source: 'cli'},
+      },
+    })
+  })
+
+  it('creates entity comments from body files', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'opero-comment-'))
+    const bodyFile = join(dir, 'comment.json')
+    await writeFile(bodyFile, JSON.stringify({body: 'From file', entityId: 'contractor 1', entityType: 'contractor'}))
+    const client = mockClient()
+
+    await runCommand(EntityCommentsCreate, client, {
+      flags: {
+        'body-file': bodyFile,
+        'entity-id': 'ignored-by-body-file',
+        'entity-type': 'contractor',
+      },
+    })
+
+    expect(client.post).toHaveBeenCalledWith('/v1/entity-comments', {
+      body: {
+        body: 'From file',
+        entityId: 'contractor 1',
+        entityType: 'contractor',
+      },
+    })
+    await rm(dir, {force: true, recursive: true})
+  })
+
+  it('rejects missing comment body and invalid metadata JSON', async () => {
+    const client = mockClient()
+
+    await expect(
+      runCommand(EntityCommentsCreate, client, {
+        flags: {
+          'entity-id': 'contractor 1',
+          'entity-type': 'contractor',
+        },
+      }),
+    ).rejects.toMatchObject({
+      code: 'USAGE_ERROR',
+    })
+
+    await expect(
+      runCommand(EntityCommentsCreate, client, {
+        flags: {
+          body: 'Comment',
+          'entity-id': 'contractor 1',
+          'entity-type': 'contractor',
+          'metadata-json': '{',
+        },
+      }),
+    ).rejects.toMatchObject({
+      code: 'INVALID_JSON',
+    })
+  })
+
+  it('updates entity comments from body files and deletes immediately', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'opero-comment-'))
+    const bodyFile = join(dir, 'comment.json')
+    await writeFile(bodyFile, JSON.stringify({body: 'Updated'}))
+    const client = mockClient()
+
+    await runCommand(EntityCommentsUpdate, client, {args: {id: 'comment 1'}, flags: {'body-file': bodyFile}})
+    await runCommand(EntityCommentsDelete, client, {args: {id: 'comment 1'}})
+
+    expect(client.patch).toHaveBeenCalledWith('/v1/entity-comments/comment%201', {
+      body: {body: 'Updated'},
+    })
+    expect(client.delete).toHaveBeenCalledWith('/v1/entity-comments/comment%201')
     await rm(dir, {force: true, recursive: true})
   })
 })

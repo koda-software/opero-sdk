@@ -81,6 +81,11 @@ try {
   Write-Host "Installed opero $Tag"
   Write-Host "Binary: $Shim"
   & $Shim --version
+
+  Write-Host ""
+  Write-Host "To enable PowerShell autocomplete:"
+  Write-Host "  opero autocomplete powershell"
+  Write-Host "Run the printed setup command or add it to your PowerShell profile."
 } finally {
   Remove-Item -Recurse -Force $Tmp -ErrorAction SilentlyContinue
 }
