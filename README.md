@@ -186,6 +186,14 @@ opero --json custom-records singleton <moduleKey> <objectKey>
 opero custom-records create <moduleKey> <objectKey> --body-file record.json
 opero custom-records update <moduleKey> <objectKey> <recordId> --body-file record.json
 opero custom-records update-singleton <moduleKey> <objectKey> --body-file record.json
+
+opero --json custom-scripts list --status ACTIVE
+opero --json custom-scripts get <id>
+opero custom-scripts create --body-file script.json
+opero custom-scripts update <id> --body-file script.json
+opero custom-scripts archive <id>
+opero custom-scripts restore <id>
+opero custom-scripts delete <id>
 ```
 
 File commands:

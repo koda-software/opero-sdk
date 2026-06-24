@@ -610,6 +610,39 @@ Update a singleton custom record:
 opero custom-records update-singleton <moduleKey> <objectKey> --body-file record.json
 ```
 
+### Custom Scripts
+
+List custom scripts:
+
+```bash
+opero --json custom-scripts list --limit 20
+opero --json custom-scripts list --type RULE_STEP --status ACTIVE --validation-status VALID
+opero --json custom-scripts list --execution-mode SYNC --include-archived
+```
+
+Get one custom script:
+
+```bash
+opero --json custom-scripts get <id>
+```
+
+Create and update custom scripts:
+
+```bash
+opero custom-scripts create --body-file script.json
+opero custom-scripts update <id> --body-file script.json
+```
+
+Archive, restore, and delete custom scripts:
+
+```bash
+opero custom-scripts archive <id>
+opero custom-scripts restore <id>
+opero custom-scripts delete <id>
+```
+
+Delete is immediate. It does not prompt for confirmation.
+
 ### Files
 
 Upload an attachment file:
@@ -905,6 +938,13 @@ opero custom-records list
 opero custom-records singleton
 opero custom-records update
 opero custom-records update-singleton
+opero custom-scripts archive
+opero custom-scripts create
+opero custom-scripts delete
+opero custom-scripts get
+opero custom-scripts list
+opero custom-scripts restore
+opero custom-scripts update
 opero dictionaries entries
 opero dictionaries get
 opero dictionaries list

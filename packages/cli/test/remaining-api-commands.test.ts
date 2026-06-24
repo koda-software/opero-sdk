@@ -32,6 +32,13 @@ import CustomRecordsCreate from '../src/commands/custom-records/create.js'
 import CustomRecordsDelete from '../src/commands/custom-records/delete.js'
 import CustomRecordsUpdate from '../src/commands/custom-records/update.js'
 import CustomRecordsUpdateSingleton from '../src/commands/custom-records/update-singleton.js'
+import CustomScriptsArchive from '../src/commands/custom-scripts/archive.js'
+import CustomScriptsCreate from '../src/commands/custom-scripts/create.js'
+import CustomScriptsDelete from '../src/commands/custom-scripts/delete.js'
+import CustomScriptsGet from '../src/commands/custom-scripts/get.js'
+import CustomScriptsList from '../src/commands/custom-scripts/list.js'
+import CustomScriptsRestore from '../src/commands/custom-scripts/restore.js'
+import CustomScriptsUpdate from '../src/commands/custom-scripts/update.js'
 import RulesConfig from '../src/commands/rules/config.js'
 import RulesContextSchema from '../src/commands/rules/context-schema.js'
 import RulesContextSchemas from '../src/commands/rules/context-schemas.js'
@@ -265,6 +272,46 @@ describe('custom data write commands', () => {
     expect(client.patch).toHaveBeenCalledWith(`${base}/records/record%201`, {body: {fields: {name: 'Deal'}}})
     expect(client.patch).toHaveBeenCalledWith(`${base}/record`, {body: {fields: {name: 'Deal'}}})
     expect(client.delete).toHaveBeenCalledWith(`${base}/records/record%201`)
+    await cleanup()
+  })
+
+  it('maps custom script commands', async () => {
+    const {bodyFile, cleanup} = await createBodyFile({name: 'Sync script'})
+    const client = mockClient()
+
+    await runCommand(CustomScriptsList, client, {
+      flags: {
+        'execution-mode': 'SYNC',
+        'include-archived': true,
+        limit: 10,
+        status: 'ACTIVE',
+        type: 'RULE_STEP',
+        'validation-status': 'VALID',
+      },
+    })
+    await runCommand(CustomScriptsGet, client, {args: {id: 'script 1'}})
+    await runCommand(CustomScriptsCreate, client, {flags: {'body-file': bodyFile}})
+    await runCommand(CustomScriptsUpdate, client, {args: {id: 'script 1'}, flags: {'body-file': bodyFile}})
+    await runCommand(CustomScriptsArchive, client, {args: {id: 'script 1'}})
+    await runCommand(CustomScriptsRestore, client, {args: {id: 'script 1'}})
+    await runCommand(CustomScriptsDelete, client, {args: {id: 'script 1'}})
+
+    expect(client.get).toHaveBeenCalledWith('/v1/custom-scripts', {
+      query: {
+        executionMode: 'SYNC',
+        includeArchived: true,
+        limit: 10,
+        status: 'ACTIVE',
+        type: 'RULE_STEP',
+        validationStatus: 'VALID',
+      },
+    })
+    expect(client.get).toHaveBeenCalledWith('/v1/custom-scripts/script%201', {query: undefined})
+    expect(client.post).toHaveBeenCalledWith('/v1/custom-scripts', {body: {name: 'Sync script'}})
+    expect(client.patch).toHaveBeenCalledWith('/v1/custom-scripts/script%201', {body: {name: 'Sync script'}})
+    expect(client.patch).toHaveBeenCalledWith('/v1/custom-scripts/script%201/archive')
+    expect(client.patch).toHaveBeenCalledWith('/v1/custom-scripts/script%201/restore')
+    expect(client.delete).toHaveBeenCalledWith('/v1/custom-scripts/script%201')
     await cleanup()
   })
 })

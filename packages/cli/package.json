@@ -1,6 +1,6 @@
 {
   "name": "@koda/opero-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CLI for the Opero external API",
   "type": "module",
   "bin": {
@@ -67,6 +67,9 @@
       },
       "custom-records": {
         "description": "Manage custom data records."
+      },
+      "custom-scripts": {
+        "description": "Manage custom scripts."
       },
       "dictionaries": {
         "description": "Read dictionaries and entries."
