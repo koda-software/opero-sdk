@@ -15,6 +15,18 @@ export type RequestOptions = {
   query?: Query
 }
 
+export type DownloadResponse = {
+  body: ReadableStream<Uint8Array>
+  headers: Headers
+  status: number
+}
+
+export type MultipartFile = {
+  bytes: Blob
+  fieldName: string
+  filename: string
+}
+
 export class ApiClient {
   private readonly apiToken?: string
   private readonly baseUrl: string
@@ -36,6 +48,33 @@ export class ApiClient {
     return this.request('GET', path, options)
   }
 
+  async download(path: string, options: RequestOptions = {}): Promise<DownloadResponse> {
+    const response = await this.fetchRaw('GET', path, {
+      ...options,
+      headers: {
+        accept: 'application/octet-stream',
+        ...options.headers,
+      },
+    })
+    if (!response.ok) {
+      throw await buildApiError(response, await parseErrorPayload(response))
+    }
+
+    if (!response.body) {
+      throw new OperoCliError({
+        code: 'API_ERROR',
+        exitCode: 5,
+        message: 'API response did not include a file stream',
+      })
+    }
+
+    return {
+      body: response.body,
+      headers: response.headers,
+      status: response.status,
+    }
+  }
+
   async patch(path: string, options: RequestOptions = {}): Promise<unknown> {
     return this.request('PATCH', path, options)
   }
@@ -44,7 +83,24 @@ export class ApiClient {
     return this.request('POST', path, options)
   }
 
+  async postMultipart(path: string, file: MultipartFile, options: RequestOptions = {}): Promise<unknown> {
+    const body = new FormData()
+    body.append(file.fieldName, file.bytes, file.filename)
+
+    const response = await this.fetchRaw('POST', path, {
+      ...options,
+      body,
+    })
+
+    return await parseResponse(response)
+  }
+
   async request(method: string, path: string, options: RequestOptions = {}): Promise<unknown> {
+    const response = await this.fetchRaw(method, path, options)
+    return await parseResponse(response)
+  }
+
+  private async fetchRaw(method: string, path: string, options: RequestOptions = {}): Promise<Response> {
     if (!path.startsWith('/')) {
       throw new OperoCliError({
         code: 'USAGE_ERROR',
@@ -74,24 +130,26 @@ export class ApiClient {
         ...options.headers,
       }
 
-      let body: string | undefined
+      let body: BodyInit | undefined
       if (options.body !== undefined) {
-        headers['content-type'] = 'application/json'
-        body = JSON.stringify(options.body)
+        if (options.body instanceof FormData) {
+          body = options.body
+        } else {
+          headers['content-type'] = 'application/json'
+          body = JSON.stringify(options.body)
+        }
       }
 
       if (this.apiToken && options.authRequired !== false) {
         headers.authorization = `Bearer ${this.apiToken}`
       }
 
-      const response = await fetch(url, {
+      return await fetch(url, {
         body,
         headers,
         method,
         signal: controller.signal,
       })
-
-      return await parseResponse(response)
     } catch (error) {
       if (error instanceof ApiError || error instanceof OperoCliError) throw error
       if (error instanceof Error && error.name === 'AbortError') {
@@ -141,6 +199,12 @@ async function buildApiError(response: Response, payload: unknown): Promise<ApiE
     message: apiError.message ?? `API request failed with status ${response.status}`,
     status: response.status,
   })
+}
+
+async function parseErrorPayload(response: Response): Promise<unknown> {
+  const contentType = response.headers.get('content-type') ?? ''
+  if (contentType.includes('application/json')) return await response.json().catch(() => undefined)
+  return await response.text().catch(() => undefined)
 }
 
 function getApiErrorBody(payload: unknown): {code?: string; details?: unknown; message?: string} {

@@ -39,7 +39,7 @@ export abstract class RawRequestCommand extends BaseCommand {
       query: parseQueryPairs(flags.query),
     })
 
-    if (!this.jsonEnabled()) this.printHuman(result)
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
   }
 }

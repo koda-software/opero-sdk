@@ -3,8 +3,9 @@
 This document describes the current `opero` CLI implementation and the command
 contract it is growing toward.
 
-For the architecture and longer-term plan, see
-[docs/cli-first-technical-spec.md](docs/cli-first-technical-spec.md).
+The internal architecture and release planning documents live under `docs/` in
+local working copies. That directory is intentionally ignored and is not part of
+the public repository.
 
 ## Design Model
 
@@ -218,6 +219,30 @@ Example error:
 }
 ```
 
+## Human And Table Output
+
+The default format is human output:
+
+```bash
+opero currencies list
+```
+
+Human output renders readable summaries and key-value detail. It uses
+`picocolors`, so colors are enabled only when the terminal supports them and
+standard color-disabling conventions such as `NO_COLOR` are respected.
+
+Use table output when scanning list data:
+
+```bash
+opero --table currencies list
+opero --table contractors list --limit 20
+opero --table config show
+```
+
+Table output uses `@oclif/table`, including its terminal-width handling, CI-safe
+plain output, and header styling. `--json` takes precedence operationally:
+agents and scripts should keep using `--json`.
+
 ## Exit Codes
 
 The CLI uses these exit codes:
@@ -344,6 +369,249 @@ The CLI rejects manual `Authorization` headers. Use `OPERO_API_TOKEN`,
 Raw non-GET commands are live writes. The CLI performs the named action
 immediately.
 
+## Curated Read Commands
+
+Curated read commands wrap common GET endpoints with stable command names and
+agent-friendly flags. Prefer these before using `opero request get`.
+
+### List Flags
+
+List endpoints expose shared query flags where the API supports them:
+
+```bash
+--page 1
+--limit 20
+--count hasMore
+--filter-json '{"op":"AND","items":[]}'
+--sort-json '[{"field":"createdAt","direction":"desc"}]'
+--columns id,name
+```
+
+`--filter-json`, `--sort-json`, and JSON-array `--columns` values are validated
+before sending the request. A comma-separated `--columns id,name` value is sent
+to the API as a JSON array string.
+
+### Reference Data
+
+List supported currencies:
+
+```bash
+opero --json currencies list
+```
+
+### Contractors
+
+List contractors:
+
+```bash
+opero --json contractors list --limit 20
+```
+
+Get one contractor:
+
+```bash
+opero --json contractors get <id>
+```
+
+### Dictionaries
+
+List dictionaries:
+
+```bash
+opero --json dictionaries list
+```
+
+Get one dictionary:
+
+```bash
+opero --json dictionaries get <id>
+```
+
+List entries for a dictionary:
+
+```bash
+opero --json dictionaries entries <dictionaryId>
+```
+
+### Custom Modules
+
+List custom modules:
+
+```bash
+opero --json custom-modules list --limit 20
+```
+
+Get one custom module:
+
+```bash
+opero --json custom-modules get <moduleKey>
+```
+
+### Custom Objects
+
+List custom objects inside a module:
+
+```bash
+opero --json custom-objects list <moduleKey>
+```
+
+Get one custom object:
+
+```bash
+opero --json custom-objects get <moduleKey> <objectKey>
+```
+
+### Custom Records
+
+List records for a custom object:
+
+```bash
+opero --json custom-records list <moduleKey> <objectKey> --limit 20
+```
+
+Expand record fields:
+
+```bash
+opero --json custom-records list <moduleKey> <objectKey> --expand field1,field2
+opero --json custom-records get <moduleKey> <objectKey> <recordId> --expand field1
+```
+
+Get one custom record:
+
+```bash
+opero --json custom-records get <moduleKey> <objectKey> <recordId>
+```
+
+Get a singleton custom record:
+
+```bash
+opero --json custom-records singleton <moduleKey> <objectKey>
+```
+
+### Files
+
+Upload an attachment file:
+
+```bash
+opero --json files upload --file ./invoice.pdf
+```
+
+The upload command sends `multipart/form-data` to `POST /v1/files/attachments`
+using the OpenAPI field name `file`.
+
+Get file metadata:
+
+```bash
+opero --json files get <fileId>
+opero --table files get <fileId>
+```
+
+Download file bytes:
+
+```bash
+opero files download <fileId> --out ./invoice.pdf
+```
+
+Downloads stream bytes to disk and refuse to overwrite an existing file by
+default:
+
+```bash
+opero files download <fileId> --out ./invoice.pdf --force
+```
+
+Create missing parent directories explicitly:
+
+```bash
+opero files download <fileId> --out ./tmp/files/invoice.pdf --create-dirs
+```
+
+Download a byte range:
+
+```bash
+opero files download <fileId> --out ./part.bin --range bytes=0-1023
+```
+
+### Service Catalog
+
+List service catalog items:
+
+```bash
+opero --json service-catalog list --limit 20
+opero --table service-catalog list --search hosting
+```
+
+Get one service catalog item:
+
+```bash
+opero --json service-catalog get <id>
+```
+
+Create and update service catalog items:
+
+```bash
+opero service-catalog create --body-file item.json
+opero service-catalog update <id> --body-file item.json
+```
+
+Archive and restore items:
+
+```bash
+opero service-catalog archive <id>
+opero service-catalog restore <id>
+```
+
+Archive and restore are immediate PATCH requests. They do not prompt for
+confirmation.
+
+### Entity Attachments
+
+List attachments for an entity:
+
+```bash
+opero --json entity-attachments list --entity-type contractor --entity-id <id>
+opero --json entity-attachments list --entity-type custom_record.crm.deal --entity-id <id>
+```
+
+Attach an uploaded file to an entity:
+
+```bash
+opero --json entity-attachments create \
+  --entity-type contractor \
+  --entity-id <id> \
+  --file-id <fileId>
+```
+
+Optional attachment fields:
+
+```bash
+opero entity-attachments create \
+  --entity-type contractor \
+  --entity-id <id> \
+  --file-id <fileId> \
+  --kind contract \
+  --display-name "Signed contract" \
+  --description "Customer-provided source document" \
+  --metadata-json '{"source":"cli"}' \
+  --position 0
+```
+
+Update attachment metadata:
+
+```bash
+opero entity-attachments update <id> --body-file attachment.json
+```
+
+Delete an attachment link:
+
+```bash
+opero entity-attachments delete <id>
+```
+
+Delete is immediate. It does not prompt for confirmation.
+
+The current OpenAPI snapshot does not expose `GET /v1/entity-attachments/{id}`,
+so there is no `entity-attachments get` command.
+
 ## Current Implemented Command Surface
 
 ```text
@@ -356,16 +624,41 @@ opero auth logout
 opero auth status
 opero config set
 opero config show
+opero contractors get
+opero contractors list
+opero currencies list
+opero custom-modules get
+opero custom-modules list
+opero custom-objects get
+opero custom-objects list
+opero custom-records get
+opero custom-records list
+opero custom-records singleton
+opero dictionaries entries
+opero dictionaries get
+opero dictionaries list
+opero entity-attachments create
+opero entity-attachments delete
+opero entity-attachments list
+opero entity-attachments update
+opero files download
+opero files get
+opero files upload
 opero request get
 opero request post
 opero request patch
 opero request delete
+opero service-catalog archive
+opero service-catalog create
+opero service-catalog get
+opero service-catalog list
+opero service-catalog restore
+opero service-catalog update
 opero update
 ```
 
-Curated resource commands for contractors, custom data, files, rules, service
-catalog, comments, attachments, dictionaries, and currencies are planned next.
-Until then, use `opero request ...`.
+Curated coverage for rules and entity-comments is planned next. Until then, use
+`opero request ...` for endpoints without curated commands.
 
 ## OpenAPI Workflow
 

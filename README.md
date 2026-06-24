@@ -117,10 +117,94 @@ Check for a released standalone update:
 opero --json update --check
 ```
 
+## Output Formats
+
+The CLI supports three output formats:
+
+```bash
+opero currencies list
+opero --table currencies list
+opero --json currencies list
+```
+
+- default human output uses readable summaries with color when the terminal
+  supports it
+- `--table` uses oclif table rendering for scanning lists and objects
+- `--json` is stable machine-readable API output for scripts and agents
+
+## Curated Read Commands
+
+Use curated commands for common read workflows. They use the same config, auth,
+timeouts, JSON mode, and error handling as raw requests.
+
+```bash
+opero --json currencies list
+
+opero --json contractors list --limit 20
+opero --json contractors get <id>
+
+opero --json dictionaries list
+opero --json dictionaries get <id>
+opero --json dictionaries entries <dictionaryId>
+
+opero --json custom-modules list
+opero --json custom-modules get <moduleKey>
+
+opero --json custom-objects list <moduleKey>
+opero --json custom-objects get <moduleKey> <objectKey>
+
+opero --json custom-records list <moduleKey> <objectKey> --expand field1,field2
+opero --json custom-records get <moduleKey> <objectKey> <recordId> --expand field1
+opero --json custom-records singleton <moduleKey> <objectKey>
+```
+
+File commands:
+
+```bash
+opero --json files upload --file ./invoice.pdf
+opero --json files get <fileId>
+opero files download <fileId> --out ./invoice.pdf
+```
+
+Downloads refuse to overwrite existing files unless `--force` is provided. Use
+`--create-dirs` when the output parent directory should be created.
+
+Service catalog commands:
+
+```bash
+opero --json service-catalog list --search hosting
+opero --json service-catalog get <id>
+opero service-catalog create --body-file item.json
+opero service-catalog update <id> --body-file item.json
+opero service-catalog archive <id>
+opero service-catalog restore <id>
+```
+
+Entity attachment commands:
+
+```bash
+opero --json entity-attachments list --entity-type contractor --entity-id <id>
+opero --json entity-attachments create --entity-type contractor --entity-id <id> --file-id <fileId>
+opero entity-attachments update <id> --body-file attachment.json
+opero entity-attachments delete <id>
+```
+
+List commands support API pagination/query flags where the endpoint supports
+them:
+
+```bash
+--page 1
+--limit 20
+--count hasMore
+--filter-json '{"op":"AND","items":[]}'
+--sort-json '[{"field":"createdAt","direction":"desc"}]'
+--columns id,name
+```
+
 ## Raw API Requests
 
-The initial CLI includes a raw request escape hatch so every API endpoint is
-reachable before curated resource commands are implemented.
+The CLI includes a raw request escape hatch so every API endpoint is reachable
+before a curated command exists.
 
 ```bash
 opero --json request get /v1/currencies

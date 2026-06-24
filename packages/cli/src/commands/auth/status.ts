@@ -18,7 +18,7 @@ export default class AuthStatus extends BaseCommand {
       },
     }
 
-    if (!this.jsonEnabled()) this.printHuman(result)
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
   }
 }

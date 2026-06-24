@@ -10,7 +10,7 @@ export default class Health extends BaseCommand {
     const client = this.createApiClient(settings)
     const result = await client.get('/v1/health', {authRequired: false})
 
-    if (!this.jsonEnabled()) this.printHuman(result)
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
   }
 }

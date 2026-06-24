@@ -5,6 +5,7 @@ import {ApiClient} from './api/client.js'
 import {OperoCliError} from './api/errors.js'
 import {loadConfig, type GlobalConfigFlags, resolveSettings} from './config/load.js'
 import type {OperoConfig, ResolvedSettings} from './config/types.js'
+import {renderOutput, type OutputFormatFlags} from './output.js'
 
 export abstract class BaseCommand extends Command {
   static baseFlags = {
@@ -13,6 +14,9 @@ export abstract class BaseCommand extends Command {
     }),
     'base-url': Flags.string({
       description: 'Opero API base URL.',
+    }),
+    table: Flags.boolean({
+      description: 'Format output as a table for human scanning.',
     }),
     'timeout-ms': Flags.integer({
       description: 'HTTP request timeout in milliseconds.',
@@ -65,7 +69,11 @@ export abstract class BaseCommand extends Command {
   }
 
   protected printHuman(value: unknown): void {
-    this.log(typeof value === 'string' ? value : JSON.stringify(value, null, 2))
+    renderOutput(value)
+  }
+
+  protected printOutput(value: unknown, flags: OutputFormatFlags): void {
+    renderOutput(value, flags)
   }
 }
 

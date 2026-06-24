@@ -19,7 +19,9 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@oclif/core": "^4.11.11"
+    "@oclif/core": "^4.11.11",
+    "@oclif/table": "^0.5.9",
+    "picocolors": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
@@ -38,8 +40,35 @@
       "config": {
         "description": "Manage Opero CLI configuration."
       },
+      "contractors": {
+        "description": "Read Opero contractors."
+      },
+      "currencies": {
+        "description": "Read supported currencies."
+      },
+      "custom-modules": {
+        "description": "Read custom data modules."
+      },
+      "custom-objects": {
+        "description": "Read custom data objects."
+      },
+      "custom-records": {
+        "description": "Read custom data records."
+      },
+      "dictionaries": {
+        "description": "Read dictionaries and entries."
+      },
+      "entity-attachments": {
+        "description": "Manage file attachments on entities."
+      },
+      "files": {
+        "description": "Upload, inspect, and download files."
+      },
       "request": {
         "description": "Run raw authenticated Opero API requests."
+      },
+      "service-catalog": {
+        "description": "Manage service catalog items."
       }
     }
   },

@@ -10,7 +10,7 @@ export default class Ping extends BaseCommand {
     const client = this.createApiClient(settings)
     const result = await client.get('/v1/ping')
 
-    if (!this.jsonEnabled()) this.printHuman(result)
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
   }
 }
