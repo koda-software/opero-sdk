@@ -125,6 +125,28 @@ Show resolved config:
 opero --json config show
 ```
 
+List bundled agent skills:
+
+```bash
+opero --json skills list
+```
+
+The current bundle includes `opero-cli` for general CLI usage and
+`opero-scripts` for Custom Script workflows, context, and validation.
+
+Install Opero agent skills for Codex or Claude:
+
+```bash
+opero skills install codex
+opero skills install claude
+```
+
+Inspect installed Opero agent skills:
+
+```bash
+opero skills doctor
+```
+
 Check for a released standalone update:
 
 ```bash

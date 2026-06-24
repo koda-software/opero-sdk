@@ -3,9 +3,9 @@
 Use this reference to decide whether a task should stay in the general
 `opero-cli` workflow or move to a more specific Opero skill.
 
-The specialized skills may not exist yet in the current environment. If a skill
-is not installed, use this routing guidance as a boundary and research the
-domain from authoritative sources before writing detailed instructions.
+If a referenced specialized skill is not installed, use this routing guidance as
+a boundary and rely on authoritative documentation or CLI output before writing
+detailed instructions.
 
 ## `opero-workflows`
 
@@ -50,6 +50,10 @@ Use when the task involves:
 
 Script tasks should validate scripts before saving or activating them whenever
 validation commands or endpoints exist.
+
+For Custom Scripts, use the `opero-scripts` skill. It explains the important
+distinction between Custom Script save-time validation and automation rule
+script validation.
 
 ## `opero-queries`
 

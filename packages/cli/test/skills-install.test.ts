@@ -33,6 +33,11 @@ describe('skills install', () => {
         name: 'opero-cli',
         targetPath: join(targetDir, 'opero-cli'),
       },
+      {
+        action: 'would-install',
+        name: 'opero-scripts',
+        targetPath: join(targetDir, 'opero-scripts'),
+      },
     ])
     await expect(readFile(join(targetDir, 'opero-cli', 'SKILL.md'), 'utf8')).rejects.toMatchObject({code: 'ENOENT'})
   })
@@ -52,7 +57,13 @@ describe('skills install', () => {
       name: 'opero-cli',
       targetPath: join(targetDir, 'opero-cli'),
     })
+    expect(result.data.skills[1]).toMatchObject({
+      action: 'installed',
+      name: 'opero-scripts',
+      targetPath: join(targetDir, 'opero-scripts'),
+    })
     expect(await readFile(join(targetDir, 'opero-cli', 'SKILL.md'), 'utf8')).toContain('name: opero-cli')
+    expect(await readFile(join(targetDir, 'opero-scripts', 'SKILL.md'), 'utf8')).toContain('name: opero-scripts')
 
     const manifest = JSON.parse(await readFile(join(targetDir, 'opero-cli', INSTALLED_SKILL_MANIFEST), 'utf8')) as InstalledSkillManifest
     expect(manifest).toMatchObject({
@@ -86,6 +97,10 @@ describe('skills install', () => {
       action: 'skipped',
       name: 'opero-cli',
     })
+    expect(second.data.skills[1]).toMatchObject({
+      action: 'skipped',
+      name: 'opero-scripts',
+    })
   })
 
   it('updates Opero-managed installs when version changes', async () => {
@@ -107,6 +122,10 @@ describe('skills install', () => {
     expect(second.data.skills[0]).toMatchObject({
       action: 'updated',
       name: 'opero-cli',
+    })
+    expect(second.data.skills[1]).toMatchObject({
+      action: 'updated',
+      name: 'opero-scripts',
     })
   })
 

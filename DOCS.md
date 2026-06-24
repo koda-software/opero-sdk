@@ -315,6 +315,67 @@ Check authenticated access only:
 opero --json ping
 ```
 
+## Agent Skills
+
+The CLI ships portable Opero agent skills that can be installed for supported
+agent tools.
+
+Current bundled skills:
+
+- `opero-cli`: general Opero CLI usage, diagnostics, output, raw requests, and
+  routing to specialized Opero skills.
+- `opero-scripts`: Custom Script creation/update workflows, script types,
+  context, save-time validation, dependencies, and safe runtime assumptions.
+
+List bundled skills:
+
+```bash
+opero skills list
+opero --json skills list
+```
+
+Install skills for Codex:
+
+```bash
+opero skills install codex
+```
+
+Install skills for Claude:
+
+```bash
+opero skills install claude
+```
+
+By default, install commands use user scope:
+
+```text
+Codex:  ~/.agents/skills
+Claude: ~/.claude/skills
+```
+
+Install into the current Git repository instead:
+
+```bash
+opero skills install codex --scope repo
+opero skills install claude --scope repo
+```
+
+Preview an install without writing files:
+
+```bash
+opero skills install codex --dry-run
+```
+
+Inspect installed skills and see fix commands:
+
+```bash
+opero skills doctor
+opero --json skills doctor
+```
+
+Skills do not store Opero API tokens. Agents using these skills still rely on
+the normal `opero` CLI configuration and authentication.
+
 ## Updates
 
 Check for a released standalone update:

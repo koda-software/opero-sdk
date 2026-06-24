@@ -16,6 +16,10 @@ describe('skills list command', () => {
         description: expect.stringContaining('Opero CLI'),
         name: 'opero-cli',
       }),
+      expect.objectContaining({
+        description: expect.stringContaining('custom scripts'),
+        name: 'opero-scripts',
+      }),
     ])
     expect(command.printOutput).not.toHaveBeenCalled()
   })

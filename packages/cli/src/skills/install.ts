@@ -131,7 +131,7 @@ async function getExistingTarget(path: string): Promise<boolean> {
   }
 }
 
-async function hashDirectory(root: string): Promise<string> {
+export async function hashDirectory(root: string): Promise<string> {
   const hash = createHash('sha256')
   const files = await listFiles(root)
   for (const file of files) {
