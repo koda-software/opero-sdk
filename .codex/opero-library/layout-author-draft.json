@@ -1,0 +1,170 @@
+{
+  "clientMutationId": "library-author-layout-draft-20260625-001",
+  "schemaVersion": 1,
+  "regions": [
+    {
+      "key": "main",
+      "label": "Main",
+      "layout": "grid",
+      "columns": 12,
+      "displayOrder": 0,
+      "config": {}
+    }
+  ],
+  "blocks": [
+    {
+      "id": "section-author-main",
+      "type": "section",
+      "source": "system",
+      "ref": {
+        "componentKey": "layout.section"
+      },
+      "regionKey": "main",
+      "displayOrder": 0,
+      "grid": {
+        "colSpan": 12
+      },
+      "config": {
+        "title": "Author",
+        "columns": 2,
+        "wrapInCard": false
+      },
+      "modeConfig": {},
+      "runtimeAvailability": null,
+      "requiredPolicy": "optional",
+      "locked": false,
+      "removable": true,
+      "singleInstance": false,
+      "supportedModes": [
+        "VIEW",
+        "EDIT",
+        "CREATE"
+      ],
+      "children": [
+        {
+          "id": "column-author-left",
+          "type": "column",
+          "source": "system",
+          "ref": {
+            "componentKey": "layout.column"
+          },
+          "regionKey": "main",
+          "displayOrder": 0,
+          "grid": {
+            "colSpan": 6
+          },
+          "config": {},
+          "modeConfig": {},
+          "runtimeAvailability": null,
+          "requiredPolicy": "optional",
+          "locked": false,
+          "removable": true,
+          "singleInstance": false,
+          "supportedModes": [
+            "VIEW",
+            "EDIT",
+            "CREATE"
+          ],
+          "children": [
+            {
+              "id": "field-author-name",
+              "type": "field",
+              "source": "dynamic_field",
+              "ref": {
+                "moduleKey": "library",
+                "objectKey": "author",
+                "fieldId": "cmqteo9ya00074eu8uzgmtq7z",
+                "fieldKey": "name"
+              },
+              "regionKey": "main",
+              "displayOrder": 0,
+              "grid": {
+                "colSpan": 12
+              },
+              "config": {
+                "hideLabel": false,
+                "type": "TEXT"
+              },
+              "modeConfig": {},
+              "runtimeAvailability": null,
+              "requiredPolicy": "required",
+              "locked": false,
+              "removable": false,
+              "singleInstance": true,
+              "supportedModes": [
+                "VIEW",
+                "EDIT",
+                "CREATE"
+              ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "column-author-right",
+          "type": "column",
+          "source": "system",
+          "ref": {
+            "componentKey": "layout.column"
+          },
+          "regionKey": "main",
+          "displayOrder": 1,
+          "grid": {
+            "colSpan": 6
+          },
+          "config": {},
+          "modeConfig": {},
+          "runtimeAvailability": null,
+          "requiredPolicy": "optional",
+          "locked": false,
+          "removable": true,
+          "singleInstance": false,
+          "supportedModes": [
+            "VIEW",
+            "EDIT",
+            "CREATE"
+          ],
+          "children": [
+            {
+              "id": "field-author-surname",
+              "type": "field",
+              "source": "dynamic_field",
+              "ref": {
+                "moduleKey": "library",
+                "objectKey": "author",
+                "fieldId": "cmqteo9yd00084eu8quwrrxon",
+                "fieldKey": "surname"
+              },
+              "regionKey": "main",
+              "displayOrder": 0,
+              "grid": {
+                "colSpan": 12
+              },
+              "config": {
+                "hideLabel": false,
+                "type": "TEXT"
+              },
+              "modeConfig": {},
+              "runtimeAvailability": null,
+              "requiredPolicy": "required",
+              "locked": false,
+              "removable": false,
+              "singleInstance": true,
+              "supportedModes": [
+                "VIEW",
+                "EDIT",
+                "CREATE"
+              ],
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "stagedFieldDefinitions": [],
+  "scriptBindings": [],
+  "metadata": {
+    "managedBy": "dynamic_form"
+  }
+}

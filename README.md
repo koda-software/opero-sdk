@@ -132,8 +132,15 @@ opero --json skills list
 ```
 
 The current bundle includes `opero-cli` for general CLI usage,
-`opero-queries` for saved SQL query authoring and schema discovery, and
-`opero-scripts` for Custom Script workflows, context, and validation.
+`opero-dictionaries` for dictionary CRUD, entries, imports, exports, and safe
+option-list management,
+`opero-dynamic-modules` for custom module metadata and schema inspection,
+`opero-dynamic-objects` for object schema, fields, relationships, records, and
+object-scoped schema drafts,
+`opero-queries` for saved SQL query authoring and schema discovery,
+`opero-scripts` for Custom Script workflows, context, and validation, and
+`opero-view-layouts` for View Layout discovery, draft construction,
+validation, publishing, runtime data, and custom fields.
 
 Install Opero agent skills for Codex or Claude:
 
@@ -195,7 +202,13 @@ opero contractors update-status <id> --body-file status.json
 
 opero --json dictionaries list
 opero --json dictionaries get <id>
+opero dictionaries create --body-file dictionary.json
+opero dictionaries update <id> --body-file dictionary.json
+opero dictionaries delete <id>
 opero --json dictionaries entries <dictionaryId>
+opero --json dictionaries entries get <dictionaryId> <entryId>
+opero --json dictionaries entries export <dictionaryId> --format json --out entries.json
+opero dictionaries entries import <dictionaryId> --file entries.csv --strategy MERGE
 
 opero --json custom-modules list
 opero --json custom-modules get <moduleKey>
@@ -204,8 +217,6 @@ opero custom-modules update <moduleKey> --body-file module.json
 opero custom-modules delete-impact <moduleKey>
 opero custom-modules delete <moduleKey>
 opero custom-modules schema <moduleKey>
-opero custom-modules schema-drafts create <moduleKey> --body-file draft.json
-opero custom-modules schema-drafts apply <moduleKey> <draftId> --body-file apply.json
 
 opero --json custom-objects list <moduleKey>
 opero --json custom-objects get <moduleKey> <objectKey>

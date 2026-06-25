@@ -1,0 +1,8 @@
+{
+  "key": "library",
+  "name": "Library",
+  "description": "Books, authors, and library catalogue metadata.",
+  "icon": "book-open",
+  "color": "#0F766E",
+  "isHidden": false
+}

@@ -13,7 +13,7 @@
     "oclif.manifest.json"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "node -e \"require('node:fs').rmSync('dist', {recursive: true, force: true})\" && tsc -p tsconfig.json",
     "dev": "node ./bin/dev.js",
     "pack:standalone": "node ../../scripts/pack-standalone.mjs",
     "test": "vitest run",
@@ -67,13 +67,13 @@
         "description": "Read supported currencies."
       },
       "custom-modules": {
-        "description": "Manage custom data modules and module schema drafts."
-      },
-      "custom-modules schema-drafts": {
-        "description": "Manage custom module schema drafts."
+        "description": "Manage custom data modules."
       },
       "custom-objects": {
         "description": "Manage custom data objects and object schema drafts."
+      },
+      "custom-objects field-types": {
+        "description": "Read dynamic object field type schemas."
       },
       "custom-objects schema-drafts": {
         "description": "Manage custom object schema drafts."
@@ -85,7 +85,10 @@
         "description": "Manage custom scripts."
       },
       "dictionaries": {
-        "description": "Read dictionaries and entries."
+        "description": "Manage dictionaries and entries."
+      },
+      "dictionaries entries": {
+        "description": "Manage dictionary entries."
       },
       "entity-attachments": {
         "description": "Manage file attachments on entities."

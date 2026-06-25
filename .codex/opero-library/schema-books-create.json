@@ -1,0 +1,91 @@
+{
+  "clientMutationId": "library-books-create-20260625-001",
+  "baseSchemaHash": "c6c29647fa3406371cf5b680cdea5ddcee0a008718334756f93845002c6b8649",
+  "operation": "CREATE",
+  "draft": {
+    "object": {
+      "clientId": "object_books",
+      "key": "books",
+      "name": "Book",
+      "namePlural": "Books",
+      "kind": "REGULAR",
+      "createDefaultForm": true,
+      "icon": "book",
+      "color": "#2563EB",
+      "isHidden": false,
+      "isSingleton": false,
+      "displayLabel": "{{code}} - {{name}}",
+      "fields": [
+        {
+          "clientId": "field_books_code",
+          "key": "code",
+          "name": "Code",
+          "type": "TEXT",
+          "isRequired": true,
+          "isIndexed": true,
+          "position": 0
+        },
+        {
+          "clientId": "field_books_name",
+          "key": "name",
+          "name": "Name",
+          "type": "TEXT",
+          "isRequired": true,
+          "isIndexed": false,
+          "position": 1
+        },
+        {
+          "clientId": "field_books_author_id",
+          "key": "author_id",
+          "name": "Author",
+          "type": "REFERENCE",
+          "isRequired": false,
+          "isIndexed": false,
+          "position": 2,
+          "options": {
+            "cardinality": "ONE_TO_ONE",
+            "toModuleKey": "library",
+            "toObjectKey": "author"
+          }
+        },
+        {
+          "clientId": "field_books_genre",
+          "key": "genre",
+          "name": "Genre",
+          "type": "SELECT",
+          "isRequired": false,
+          "isIndexed": false,
+          "position": 3,
+          "options": {
+            "choices": [
+              {
+                "key": "fiction",
+                "label": "Fiction"
+              },
+              {
+                "key": "non_fiction",
+                "label": "Non-fiction"
+              },
+              {
+                "key": "fantasy",
+                "label": "Fantasy"
+              },
+              {
+                "key": "science_fiction",
+                "label": "Science fiction"
+              },
+              {
+                "key": "biography",
+                "label": "Biography"
+              },
+              {
+                "key": "history",
+                "label": "History"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

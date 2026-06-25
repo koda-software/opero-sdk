@@ -23,6 +23,7 @@ packageJson.scripts = {}
 await writeFile(resolve(packRoot, 'package.json'), `${JSON.stringify(packageJson, null, 2)}\n`)
 await cp(resolve(cliRoot, 'bin'), resolve(packRoot, 'bin'), {recursive: true})
 await cp(resolve(cliRoot, 'dist'), resolve(packRoot, 'dist'), {recursive: true})
+await cp(resolve(cliRoot, 'agent-skills'), resolve(packRoot, 'agent-skills'), {recursive: true})
 
 run('npm', ['install', '--omit=dev', '--ignore-scripts'], packRoot)
 run('npm', ['shrinkwrap', '--ignore-scripts'], packRoot)

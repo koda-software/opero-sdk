@@ -27,6 +27,10 @@ export type MultipartFile = {
   filename: string
 }
 
+export type MultipartOptions = RequestOptions & {
+  fields?: Record<string, string>
+}
+
 export class ApiClient {
   private readonly apiToken?: string
   private readonly baseUrl: string
@@ -83,9 +87,12 @@ export class ApiClient {
     return this.request('POST', path, options)
   }
 
-  async postMultipart(path: string, file: MultipartFile, options: RequestOptions = {}): Promise<unknown> {
+  async postMultipart(path: string, file: MultipartFile, options: MultipartOptions = {}): Promise<unknown> {
     const body = new FormData()
     body.append(file.fieldName, file.bytes, file.filename)
+    for (const [key, value] of Object.entries(options.fields ?? {})) {
+      body.append(key, value)
+    }
 
     const response = await this.fetchRaw('POST', path, {
       ...options,

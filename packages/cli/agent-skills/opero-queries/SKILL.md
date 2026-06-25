@@ -39,6 +39,31 @@ Read only the reference needed for the task:
 - `references/payloads-and-examples.md`: example SQL, parameter declarations,
   saved query payloads, and common query templates.
 
+## Before You Start
+
+Before changing a query:
+
+- Understand what question the query should answer.
+- Know where it will be used, if the user knows.
+- Check the available data schema before writing SQL.
+- Know what inputs the query needs, such as customer, date range, status, or
+  record ID.
+- Know what columns the query should return.
+
+Before saving, summarize:
+
+```text
+I will create/update this query:
+- Answers: ...
+- Uses data from: ...
+- Inputs: ...
+- Returns: ...
+- Risk: ...
+- I will validate it before saving.
+```
+
+Do not create, update, or delete until the user approves.
+
 ## Default Procedure
 
 1. Run `opero --json doctor` unless current context already proves auth and API

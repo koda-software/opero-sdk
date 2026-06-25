@@ -1,0 +1,51 @@
+{
+  "clientMutationId": "library-genres-create-20260625-001",
+  "key": "genres",
+  "name": "Genres",
+  "description": "Book genres used by the Library module.",
+  "entryKeyMode": "CUSTOM",
+  "entries": [
+    {
+      "clientRowId": "genre-fiction",
+      "key": "fiction",
+      "value": "Fiction",
+      "isActive": true,
+      "metadata": {}
+    },
+    {
+      "clientRowId": "genre-non-fiction",
+      "key": "non_fiction",
+      "value": "Non-fiction",
+      "isActive": true,
+      "metadata": {}
+    },
+    {
+      "clientRowId": "genre-fantasy",
+      "key": "fantasy",
+      "value": "Fantasy",
+      "isActive": true,
+      "metadata": {}
+    },
+    {
+      "clientRowId": "genre-science-fiction",
+      "key": "science_fiction",
+      "value": "Science fiction",
+      "isActive": true,
+      "metadata": {}
+    },
+    {
+      "clientRowId": "genre-biography",
+      "key": "biography",
+      "value": "Biography",
+      "isActive": true,
+      "metadata": {}
+    },
+    {
+      "clientRowId": "genre-history",
+      "key": "history",
+      "value": "History",
+      "isActive": true,
+      "metadata": {}
+    }
+  ]
+}

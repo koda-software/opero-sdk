@@ -9,17 +9,12 @@ import ContractorsUpdateStatus from '../src/commands/contractors/update-status.j
 import CustomModulesCreate from '../src/commands/custom-modules/create.js'
 import CustomModulesDelete from '../src/commands/custom-modules/delete.js'
 import CustomModulesDeleteImpact from '../src/commands/custom-modules/delete-impact.js'
-import CustomModulesSchemaDraftsApply from '../src/commands/custom-modules/schema-drafts/apply.js'
-import CustomModulesSchemaDraftsCreate from '../src/commands/custom-modules/schema-drafts/create.js'
-import CustomModulesSchemaDraftsDelete from '../src/commands/custom-modules/schema-drafts/delete.js'
-import CustomModulesSchemaDraftsGet from '../src/commands/custom-modules/schema-drafts/get.js'
-import CustomModulesSchemaDraftsList from '../src/commands/custom-modules/schema-drafts/list.js'
-import CustomModulesSchemaDraftsUpdate from '../src/commands/custom-modules/schema-drafts/update.js'
-import CustomModulesSchemaDraftsValidate from '../src/commands/custom-modules/schema-drafts/validate.js'
 import CustomModulesSchema from '../src/commands/custom-modules/schema.js'
 import CustomModulesUpdate from '../src/commands/custom-modules/update.js'
 import CustomObjectsDelete from '../src/commands/custom-objects/delete.js'
 import CustomObjectsDeleteImpact from '../src/commands/custom-objects/delete-impact.js'
+import CustomObjectsFieldTypes from '../src/commands/custom-objects/field-types/index.js'
+import CustomObjectsFieldTypesGet from '../src/commands/custom-objects/field-types/get.js'
 import CustomObjectsSchemaDraftsApply from '../src/commands/custom-objects/schema-drafts/apply.js'
 import CustomObjectsSchemaDraftsCreate from '../src/commands/custom-objects/schema-drafts/create.js'
 import CustomObjectsSchemaDraftsDelete from '../src/commands/custom-objects/schema-drafts/delete.js'
@@ -275,35 +270,14 @@ describe('custom data write commands', () => {
     await cleanup()
   })
 
-  it('maps custom module schema draft commands', async () => {
-    const {bodyFile, cleanup} = await createBodyFile({clientMutationId: 'change-1'})
-    const client = mockClient()
-    const args = {draftId: 'draft 1', moduleKey: 'crm module'}
-
-    await runCommand(CustomModulesSchemaDraftsList, client, {args})
-    await runCommand(CustomModulesSchemaDraftsGet, client, {args})
-    await runCommand(CustomModulesSchemaDraftsCreate, client, {args, flags: {'body-file': bodyFile}})
-    await runCommand(CustomModulesSchemaDraftsUpdate, client, {args, flags: {'body-file': bodyFile}})
-    await runCommand(CustomModulesSchemaDraftsValidate, client, {args, flags: {'body-file': bodyFile}})
-    await runCommand(CustomModulesSchemaDraftsApply, client, {args, flags: {'body-file': bodyFile}})
-    await runCommand(CustomModulesSchemaDraftsDelete, client, {args})
-
-    expect(client.get).toHaveBeenCalledWith('/v1/custom-modules/crm%20module/schema/drafts', {query: undefined})
-    expect(client.get).toHaveBeenCalledWith('/v1/custom-modules/crm%20module/schema/drafts/draft%201', {query: undefined})
-    expect(client.post).toHaveBeenCalledWith('/v1/custom-modules/crm%20module/schema/drafts', {body: {clientMutationId: 'change-1'}})
-    expect(client.patch).toHaveBeenCalledWith('/v1/custom-modules/crm%20module/schema/drafts/draft%201', {body: {clientMutationId: 'change-1'}})
-    expect(client.post).toHaveBeenCalledWith('/v1/custom-modules/crm%20module/schema/drafts/draft%201/validate', {body: {clientMutationId: 'change-1'}})
-    expect(client.post).toHaveBeenCalledWith('/v1/custom-modules/crm%20module/schema/drafts/draft%201/apply', {body: {clientMutationId: 'change-1'}})
-    expect(client.delete).toHaveBeenCalledWith('/v1/custom-modules/crm%20module/schema/drafts/draft%201')
-    await cleanup()
-  })
-
   it('maps custom object schema, draft, and delete commands', async () => {
     const {bodyFile, cleanup} = await createBodyFile({clientMutationId: 'object-change-1'})
     const client = mockClient()
     const args = {draftId: 'draft 1', moduleKey: 'crm module', objectKey: 'deal type'}
 
     await runCommand(CustomObjectsSchema, client, {args, flags: {mode: 'edit'}})
+    await runCommand(CustomObjectsFieldTypes, client, {})
+    await runCommand(CustomObjectsFieldTypesGet, client, {args: {type: 'SELECT'}})
     await runCommand(CustomObjectsDeleteImpact, client, {args})
     await runCommand(CustomObjectsSchemaDraftsList, client, {args})
     await runCommand(CustomObjectsSchemaDraftsGet, client, {args})
@@ -316,6 +290,8 @@ describe('custom data write commands', () => {
 
     const base = '/v1/custom-modules/crm%20module/objects/deal%20type'
     expect(client.get).toHaveBeenCalledWith(`${base}/schema`, {query: {mode: 'edit'}})
+    expect(client.get).toHaveBeenCalledWith('/v1/custom-modules/field-types', {query: undefined})
+    expect(client.get).toHaveBeenCalledWith('/v1/custom-modules/field-types/SELECT', {query: undefined})
     expect(client.get).toHaveBeenCalledWith(`${base}/delete-impact`, {query: undefined})
     expect(client.get).toHaveBeenCalledWith(`${base}/schema/drafts`, {query: undefined})
     expect(client.get).toHaveBeenCalledWith(`${base}/schema/drafts/draft%201`, {query: undefined})

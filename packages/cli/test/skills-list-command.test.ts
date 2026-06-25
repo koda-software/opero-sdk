@@ -17,12 +17,28 @@ describe('skills list command', () => {
         name: 'opero-cli',
       }),
       expect.objectContaining({
+        description: expect.stringContaining('dictionaries'),
+        name: 'opero-dictionaries',
+      }),
+      expect.objectContaining({
+        description: expect.stringContaining('dynamic/custom modules'),
+        name: 'opero-dynamic-modules',
+      }),
+      expect.objectContaining({
+        description: expect.stringContaining('dynamic/custom objects'),
+        name: 'opero-dynamic-objects',
+      }),
+      expect.objectContaining({
         description: expect.stringContaining('saved SQL queries'),
         name: 'opero-queries',
       }),
       expect.objectContaining({
         description: expect.stringContaining('custom scripts'),
         name: 'opero-scripts',
+      }),
+      expect.objectContaining({
+        description: expect.stringContaining('View Layouts'),
+        name: 'opero-view-layouts',
       }),
     ])
     expect(command.printOutput).not.toHaveBeenCalled()

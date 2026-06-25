@@ -28,8 +28,12 @@ describe('skills doctor', () => {
 
     expect(result.data.bundled).toEqual([
       expect.objectContaining({name: 'opero-cli'}),
+      expect.objectContaining({name: 'opero-dictionaries'}),
+      expect.objectContaining({name: 'opero-dynamic-modules'}),
+      expect.objectContaining({name: 'opero-dynamic-objects'}),
       expect.objectContaining({name: 'opero-queries'}),
       expect.objectContaining({name: 'opero-scripts'}),
+      expect.objectContaining({name: 'opero-view-layouts'}),
     ])
     expect(result.data.targets).toEqual([
       expect.objectContaining({
@@ -43,12 +47,32 @@ describe('skills doctor', () => {
           }),
           expect.objectContaining({
             command: 'opero skills install codex --scope repo',
+            name: 'opero-dictionaries',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install codex --scope repo',
+            name: 'opero-dynamic-modules',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install codex --scope repo',
+            name: 'opero-dynamic-objects',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install codex --scope repo',
             name: 'opero-queries',
             status: 'missing',
           }),
           expect.objectContaining({
             command: 'opero skills install codex --scope repo',
             name: 'opero-scripts',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install codex --scope repo',
+            name: 'opero-view-layouts',
             status: 'missing',
           }),
         ],
@@ -64,12 +88,32 @@ describe('skills doctor', () => {
           }),
           expect.objectContaining({
             command: 'opero skills install claude --scope repo',
+            name: 'opero-dictionaries',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install claude --scope repo',
+            name: 'opero-dynamic-modules',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install claude --scope repo',
+            name: 'opero-dynamic-objects',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install claude --scope repo',
             name: 'opero-queries',
             status: 'missing',
           }),
           expect.objectContaining({
             command: 'opero skills install claude --scope repo',
             name: 'opero-scripts',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install claude --scope repo',
+            name: 'opero-view-layouts',
             status: 'missing',
           }),
         ],
@@ -105,12 +149,32 @@ describe('skills doctor', () => {
     })
     expect(result.data.targets[0].skills[1]).toMatchObject({
       installedVersion: version,
-      name: 'opero-queries',
+      name: 'opero-dictionaries',
       status: 'current',
     })
     expect(result.data.targets[0].skills[2]).toMatchObject({
       installedVersion: version,
+      name: 'opero-dynamic-modules',
+      status: 'current',
+    })
+    expect(result.data.targets[0].skills[3]).toMatchObject({
+      installedVersion: version,
+      name: 'opero-dynamic-objects',
+      status: 'current',
+    })
+    expect(result.data.targets[0].skills[4]).toMatchObject({
+      installedVersion: version,
+      name: 'opero-queries',
+      status: 'current',
+    })
+    expect(result.data.targets[0].skills[5]).toMatchObject({
+      installedVersion: version,
       name: 'opero-scripts',
+      status: 'current',
+    })
+    expect(result.data.targets[0].skills[6]).toMatchObject({
+      installedVersion: version,
+      name: 'opero-view-layouts',
       status: 'current',
     })
     expect(result.data.targets[1].skills[0]).toMatchObject({
@@ -120,12 +184,32 @@ describe('skills doctor', () => {
     })
     expect(result.data.targets[1].skills[1]).toMatchObject({
       installedVersion: '0.2.1-test',
-      name: 'opero-queries',
+      name: 'opero-dictionaries',
       status: 'outdated',
     })
     expect(result.data.targets[1].skills[2]).toMatchObject({
       installedVersion: '0.2.1-test',
+      name: 'opero-dynamic-modules',
+      status: 'outdated',
+    })
+    expect(result.data.targets[1].skills[3]).toMatchObject({
+      installedVersion: '0.2.1-test',
+      name: 'opero-dynamic-objects',
+      status: 'outdated',
+    })
+    expect(result.data.targets[1].skills[4]).toMatchObject({
+      installedVersion: '0.2.1-test',
+      name: 'opero-queries',
+      status: 'outdated',
+    })
+    expect(result.data.targets[1].skills[5]).toMatchObject({
+      installedVersion: '0.2.1-test',
       name: 'opero-scripts',
+      status: 'outdated',
+    })
+    expect(result.data.targets[1].skills[6]).toMatchObject({
+      installedVersion: '0.2.1-test',
+      name: 'opero-view-layouts',
       status: 'outdated',
     })
   })
@@ -161,8 +245,12 @@ describe('skills doctor', () => {
     expect(output).toContain('Opero agent skills')
     expect(output).toContain('Bundled')
     expect(output).toContain('opero-cli')
+    expect(output).toContain('opero-dictionaries')
+    expect(output).toContain('opero-dynamic-modules')
+    expect(output).toContain('opero-dynamic-objects')
     expect(output).toContain('opero-queries')
     expect(output).toContain('opero-scripts')
+    expect(output).toContain('opero-view-layouts')
     expect(output).toContain('Codex user')
     expect(output).toContain('Claude user')
   })

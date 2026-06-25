@@ -1,0 +1,234 @@
+{
+  "clientMutationId": "library-books-layout-draft-20260625-001",
+  "schemaVersion": 1,
+  "regions": [
+    {
+      "key": "main",
+      "label": "Main",
+      "layout": "grid",
+      "columns": 12,
+      "displayOrder": 0,
+      "config": {}
+    }
+  ],
+  "blocks": [
+    {
+      "id": "section-books-main",
+      "type": "section",
+      "source": "system",
+      "ref": {
+        "componentKey": "layout.section"
+      },
+      "regionKey": "main",
+      "displayOrder": 0,
+      "grid": {
+        "colSpan": 12
+      },
+      "config": {
+        "title": "Book",
+        "columns": 2,
+        "wrapInCard": false
+      },
+      "modeConfig": {},
+      "runtimeAvailability": null,
+      "requiredPolicy": "optional",
+      "locked": false,
+      "removable": true,
+      "singleInstance": false,
+      "supportedModes": [
+        "VIEW",
+        "EDIT",
+        "CREATE"
+      ],
+      "children": [
+        {
+          "id": "column-books-left",
+          "type": "column",
+          "source": "system",
+          "ref": {
+            "componentKey": "layout.column"
+          },
+          "regionKey": "main",
+          "displayOrder": 0,
+          "grid": {
+            "colSpan": 6
+          },
+          "config": {},
+          "modeConfig": {},
+          "runtimeAvailability": null,
+          "requiredPolicy": "optional",
+          "locked": false,
+          "removable": true,
+          "singleInstance": false,
+          "supportedModes": [
+            "VIEW",
+            "EDIT",
+            "CREATE"
+          ],
+          "children": [
+            {
+              "id": "field-books-code",
+              "type": "field",
+              "source": "dynamic_field",
+              "ref": {
+                "moduleKey": "library",
+                "objectKey": "books",
+                "fieldId": "cmqtep7tv000i4eu85zojjnky",
+                "fieldKey": "code"
+              },
+              "regionKey": "main",
+              "displayOrder": 0,
+              "grid": {
+                "colSpan": 12
+              },
+              "config": {
+                "hideLabel": false,
+                "type": "TEXT"
+              },
+              "modeConfig": {},
+              "runtimeAvailability": null,
+              "requiredPolicy": "required",
+              "locked": false,
+              "removable": false,
+              "singleInstance": true,
+              "supportedModes": [
+                "VIEW",
+                "EDIT",
+                "CREATE"
+              ],
+              "children": []
+            },
+            {
+              "id": "field-books-name",
+              "type": "field",
+              "source": "dynamic_field",
+              "ref": {
+                "moduleKey": "library",
+                "objectKey": "books",
+                "fieldId": "cmqtep7up000j4eu8mx1grs6b",
+                "fieldKey": "name"
+              },
+              "regionKey": "main",
+              "displayOrder": 1,
+              "grid": {
+                "colSpan": 12
+              },
+              "config": {
+                "hideLabel": false,
+                "type": "TEXT"
+              },
+              "modeConfig": {},
+              "runtimeAvailability": null,
+              "requiredPolicy": "required",
+              "locked": false,
+              "removable": false,
+              "singleInstance": true,
+              "supportedModes": [
+                "VIEW",
+                "EDIT",
+                "CREATE"
+              ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "column-books-right",
+          "type": "column",
+          "source": "system",
+          "ref": {
+            "componentKey": "layout.column"
+          },
+          "regionKey": "main",
+          "displayOrder": 1,
+          "grid": {
+            "colSpan": 6
+          },
+          "config": {},
+          "modeConfig": {},
+          "runtimeAvailability": null,
+          "requiredPolicy": "optional",
+          "locked": false,
+          "removable": true,
+          "singleInstance": false,
+          "supportedModes": [
+            "VIEW",
+            "EDIT",
+            "CREATE"
+          ],
+          "children": [
+            {
+              "id": "field-books-author",
+              "type": "field",
+              "source": "dynamic_field",
+              "ref": {
+                "moduleKey": "library",
+                "objectKey": "books",
+                "fieldId": "cmqtep7v0000k4eu8qm7wuwiv",
+                "fieldKey": "author_id"
+              },
+              "regionKey": "main",
+              "displayOrder": 0,
+              "grid": {
+                "colSpan": 12
+              },
+              "config": {
+                "hideLabel": false,
+                "type": "REFERENCE"
+              },
+              "modeConfig": {},
+              "runtimeAvailability": null,
+              "requiredPolicy": "optional",
+              "locked": false,
+              "removable": true,
+              "singleInstance": true,
+              "supportedModes": [
+                "VIEW",
+                "EDIT",
+                "CREATE"
+              ],
+              "children": []
+            },
+            {
+              "id": "field-books-genre",
+              "type": "field",
+              "source": "dynamic_field",
+              "ref": {
+                "moduleKey": "library",
+                "objectKey": "books",
+                "fieldId": "cmqtep7vg000m4eu8klpe5qmg",
+                "fieldKey": "genre"
+              },
+              "regionKey": "main",
+              "displayOrder": 1,
+              "grid": {
+                "colSpan": 12
+              },
+              "config": {
+                "hideLabel": false,
+                "type": "SELECT"
+              },
+              "modeConfig": {},
+              "runtimeAvailability": null,
+              "requiredPolicy": "optional",
+              "locked": false,
+              "removable": true,
+              "singleInstance": true,
+              "supportedModes": [
+                "VIEW",
+                "EDIT",
+                "CREATE"
+              ],
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "stagedFieldDefinitions": [],
+  "scriptBindings": [],
+  "metadata": {
+    "managedBy": "dynamic_form"
+  }
+}

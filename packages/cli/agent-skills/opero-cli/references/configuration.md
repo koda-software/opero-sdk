@@ -19,6 +19,28 @@ opero --version
 opero --help
 ```
 
+## Help And Command Discovery
+
+Supported help patterns:
+
+```bash
+opero help
+opero --help
+opero <topic> --help
+opero <topic> <command> --help
+```
+
+`opero help` and `opero --help` show all topics and top-level commands.
+`opero <topic> --help` shows commands under a topic, and
+`opero <topic> <command> --help` shows arguments and flags for one command.
+
+Do not use unsupported forms such as `opero help <topic>` or
+`opero <topic> help`; these are parsed as command names and fail.
+
+When help output is not enough, inspect with read commands, schema/catalog
+commands, or `opero request get ...` before falling back to source or OpenAPI
+inspection.
+
 ## Base URL
 
 Common endpoints:

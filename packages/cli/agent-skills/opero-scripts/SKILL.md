@@ -34,6 +34,32 @@ Read only the reference needed for the task:
 - `references/rule-scripts.md`: automation rule `RUN_SCRIPT` context discovery,
   validation, and the difference from Custom Scripts.
 
+## Before You Start
+
+Before changing a script:
+
+- Understand what the script should do and when it should run.
+- Know whether this is a new script or a change to an existing one.
+- If changing an existing script, read it first and check whether it is already
+  used.
+- Know what information the script needs from Opero, and what result it should
+  return.
+- Make sure the chosen script type supports what the script needs to do.
+
+Before saving, summarize:
+
+```text
+I will create/update this script:
+- Runs when: ...
+- Does: ...
+- Uses: ...
+- Returns: ...
+- Risk: ...
+- I will validate it after saving.
+```
+
+Do not save, archive, restore, or delete until the user approves.
+
 ## Default Procedure
 
 1. Run `opero --json doctor` unless current context already proves auth and API

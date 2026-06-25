@@ -33,15 +33,23 @@ describe('ApiClient file transport', () => {
     vi.restoreAllMocks()
   })
 
-  it('uploads multipart files with auth', async () => {
+  it('uploads multipart files with auth and optional fields', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(jsonResponse({data: {id: 'file-1'}}))
     const client = new ApiClient(clientOptions)
 
-    const result = await client.postMultipart('/v1/files/attachments', {
-      bytes: new Blob(['hello']),
-      fieldName: 'file',
-      filename: 'hello.txt',
-    })
+    const result = await client.postMultipart(
+      '/v1/files/attachments',
+      {
+        bytes: new Blob(['hello']),
+        fieldName: 'file',
+        filename: 'hello.txt',
+      },
+      {
+        fields: {
+          strategy: 'MERGE',
+        },
+      },
+    )
 
     expect(result).toEqual({data: {id: 'file-1'}})
     expect(fetchMock).toHaveBeenCalledOnce()
@@ -54,6 +62,7 @@ describe('ApiClient file transport', () => {
     expect((init?.headers as Record<string, string>)['content-type']).toBeUndefined()
     expect(init?.body).toBeInstanceOf(FormData)
     expect((init?.body as FormData).get('file')).toBeInstanceOf(Blob)
+    expect((init?.body as FormData).get('strategy')).toBe('MERGE')
   })
 
   it('returns checked download streams', async () => {

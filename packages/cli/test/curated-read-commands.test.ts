@@ -5,12 +5,14 @@ import ContractorsList from '../src/commands/contractors/list.js'
 import CurrenciesList from '../src/commands/currencies/list.js'
 import CustomModulesGet from '../src/commands/custom-modules/get.js'
 import CustomModulesList from '../src/commands/custom-modules/list.js'
+import CustomObjectsFieldTypes from '../src/commands/custom-objects/field-types/index.js'
+import CustomObjectsFieldTypesGet from '../src/commands/custom-objects/field-types/get.js'
 import CustomObjectsGet from '../src/commands/custom-objects/get.js'
 import CustomObjectsList from '../src/commands/custom-objects/list.js'
 import CustomRecordsGet from '../src/commands/custom-records/get.js'
 import CustomRecordsList from '../src/commands/custom-records/list.js'
 import CustomRecordsSingleton from '../src/commands/custom-records/singleton.js'
-import DictionariesEntries from '../src/commands/dictionaries/entries.js'
+import DictionariesEntries from '../src/commands/dictionaries/entries/index.js'
 import DictionariesGet from '../src/commands/dictionaries/get.js'
 import DictionariesList from '../src/commands/dictionaries/list.js'
 
@@ -66,6 +68,20 @@ describe('curated read commands', () => {
       flags: {},
       options: {query: undefined},
       path: '/v1/custom-modules/crm%20module/objects/deal%20type',
+    },
+    {
+      args: {},
+      command: CustomObjectsFieldTypes,
+      flags: {},
+      options: {query: undefined},
+      path: '/v1/custom-modules/field-types',
+    },
+    {
+      args: {type: 'MULTI SELECT'},
+      command: CustomObjectsFieldTypesGet,
+      flags: {},
+      options: {query: undefined},
+      path: '/v1/custom-modules/field-types/MULTI%20SELECT',
     },
     {
       args: {moduleKey: 'crm module', objectKey: 'deal type', recordId: 'record 1'},

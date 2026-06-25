@@ -37,6 +37,11 @@ View Layout script bindings connect a script to a hook, target, enabled state,
 priority, and config. The binding explains when and where the script runs. The
 script registry stores reusable source code.
 
+For option filtering, create an `OPTION_FILTER` custom script and bind it in the
+View Layout draft `scriptBindings` with `hook: "optionFilter"`. Do not attach it
+to dynamic object field `options`; `options.optionFilterScriptId` is not
+supported.
+
 Enabled layout bindings require active, valid scripts. A script can be valid by
 itself but invalid for a specific layout binding if the hook/type/target do not
 match.

@@ -68,7 +68,11 @@ export interface paths {
         /** List dictionaries */
         get: operations["DictionariesV1Controller_findAll_v1"];
         put?: never;
-        post?: never;
+        /**
+         * Create dictionary
+         * @description Creates an organization dictionary in the token organization.
+         */
+        post: operations["DictionariesV1Controller_create_v1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -92,6 +96,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/dictionaries/{dictionaryId}/entries/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export dictionary entries
+         * @description Exports dictionary entries as JSON by default, or CSV when format=csv is supplied.
+         */
+        get: operations["DictionariesV1Controller_exportEntries_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dictionaries/{dictionaryId}/entries/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Import dictionary entries
+         * @description Imports dictionary entries from an uploaded JSON or CSV file using MERGE or REPLACE strategy.
+         */
+        post: operations["DictionariesV1Controller_importEntries_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/dictionaries/{id}": {
         parameters: {
             query?: never;
@@ -101,6 +145,31 @@ export interface paths {
         };
         /** Get dictionary with entries */
         get: operations["DictionariesV1Controller_findOne_v1"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete dictionary
+         * @description Deletes an organization dictionary in the token organization.
+         */
+        delete: operations["DictionariesV1Controller_remove_v1"];
+        options?: never;
+        head?: never;
+        /**
+         * Save dictionary
+         * @description Updates dictionary metadata and optionally replaces the complete ordered entry set.
+         */
+        patch: operations["DictionariesV1Controller_update_v1"];
+        trace?: never;
+    };
+    "/v1/dictionaries/{dictionaryId}/entries/{entryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get dictionary entry */
+        get: operations["DictionariesV1Controller_findEntry_v1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -127,6 +196,46 @@ export interface paths {
          * @description Creates a custom module in the token organization for schema-managed custom objects.
          */
         post: operations["CustomDataV1Controller_createModule_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/custom-modules/field-types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get custom object field type schemas
+         * @description Returns machine-readable accepted create and update payload schemas, options schemas, defaults, and examples for custom object field types.
+         */
+        get: operations["CustomDataV1Controller_getFieldTypeCatalog_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/custom-modules/field-types/{type}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get custom object field type schema
+         * @description Returns the accepted create and update payload schema, options schema, defaults, and examples for one custom object field type.
+         */
+        get: operations["CustomDataV1Controller_getFieldType_v1"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -195,89 +304,6 @@ export interface paths {
         get: operations["CustomDataV1Controller_getSchemaContext_v1"];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/custom-modules/{moduleKey}/schema/drafts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List custom schema drafts */
-        get: operations["CustomDataV1Controller_listSchemaDrafts_v1"];
-        put?: never;
-        /**
-         * Create custom schema draft
-         * @description Creates a schema draft for object and field changes. Use clientMutationId for replay-safe draft creation.
-         */
-        post: operations["CustomDataV1Controller_createSchemaDraft_v1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/custom-modules/{moduleKey}/schema/drafts/{draftId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get custom schema draft */
-        get: operations["CustomDataV1Controller_getSchemaDraft_v1"];
-        put?: never;
-        post?: never;
-        /** Delete custom schema draft */
-        delete: operations["CustomDataV1Controller_deleteSchemaDraft_v1"];
-        options?: never;
-        head?: never;
-        /**
-         * Update custom schema draft
-         * @description Replaces the editable schema draft document before validation or apply.
-         */
-        patch: operations["CustomDataV1Controller_updateSchemaDraft_v1"];
-        trace?: never;
-    };
-    "/v1/custom-modules/{moduleKey}/schema/drafts/{draftId}/validate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Validate custom schema draft
-         * @description Validates the schema draft and stores the resulting plan/errors without applying metadata or DDL.
-         */
-        post: operations["CustomDataV1Controller_validateSchemaDraft_v1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/custom-modules/{moduleKey}/schema/drafts/{draftId}/apply": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Apply custom schema draft
-         * @description Validates and applies a schema draft. Destructive field/object deletes require explicit confirmations.
-         */
-        post: operations["CustomDataV1Controller_applySchemaDraft_v1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1865,7 +1891,10 @@ export interface components {
         DataArrayOfCurrencyResponseDto: {
             data: components["schemas"]["CurrencyResponseDto"][];
         };
-        /** @enum {string} */
+        /**
+         * @description Controls how entry keys are assigned. CUSTOM requires callers to provide key. VALUE_KEBAB generates key from value. AUTO_INCREMENT generates the next numeric key.
+         * @enum {string}
+         */
         DictionaryEntryKeyMode: "CUSTOM" | "VALUE_KEBAB" | "AUTO_INCREMENT";
         DictionaryEntryMetadataFieldDto: {
             /**
@@ -1883,6 +1912,90 @@ export interface components {
              * @default false
              */
             required: boolean;
+        };
+        SaveDictionaryEntryDto: {
+            /** @description Existing entry id. Omit for new entries created by the aggregate save. */
+            id?: string;
+            /**
+             * @description Temporary frontend row id used to map validation errors for new rows.
+             * @example row-card
+             */
+            clientRowId?: string;
+            /**
+             * @description Entry key for CUSTOM dictionaries. When changing to CUSTOM, existing entries may submit a replacement key or omit it to keep the current key.
+             * @example card
+             */
+            key?: string;
+            /** @example Card */
+            value: string;
+            /**
+             * @description Locale-keyed display label overrides.
+             * @example {
+             *       "pl": "Karta"
+             *     }
+             */
+            translations?: Record<string, never>;
+            /** @default true */
+            isActive: boolean;
+            /** @description Simple key-value metadata for this dictionary entry. */
+            metadata?: {
+                [key: string]: string | number | boolean | null;
+            };
+        };
+        CreateExternalDictionaryDto: {
+            /**
+             * @description Unique key within scope (kebab-case)
+             * @example payment-methods
+             */
+            key: string;
+            /** @example Payment Methods */
+            name: string;
+            /** @example Available payment methods for invoices */
+            description?: string;
+            /**
+             * @description Controls how entry keys are assigned. CUSTOM requires callers to provide key. VALUE_KEBAB generates key from value. AUTO_INCREMENT generates the next numeric key.
+             * @default CUSTOM
+             */
+            entryKeyMode: components["schemas"]["DictionaryEntryKeyMode"];
+            /** @description Dictionary-level metadata schema applied to all entries. When present, entry metadata may only use these keys and must match their types. */
+            entryMetadataSchema?: components["schemas"]["DictionaryEntryMetadataFieldDto"][];
+            /** @description Optional initial entries. Input order becomes persisted position order. */
+            entries?: components["schemas"]["SaveDictionaryEntryDto"][];
+            /** @description Client-generated retry key for aggregate create. Reuse only for an identical payload. */
+            clientMutationId?: string;
+        };
+        ExternalDictionaryEntryResponseDto: {
+            id: string;
+            key: string;
+            value: string;
+            translations: {
+                [key: string]: string;
+            };
+            isActive: boolean;
+            position: number;
+            /** @description Dictionary entry metadata as simple key-value pairs. */
+            metadata: {
+                [key: string]: string | number | boolean | null;
+            };
+        };
+        ExternalDictionaryDetailResponseDto: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            /** @enum {string} */
+            scope: "SYSTEM" | "ORGANIZATION";
+            entryKeyMode: components["schemas"]["DictionaryEntryKeyMode"];
+            /** @description Dictionary-level metadata schema applied to entry metadata. Empty means arbitrary scalar metadata is accepted. */
+            entryMetadataSchema: components["schemas"]["DictionaryEntryMetadataFieldDto"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            entries: components["schemas"]["ExternalDictionaryEntryResponseDto"][];
+        };
+        DataOfExternalDictionaryDetailResponseDto: {
+            data: components["schemas"]["ExternalDictionaryDetailResponseDto"];
         };
         ExternalDictionaryResponseDto: {
             id: string;
@@ -1919,42 +2032,36 @@ export interface components {
             data: components["schemas"]["ExternalDictionaryResponseDto"][];
             meta: components["schemas"]["PaginationMetaDto"];
         };
-        ExternalDictionaryEntryResponseDto: {
-            id: string;
-            key: string;
-            value: string;
-            translations: {
-                [key: string]: string;
-            };
-            isActive: boolean;
-            position: number;
-            /** @description Dictionary entry metadata as simple key-value pairs. */
-            metadata: {
-                [key: string]: string | number | boolean | null;
-            };
-        };
         ListOfExternalDictionaryEntryResponseDto: {
             data: components["schemas"]["ExternalDictionaryEntryResponseDto"][];
             meta: components["schemas"]["PaginationMetaDto"];
         };
-        ExternalDictionaryDetailResponseDto: {
-            id: string;
-            key: string;
-            name: string;
-            description?: string | null;
-            /** @enum {string} */
-            scope: "SYSTEM" | "ORGANIZATION";
-            entryKeyMode: components["schemas"]["DictionaryEntryKeyMode"];
-            /** @description Dictionary-level metadata schema applied to entry metadata. Empty means arbitrary scalar metadata is accepted. */
-            entryMetadataSchema: components["schemas"]["DictionaryEntryMetadataFieldDto"][];
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-            entries: components["schemas"]["ExternalDictionaryEntryResponseDto"][];
+        DataArrayOfExternalDictionaryEntryResponseDto: {
+            data: components["schemas"]["ExternalDictionaryEntryResponseDto"][];
         };
-        DataOfExternalDictionaryDetailResponseDto: {
-            data: components["schemas"]["ExternalDictionaryDetailResponseDto"];
+        DataOfExternalDictionaryEntryResponseDto: {
+            data: components["schemas"]["ExternalDictionaryEntryResponseDto"];
+        };
+        ReplaceDictionaryEntriesDto: {
+            /**
+             * @description Replace-list semantics. Submitted items become the full ordered entry set.
+             * @enum {string}
+             */
+            mode: "replace";
+            items: components["schemas"]["SaveDictionaryEntryDto"][];
+        };
+        SaveExternalDictionaryDto: {
+            /** @example Payment Methods (Updated) */
+            name?: string;
+            description?: string;
+            /** @description Controls how entry keys are assigned. Changing to a generated mode rewrites existing entry keys when possible. */
+            entryKeyMode?: components["schemas"]["DictionaryEntryKeyMode"];
+            /** @description Replaces the dictionary-level entry metadata schema. Submit [] to allow arbitrary scalar metadata again. */
+            entryMetadataSchema?: components["schemas"]["DictionaryEntryMetadataFieldDto"][];
+            /** @description Missing means entries are unchanged. Present means replace the complete ordered entry set. */
+            entries?: components["schemas"]["ReplaceDictionaryEntriesDto"];
+            /** @description Client-generated retry key for aggregate save. Reuse only for an identical payload. */
+            clientMutationId?: string;
         };
         DynamicExpandedReferenceDto: {
             /** @example rec_123 */
@@ -1996,6 +2103,44 @@ export interface components {
         ListOfExternalCustomModuleDto: {
             data: components["schemas"]["ExternalCustomModuleDto"][];
             meta: components["schemas"]["PaginationMetaDto"];
+        };
+        /** @enum {string} */
+        DynamicFieldType: "TEXT" | "TEXTAREA" | "CUSTOM_HTML" | "HTML_SECTION" | "NUMBER" | "DECIMAL" | "CURRENCY" | "BOOLEAN" | "DATE" | "DATETIME" | "SELECT" | "MULTI_SELECT" | "REFERENCE" | "FILE" | "FILES" | "USER" | "USER_MULTI" | "CONTRACTOR" | "CONTRACTOR_MULTI" | "EMAIL" | "PHONE" | "URL" | "SUBORDINATE_OBJECT_REFERENCE";
+        DynamicFieldTypeCatalogEntryDto: {
+            type: components["schemas"]["DynamicFieldType"];
+            label: string;
+            valueKind: string;
+            optionSources: ("none" | "choices" | "dictionary" | "sql_query" | "dynamic-object" | "user" | "contractor")[];
+            configSchemaVersion: number;
+            optionsSchema: {
+                [key: string]: unknown;
+            };
+            createSchema: {
+                [key: string]: unknown;
+            };
+            updateSchema: {
+                [key: string]: unknown;
+            };
+            valueSchema: {
+                [key: string]: unknown;
+            };
+            defaults: {
+                [key: string]: unknown;
+            };
+            examples: {
+                [key: string]: unknown;
+            };
+            notes: string[];
+        };
+        DynamicFieldTypeCatalogResponseDto: {
+            version: number;
+            entries: components["schemas"]["DynamicFieldTypeCatalogEntryDto"][];
+        };
+        DataOfDynamicFieldTypeCatalogResponseDto: {
+            data: components["schemas"]["DynamicFieldTypeCatalogResponseDto"];
+        };
+        DataOfDynamicFieldTypeCatalogEntryDto: {
+            data: components["schemas"]["DynamicFieldTypeCatalogEntryDto"];
         };
         CreateExternalCustomModuleDto: {
             /**
@@ -2071,8 +2216,6 @@ export interface components {
         };
         /** @enum {string} */
         DynamicObjectKind: "REGULAR" | "SUBORDINATE";
-        /** @enum {string} */
-        DynamicFieldType: "TEXT" | "TEXTAREA" | "CUSTOM_HTML" | "HTML_SECTION" | "NUMBER" | "DECIMAL" | "CURRENCY" | "BOOLEAN" | "DATE" | "DATETIME" | "SELECT" | "MULTI_SELECT" | "REFERENCE" | "FILE" | "FILES" | "USER" | "USER_MULTI" | "CONTRACTOR" | "CONTRACTOR_MULTI" | "EMAIL" | "PHONE" | "URL" | "SUBORDINATE_OBJECT_REFERENCE";
         ExternalSchemaBuilderFieldDto: {
             id: string;
             key: string;
@@ -2122,6 +2265,18 @@ export interface components {
         DataOfExternalSchemaBuilderContextDto: {
             data: components["schemas"]["ExternalSchemaBuilderContextDto"];
         };
+        ExternalObjectSchemaBuilderContextDto: {
+            module: components["schemas"]["ExternalSchemaBuilderModuleDto"];
+            objects: components["schemas"]["ExternalSchemaBuilderObjectDto"][];
+            schemaHash: string;
+            operation: Record<string, never>;
+            object?: components["schemas"]["ExternalSchemaBuilderObjectDto"] | null;
+        };
+        DataOfExternalObjectSchemaBuilderContextDto: {
+            data: components["schemas"]["ExternalObjectSchemaBuilderContextDto"];
+        };
+        /** @enum {string} */
+        DynamicSchemaDraftOperation: "CREATE" | "UPDATE";
         DynamicSchemaDraftFieldDto: {
             id?: string;
             clientId?: string;
@@ -2157,84 +2312,6 @@ export interface components {
             displayLabel?: string | null;
             fields?: components["schemas"]["DynamicSchemaDraftFieldDto"][];
         };
-        DynamicSchemaDraftDeletesDto: {
-            fieldIds?: string[];
-        };
-        DynamicSchemaDraftConfirmationsDto: {
-            dropColumns?: string[];
-            /** @description Existing field ids whose stored values may be cleared by destructive field type or storage option changes. */
-            clearFieldValues?: string[];
-        };
-        DynamicSchemaDraftDocumentDto: {
-            objects?: components["schemas"]["DynamicSchemaDraftObjectDto"][];
-            deletes?: components["schemas"]["DynamicSchemaDraftDeletesDto"];
-            confirmations?: components["schemas"]["DynamicSchemaDraftConfirmationsDto"];
-        };
-        CreateExternalSchemaDraftDto: {
-            clientMutationId?: string;
-            baseSchemaHash?: string;
-            draft: components["schemas"]["DynamicSchemaDraftDocumentDto"];
-        };
-        /** @enum {string} */
-        DynamicSchemaDraftStatus: "DRAFT" | "VALIDATED" | "APPLYING" | "APPLIED" | "FAILED" | "FAILED_NEEDS_REPAIR" | "STALE";
-        DynamicSchemaValidationDto: {
-            errors: {
-                [key: string]: string[];
-            };
-            warnings: {
-                [key: string]: string[];
-            };
-        };
-        DynamicSchemaPlanDto: {
-            validation: components["schemas"]["DynamicSchemaValidationDto"];
-        };
-        DynamicSchemaDraftErrorDto: {
-            message: string;
-            detail?: string;
-            currentHash?: string;
-            baseSchemaHash?: string;
-        };
-        ExternalSchemaDraftDto: {
-            id: string;
-            moduleKey?: string | null;
-            clientMutationId?: string | null;
-            baseSchemaHash?: string | null;
-            status: components["schemas"]["DynamicSchemaDraftStatus"];
-            draft: components["schemas"]["DynamicSchemaDraftDocumentDto"];
-            plan?: components["schemas"]["DynamicSchemaPlanDto"] | null;
-            error?: components["schemas"]["DynamicSchemaDraftErrorDto"] | null;
-        };
-        DataOfExternalSchemaDraftDto: {
-            data: components["schemas"]["ExternalSchemaDraftDto"];
-        };
-        DataArrayOfExternalSchemaDraftDto: {
-            data: components["schemas"]["ExternalSchemaDraftDto"][];
-        };
-        UpdateExternalSchemaDraftDto: {
-            draft: components["schemas"]["DynamicSchemaDraftDocumentDto"];
-        };
-        ApplyExternalSchemaDraftDto: {
-            clientMutationId?: string;
-        };
-        ExternalSchemaApplyResponseDto: {
-            draft: components["schemas"]["ExternalSchemaDraftDto"];
-            context: components["schemas"]["ExternalSchemaBuilderContextDto"];
-        };
-        DataOfExternalSchemaApplyResponseDto: {
-            data: components["schemas"]["ExternalSchemaApplyResponseDto"];
-        };
-        ExternalObjectSchemaBuilderContextDto: {
-            module: components["schemas"]["ExternalSchemaBuilderModuleDto"];
-            objects: components["schemas"]["ExternalSchemaBuilderObjectDto"][];
-            schemaHash: string;
-            operation: Record<string, never>;
-            object?: components["schemas"]["ExternalSchemaBuilderObjectDto"] | null;
-        };
-        DataOfExternalObjectSchemaBuilderContextDto: {
-            data: components["schemas"]["ExternalObjectSchemaBuilderContextDto"];
-        };
-        /** @enum {string} */
-        DynamicSchemaDraftOperation: "CREATE" | "UPDATE";
         DynamicObjectSchemaDraftDeletesDto: {
             fieldIds?: string[];
         };
@@ -2254,6 +2331,25 @@ export interface components {
             baseSchemaHash: string;
             operation: components["schemas"]["DynamicSchemaDraftOperation"];
             draft: components["schemas"]["DynamicObjectSchemaDraftDocumentDto"];
+        };
+        /** @enum {string} */
+        DynamicSchemaDraftStatus: "DRAFT" | "VALIDATED" | "APPLYING" | "APPLIED" | "FAILED" | "FAILED_NEEDS_REPAIR" | "STALE";
+        DynamicSchemaValidationDto: {
+            errors: {
+                [key: string]: string[];
+            };
+            warnings: {
+                [key: string]: string[];
+            };
+        };
+        DynamicSchemaPlanDto: {
+            validation: components["schemas"]["DynamicSchemaValidationDto"];
+        };
+        DynamicSchemaDraftErrorDto: {
+            message: string;
+            detail?: string;
+            currentHash?: string;
+            baseSchemaHash?: string;
         };
         ExternalObjectSchemaDraftDto: {
             id: string;
@@ -3192,6 +3288,26 @@ export interface components {
             urlPath: string;
             downloadPath: string;
         };
+        FieldFileImagePresentationDto: {
+            /**
+             * @example full
+             * @enum {string}
+             */
+            imageMode?: "full" | "square" | "circle";
+            /**
+             * @example cover
+             * @enum {string}
+             */
+            objectFit?: "cover" | "contain";
+            /**
+             * @example center
+             * @enum {string}
+             */
+            objectPosition?: "center" | "top" | "bottom";
+        };
+        CustomFieldDefinitionPresentationDto: {
+            fileImage?: components["schemas"]["FieldFileImagePresentationDto"] | null;
+        };
         CustomFieldValueResponseDto: {
             fieldDefinitionId: string;
             key: string;
@@ -3201,10 +3317,8 @@ export interface components {
             isRequired: boolean;
             /** @description Type-specific validation config. FILE displayMode may be "any" or "image"; FILES displayMode may be "any" or "gallery". */
             validationConfig?: Record<string, never> | null;
-            /** @description Frontend-owned presentation metadata from the field definition. */
-            frontendMeta?: {
-                [key: string]: unknown;
-            } | null;
+            /** @description Typed presentation defaults from the field definition. */
+            presentation?: components["schemas"]["CustomFieldDefinitionPresentationDto"] | null;
             dictionaryId?: string | null;
             customObjectModuleId?: string | null;
             customObjectId?: string | null;
@@ -4019,6 +4133,25 @@ export interface components {
             /** @example saved_query_123 */
             savedQueryId?: string;
         };
+        FieldTextareaPresentationDto: {
+            /** @example 3 */
+            rows?: number;
+        };
+        FieldMultiSelectPresentationDto: {
+            /**
+             * @example checkboxes
+             * @enum {string}
+             */
+            displayMode?: "checkboxes" | "select";
+        };
+        ViewLayoutFieldPresentationDto: {
+            fileImage?: components["schemas"]["FieldFileImagePresentationDto"] | null;
+            textarea?: components["schemas"]["FieldTextareaPresentationDto"] | null;
+            multiSelect?: components["schemas"]["FieldMultiSelectPresentationDto"] | null;
+        };
+        ViewLayoutBlockPresentationDto: {
+            field?: components["schemas"]["ViewLayoutFieldPresentationDto"] | null;
+        };
         ViewLayoutRuntimeAvailabilityConditionDto: {
             /**
              * @description Condition group logic. Used when conditions is present. Defaults to AND at runtime.
@@ -4109,12 +4242,24 @@ export interface components {
                 [key: string]: unknown;
             };
             /**
-             * @description Frontend-owned presentation metadata. Backend stores and returns this object without interpreting its keys.
-             * @example null
+             * @description Typed presentation settings for this layout block.
+             * @example {
+             *       "field": {
+             *         "fileImage": {
+             *           "imageMode": "square",
+             *           "objectFit": "cover",
+             *           "objectPosition": "center"
+             *         },
+             *         "textarea": {
+             *           "rows": 4
+             *         },
+             *         "multiSelect": {
+             *           "displayMode": "checkboxes"
+             *         }
+             *       }
+             *     }
              */
-            frontendMeta?: {
-                [key: string]: unknown;
-            } | null;
+            presentation?: components["schemas"]["ViewLayoutBlockPresentationDto"] | null;
             /**
              * @description Runtime-only block metadata. Accepted on draft saves for editor round-trips and ignored by persistence.
              * @example null
@@ -4185,10 +4330,8 @@ export interface components {
             }) | null;
             /** @description Type-specific validation config. FILE displayMode may be "any" or "image"; FILES displayMode may be "any" or "gallery". */
             validationConfig?: Record<string, never> | null;
-            /** @description Frontend-owned presentation metadata stored on the field definition. */
-            frontendMeta?: {
-                [key: string]: unknown;
-            } | null;
+            /** @description Typed field presentation defaults. */
+            presentation?: components["schemas"]["CustomFieldDefinitionPresentationDto"] | null;
             dictionaryId?: string | null;
             customObjectModuleId?: string | null;
             customObjectId?: string | null;
@@ -4205,12 +4348,17 @@ export interface components {
             /** @example approved */
             key: string;
             /** @example Approved */
-            label: string;
+            label?: string;
         };
         SelectDynamicFieldOptionsDto: {
             choices: components["schemas"]["DynamicFieldChoiceOptionDto"][];
-            /** @description Optional Custom script id used by the frontend to filter visible options. */
-            optionFilterScriptId?: string;
+        };
+        DictionarySelectDynamicFieldOptionsDto: {
+            /**
+             * @description Dictionary id used as metadata for dictionary-backed SELECT/MULTI_SELECT options.
+             * @example dictionary-id
+             */
+            dictionaryId: string;
         };
         SqlQuerySelectOptionMappingDto: {
             /** @example {{ row.id }} */
@@ -4266,6 +4414,22 @@ export interface components {
             /** @example .card { font-weight: 600; } */
             css?: string;
         };
+        CurrencyDynamicFieldFormatDto: {
+            /** @default 2 */
+            decimalScale: number;
+            /** @default true */
+            useGrouping: boolean;
+            /**
+             * @default symbol
+             * @enum {string}
+             */
+            currencyDisplay: "symbol" | "code" | "name";
+        };
+        CurrencyDynamicFieldOptionsDto: {
+            /** @example PLN */
+            currencyKey: string;
+            format?: components["schemas"]["CurrencyDynamicFieldFormatDto"];
+        };
         SubordinateReferenceDynamicFieldByIdOptionsDto: {
             /** @example model-uuid */
             toObjectId: string;
@@ -4293,7 +4457,7 @@ export interface components {
             /** @example Default value */
             defaultValue?: string | null;
             /**
-             * @description Type-specific config. SELECT/MULTI_SELECT: { choices: [{ key, label }] }. SQL-backed SELECT/MULTI_SELECT: { source: "sql_query", queryId, parameters?, mapping: { value, label, meta? } }. REFERENCE and SUBORDINATE_OBJECT_REFERENCE read responses are normalized to { toObjectId, toModuleKey, toObjectKey, cardinality } where cardinality is "ONE_TO_ONE" or "ONE_TO_MANY". Per-form ONE_TO_MANY rendering (list/table/tiles) is configured on dynamic form FIELD element config.displayMode. FILE/FILES: { accept } (MIME type hint). FILE stores one file id; FILES stores an array of file ids. Per-form FILE displayMode (any/image) and FILES displayMode (any/gallery) are configured on dynamic form FIELD element config.displayMode. CUSTOM_HTML values use { html, css? }; html/css support {{ record.* | filter }} templates. HTML_SECTION is readonly and stores { html, css? } here in options.
+             * @description Type-specific config. SELECT/MULTI_SELECT: { choices: [{ key, label? }] } or { dictionaryId }. SQL-backed SELECT/MULTI_SELECT: { source: "sql_query", queryId, parameters?, mapping: { value, label, meta? } }. REFERENCE and SUBORDINATE_OBJECT_REFERENCE read responses are normalized to { toObjectId, toModuleKey, toObjectKey, cardinality } where cardinality is "ONE_TO_ONE" or "ONE_TO_MANY". Per-form ONE_TO_MANY rendering (list/table/tiles) is configured on dynamic form FIELD element config.displayMode. FILE/FILES: { accept } (MIME type hint). FILE stores one file id; FILES stores an array of file ids. Per-form FILE displayMode (any/image) and FILES displayMode (any/gallery) are configured on dynamic form FIELD element config.displayMode. CURRENCY: { currencyKey, format?: { decimalScale?, useGrouping?, currencyDisplay? } }. CUSTOM_HTML values use { html, css? }; html/css support {{ record.* | filter }} templates. HTML_SECTION is readonly and stores { html, css? } here in options.
              * @example {
              *       "toObjectId": "model-uuid",
              *       "toModuleKey": "crm",
@@ -4301,7 +4465,7 @@ export interface components {
              *       "cardinality": "ONE_TO_MANY"
              *     }
              */
-            options?: (components["schemas"]["SelectDynamicFieldOptionsDto"] | components["schemas"]["SqlQuerySelectDynamicFieldOptionsDto"] | components["schemas"]["ReferenceDynamicFieldByIdOptionsDto"] | components["schemas"]["ReferenceDynamicFieldByKeyOptionsDto"] | components["schemas"]["FileDynamicFieldOptionsDto"] | components["schemas"]["HtmlDynamicFieldOptionsDto"]) | null;
+            options?: (components["schemas"]["SelectDynamicFieldOptionsDto"] | components["schemas"]["DictionarySelectDynamicFieldOptionsDto"] | components["schemas"]["SqlQuerySelectDynamicFieldOptionsDto"] | components["schemas"]["ReferenceDynamicFieldByIdOptionsDto"] | components["schemas"]["ReferenceDynamicFieldByKeyOptionsDto"] | components["schemas"]["FileDynamicFieldOptionsDto"] | components["schemas"]["HtmlDynamicFieldOptionsDto"] | components["schemas"]["CurrencyDynamicFieldOptionsDto"]) | null;
             /** @example 0 */
             position: number;
             /** @example model-123 */
@@ -4481,12 +4645,18 @@ export interface components {
                 [key: string]: unknown;
             };
             /**
-             * @description Frontend-owned presentation metadata stored with the layout block.
-             * @example null
+             * @description Typed presentation settings stored with the layout block.
+             * @example {
+             *       "field": {
+             *         "fileImage": {
+             *           "imageMode": "square",
+             *           "objectFit": "cover",
+             *           "objectPosition": "center"
+             *         }
+             *       }
+             *     }
              */
-            frontendMeta?: {
-                [key: string]: unknown;
-            } | null;
+            presentation?: components["schemas"]["ViewLayoutBlockPresentationDto"] | null;
             /** @example null */
             runtimeAvailability?: components["schemas"]["ViewLayoutRuntimeAvailabilityDto"] | null;
             /**
@@ -4993,12 +5163,16 @@ export interface components {
                 [key: string]: unknown;
             } | null;
             /**
-             * @description Frontend-owned presentation metadata for the custom-field definition created or updated from this staged entry.
-             * @example null
+             * @description Typed presentation defaults for the custom-field definition created or updated from this staged entry.
+             * @example {
+             *       "fileImage": {
+             *         "imageMode": "square",
+             *         "objectFit": "cover",
+             *         "objectPosition": "center"
+             *       }
+             *     }
              */
-            frontendMeta?: {
-                [key: string]: unknown;
-            } | null;
+            presentation?: components["schemas"]["CustomFieldDefinitionPresentationDto"] | null;
             /**
              * @description Required for staged updates that change field type or option source and would clear existing values.
              * @default false
@@ -5465,6 +5639,7 @@ export interface components {
             valueKind: string;
             /** @enum {string} */
             optionSource: "none" | "dictionary" | "dynamic-object" | "user" | "contractor";
+            optionSources: ("none" | "dictionary" | "sql_query" | "dynamic-object" | "user" | "contractor")[];
             configSchemaVersion: number;
             createSchema: {
                 [key: string]: unknown;
@@ -6093,12 +6268,16 @@ export interface components {
                 [key: string]: unknown;
             } | null;
             /**
-             * @description Frontend-owned presentation metadata for the custom-field definition created or updated from this staged entry.
-             * @example null
+             * @description Typed presentation defaults for the custom-field definition created or updated from this staged entry.
+             * @example {
+             *       "fileImage": {
+             *         "imageMode": "square",
+             *         "objectFit": "cover",
+             *         "objectPosition": "center"
+             *       }
+             *     }
              */
-            frontendMeta?: {
-                [key: string]: unknown;
-            } | null;
+            presentation?: components["schemas"]["CustomFieldDefinitionPresentationDto"] | null;
             /**
              * @description Required for staged updates that change field type or option source and would clear existing values.
              * @default false
@@ -6524,6 +6703,61 @@ export interface operations {
             };
         };
     };
+    DictionariesV1Controller_create_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateExternalDictionaryDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalDictionaryDetailResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
     DictionariesV1Controller_findEntries_v1: {
         parameters: {
             query?: {
@@ -6590,6 +6824,120 @@ export interface operations {
             };
         };
     };
+    DictionariesV1Controller_exportEntries_v1: {
+        parameters: {
+            query: {
+                format: string;
+            };
+            header?: never;
+            path: {
+                dictionaryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Dictionary entries file as JSON or CSV. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                    "text/csv": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                    "text/csv": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                    "text/csv": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DictionariesV1Controller_importEntries_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dictionaryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    /**
+                     * Format: binary
+                     * @description JSON array or CSV file (max 1 MB).
+                     */
+                    file: string;
+                    /** @enum {string} */
+                    strategy: "REPLACE" | "MERGE";
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataArrayOfExternalDictionaryEntryResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
     DictionariesV1Controller_findOne_v1: {
         parameters: {
             query?: never;
@@ -6607,6 +6955,153 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DataOfExternalDictionaryDetailResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DictionariesV1Controller_remove_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Dictionary deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DictionariesV1Controller_update_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveExternalDictionaryDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalDictionaryDetailResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DictionariesV1Controller_findEntry_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dictionaryId: string;
+                entryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalDictionaryEntryResponseDto"];
                 };
             };
             401: {
@@ -6737,6 +7232,86 @@ export interface operations {
                 };
             };
             409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomDataV1Controller_getFieldTypeCatalog_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfDynamicFieldTypeCatalogResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomDataV1Controller_getFieldType_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                type: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfDynamicFieldTypeCatalogEntryDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -6992,413 +7567,6 @@ export interface operations {
                 };
             };
             404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-        };
-    };
-    CustomDataV1Controller_listSchemaDrafts_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                moduleKey: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DataArrayOfExternalSchemaDraftDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-        };
-    };
-    CustomDataV1Controller_createSchemaDraft_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                moduleKey: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateExternalSchemaDraftDto"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DataOfExternalSchemaDraftDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-        };
-    };
-    CustomDataV1Controller_getSchemaDraft_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                moduleKey: string;
-                draftId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DataOfExternalSchemaDraftDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-        };
-    };
-    CustomDataV1Controller_deleteSchemaDraft_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                moduleKey: string;
-                draftId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Schema draft deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-        };
-    };
-    CustomDataV1Controller_updateSchemaDraft_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                moduleKey: string;
-                draftId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateExternalSchemaDraftDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DataOfExternalSchemaDraftDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-        };
-    };
-    CustomDataV1Controller_validateSchemaDraft_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                moduleKey: string;
-                draftId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ApplyExternalSchemaDraftDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DataOfExternalSchemaDraftDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-        };
-    };
-    CustomDataV1Controller_applySchemaDraft_v1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                moduleKey: string;
-                draftId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ApplyExternalSchemaDraftDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DataOfExternalSchemaApplyResponseDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            409: {
                 headers: {
                     [name: string]: unknown;
                 };

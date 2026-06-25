@@ -1,0 +1,40 @@
+{
+  "clientMutationId": "library-author-create-20260625-001",
+  "baseSchemaHash": "dcf9273627e1b34171e6efc14747c21c1c7dfc91c5671aeb4272fe4b88bdf939",
+  "operation": "CREATE",
+  "draft": {
+    "object": {
+      "clientId": "object_author",
+      "key": "author",
+      "name": "Author",
+      "namePlural": "Authors",
+      "kind": "REGULAR",
+      "createDefaultForm": true,
+      "icon": "user-pen",
+      "color": "#7C3AED",
+      "isHidden": false,
+      "isSingleton": false,
+      "displayLabel": "{{name}} {{surname}}",
+      "fields": [
+        {
+          "clientId": "field_author_name",
+          "key": "name",
+          "name": "Name",
+          "type": "TEXT",
+          "isRequired": true,
+          "isIndexed": false,
+          "position": 0
+        },
+        {
+          "clientId": "field_author_surname",
+          "key": "surname",
+          "name": "Surname",
+          "type": "TEXT",
+          "isRequired": true,
+          "isIndexed": false,
+          "position": 1
+        }
+      ]
+    }
+  }
+}

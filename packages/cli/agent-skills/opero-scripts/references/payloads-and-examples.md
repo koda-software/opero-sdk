@@ -49,6 +49,26 @@ Type:
 OPTION_FILTER
 ```
 
+Attach this script through the View Layout draft `scriptBindings` array:
+
+```json
+{
+  "id": "binding_filter_city_options",
+  "scriptId": "script_id",
+  "hook": "optionFilter",
+  "target": {
+    "blockId": "field_city",
+    "fieldKey": "city"
+  },
+  "enabled": true,
+  "priority": 0,
+  "config": {}
+}
+```
+
+Do not put this script id in dynamic object field `options`; the unsupported
+`options.optionFilterScriptId` shape is rejected.
+
 ## Field Visibility
 
 Use case: show VAT ID only for business customers.

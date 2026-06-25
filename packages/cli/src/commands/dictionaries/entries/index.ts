@@ -1,7 +1,7 @@
 import {Args} from '@oclif/core'
 
-import {apiPath} from '../../api/path.js'
-import {listFlags, ListCommand} from '../../list-command.js'
+import {apiPath} from '../../../api/path.js'
+import {listFlags, ListCommand} from '../../../list-command.js'
 
 export default class DictionariesEntries extends ListCommand {
   static args = {

@@ -37,7 +37,13 @@ before the request. `--columns id,name` is sent as a JSON array string.
 opero --json currencies list
 opero --json dictionaries list
 opero --json dictionaries get <id>
+opero dictionaries create --body-file dictionary.json
+opero dictionaries update <id> --body-file dictionary.json
+opero dictionaries delete <id>
 opero --json dictionaries entries <dictionaryId>
+opero --json dictionaries entries get <dictionaryId> <entryId>
+opero dictionaries entries export <dictionaryId> --format json --out entries.json
+opero dictionaries entries import <dictionaryId> --file entries.csv --strategy MERGE
 ```
 
 ## Contractors
@@ -64,18 +70,6 @@ opero custom-modules delete <moduleKey>
 opero --json custom-modules schema <moduleKey>
 ```
 
-Module schema drafts:
-
-```bash
-opero --json custom-modules schema-drafts list <moduleKey>
-opero --json custom-modules schema-drafts get <moduleKey> <draftId>
-opero custom-modules schema-drafts create <moduleKey> --body-file draft.json
-opero custom-modules schema-drafts update <moduleKey> <draftId> --body-file draft.json
-opero custom-modules schema-drafts validate <moduleKey> <draftId> --body-file validate.json
-opero custom-modules schema-drafts apply <moduleKey> <draftId> --body-file apply.json
-opero custom-modules schema-drafts delete <moduleKey> <draftId>
-```
-
 Objects:
 
 ```bash
@@ -83,6 +77,8 @@ opero --json custom-objects list <moduleKey>
 opero --json custom-objects get <moduleKey> <objectKey>
 opero --json custom-objects schema <moduleKey> <objectKey>
 opero --json custom-objects schema <moduleKey> <objectKey> --mode edit
+opero --json custom-objects field-types
+opero --json custom-objects field-types get <type>
 opero --json custom-objects delete-impact <moduleKey> <objectKey>
 opero custom-objects delete <moduleKey> <objectKey> --body-file delete.json
 ```
