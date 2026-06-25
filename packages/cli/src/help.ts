@@ -16,7 +16,7 @@ const TOPIC_GROUPS = [
     title: 'Reference Data',
   },
   {
-    items: ['custom-modules', 'custom-objects', 'custom-records', 'custom-scripts', 'rules'],
+    items: ['custom-modules', 'custom-objects', 'custom-records', 'custom-scripts', 'queries', 'rules'],
     title: 'Custom Data',
   },
   {

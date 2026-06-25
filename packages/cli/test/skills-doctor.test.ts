@@ -28,6 +28,7 @@ describe('skills doctor', () => {
 
     expect(result.data.bundled).toEqual([
       expect.objectContaining({name: 'opero-cli'}),
+      expect.objectContaining({name: 'opero-queries'}),
       expect.objectContaining({name: 'opero-scripts'}),
     ])
     expect(result.data.targets).toEqual([
@@ -38,6 +39,11 @@ describe('skills doctor', () => {
           expect.objectContaining({
             command: 'opero skills install codex --scope repo',
             name: 'opero-cli',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install codex --scope repo',
+            name: 'opero-queries',
             status: 'missing',
           }),
           expect.objectContaining({
@@ -54,6 +60,11 @@ describe('skills doctor', () => {
           expect.objectContaining({
             command: 'opero skills install claude --scope repo',
             name: 'opero-cli',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install claude --scope repo',
+            name: 'opero-queries',
             status: 'missing',
           }),
           expect.objectContaining({
@@ -94,6 +105,11 @@ describe('skills doctor', () => {
     })
     expect(result.data.targets[0].skills[1]).toMatchObject({
       installedVersion: version,
+      name: 'opero-queries',
+      status: 'current',
+    })
+    expect(result.data.targets[0].skills[2]).toMatchObject({
+      installedVersion: version,
       name: 'opero-scripts',
       status: 'current',
     })
@@ -103,6 +119,11 @@ describe('skills doctor', () => {
       status: 'outdated',
     })
     expect(result.data.targets[1].skills[1]).toMatchObject({
+      installedVersion: '0.2.1-test',
+      name: 'opero-queries',
+      status: 'outdated',
+    })
+    expect(result.data.targets[1].skills[2]).toMatchObject({
       installedVersion: '0.2.1-test',
       name: 'opero-scripts',
       status: 'outdated',
@@ -140,6 +161,7 @@ describe('skills doctor', () => {
     expect(output).toContain('Opero agent skills')
     expect(output).toContain('Bundled')
     expect(output).toContain('opero-cli')
+    expect(output).toContain('opero-queries')
     expect(output).toContain('opero-scripts')
     expect(output).toContain('Codex user')
     expect(output).toContain('Claude user')

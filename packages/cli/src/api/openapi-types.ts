@@ -516,6 +516,122 @@ export interface paths {
         patch: operations["CustomDataV1Controller_updateSingletonRecord_v1"];
         trace?: never;
     };
+    "/v1/custom-modules/{moduleKey}/objects/{objectKey}/forms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List custom object forms
+         * @description Returns paginated form contracts for one custom object, including supported types and owned layout availability metadata.
+         */
+        get: operations["CustomFormsV1Controller_findForms_v1"];
+        put?: never;
+        /**
+         * Create custom object form
+         * @description Creates a form contract for one custom object. The owned View Layout container is created internally but layout editing is outside this endpoint.
+         */
+        post: operations["CustomFormsV1Controller_createForm_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/custom-modules/{moduleKey}/objects/{objectKey}/forms/available": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List available custom object forms
+         * @description Returns active form contracts for one custom object, optionally filtered by form type.
+         */
+        get: operations["CustomFormsV1Controller_findAvailableForms_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/custom-modules/{moduleKey}/objects/{objectKey}/forms/defaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update custom object default forms
+         * @description Updates the default VIEW, EDIT, and CREATE form pointers for one custom object.
+         */
+        patch: operations["CustomFormsV1Controller_updateFormDefaults_v1"];
+        trace?: never;
+    };
+    "/v1/custom-modules/{moduleKey}/objects/{objectKey}/forms/{formId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get custom object form
+         * @description Returns one form contract, including supported types and owned layout availability metadata.
+         */
+        get: operations["CustomFormsV1Controller_findForm_v1"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete custom object form
+         * @description Deletes a form contract unless it is configured as an object default.
+         */
+        delete: operations["CustomFormsV1Controller_deleteForm_v1"];
+        options?: never;
+        head?: never;
+        /**
+         * Update custom object form
+         * @description Updates form contract metadata. When types are provided, they replace the full supported type set.
+         */
+        patch: operations["CustomFormsV1Controller_updateForm_v1"];
+        trace?: never;
+    };
+    "/v1/custom-modules/{moduleKey}/objects/{objectKey}/forms/{formId}/access": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get custom object form access matrix
+         * @description Returns dashboard membership and role access rows configured for one form.
+         */
+        get: operations["CustomFormsV1Controller_findFormAccess_v1"];
+        /**
+         * Replace custom object form access matrix
+         * @description Replaces dashboard membership and role access rows for one form.
+         */
+        put: operations["CustomFormsV1Controller_replaceFormAccess_v1"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/custom-scripts": {
         parameters: {
             query?: never;
@@ -603,6 +719,118 @@ export interface paths {
          * @description Restores an archived Custom Script in the token organization.
          */
         patch: operations["CustomScriptsV1Controller_restore_v1"];
+        trace?: never;
+    };
+    "/v1/saved-queries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List saved queries
+         * @description Returns SYSTEM saved queries and organization saved queries for the API token organization. SQL body is omitted from list items.
+         */
+        get: operations["SavedQueriesV1Controller_findAll_v1"];
+        put?: never;
+        /**
+         * Create saved query
+         * @description Creates and validates an organization saved query in the API token organization.
+         */
+        post: operations["SavedQueriesV1Controller_create_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/saved-queries/schema": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get queryable schema for SQL autocompletion
+         * @description Returns all tables and columns available to custom SQL queries in this API token organization scope, including static RLS-protected tables and organization-owned custom object tables.
+         */
+        get: operations["SavedQueriesV1Controller_getSchema_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/saved-queries/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Validate saved query SQL
+         * @description Validates SQL and parameters without saving a saved query.
+         */
+        post: operations["SavedQueriesV1Controller_validate_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/saved-queries/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get saved query
+         * @description Returns a saved query, including SQL, when it is SYSTEM-scoped or belongs to the API token organization.
+         */
+        get: operations["SavedQueriesV1Controller_findOne_v1"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete saved query
+         * @description Deletes an organization saved query and returns no response body.
+         */
+        delete: operations["SavedQueriesV1Controller_remove_v1"];
+        options?: never;
+        head?: never;
+        /**
+         * Update saved query
+         * @description Updates an organization saved query and refreshes its inferred result schema when SQL or parameters change.
+         */
+        patch: operations["SavedQueriesV1Controller_update_v1"];
+        trace?: never;
+    };
+    "/v1/saved-queries/{id}/execute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Execute saved query
+         * @description Runs the saved query with server-side organization context and supplied named parameters.
+         */
+        post: operations["SavedQueriesV1Controller_execute_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/v1/contractors": {
@@ -1174,6 +1402,385 @@ export interface paths {
          */
         get: operations["RulesV1Controller_findExecutionById_v1"];
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/resolve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Resolve view layout
+         * @description Resolves the published View Layout for runtime rendering in the token organization.
+         */
+        get: operations["ViewLayoutsV1Controller_resolve_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/catalog": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get view layout block catalog */
+        get: operations["ViewLayoutsV1Controller_getCatalog_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/custom-field-types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get View Layout custom-field type schemas */
+        get: operations["ViewLayoutsV1Controller_getCustomFieldTypes_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/surface-capabilities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get View Layout surface capabilities */
+        get: operations["ViewLayoutsV1Controller_getSurfaceCapabilities_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/surface-definitions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get View Layout surface definitions */
+        get: operations["ViewLayoutsV1Controller_getSurfaceDefinitions_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/runtime-data": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Load View Layout runtime data */
+        post: operations["ViewLayoutsV1Controller_getRuntimeData_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/runtime/dynamic-object/records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create dynamic record through View Layout */
+        post: operations["ViewLayoutsV1Controller_createDynamicObjectRecord_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/runtime/dynamic-object/records/{recordId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update dynamic record through View Layout */
+        patch: operations["ViewLayoutsV1Controller_updateDynamicObjectRecord_v1"];
+        trace?: never;
+    };
+    "/v1/view-layouts/runtime/dynamic-object/relation-tables/table-layout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Get relation-table row layout data */
+        post: operations["ViewLayoutsV1Controller_getDynamicObjectRelationTableLayout_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/runtime/dynamic-object/relation-tables/{relationFieldKey}/target-layout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Resolve relation-table target layout */
+        get: operations["ViewLayoutsV1Controller_getDynamicObjectRelationTableTargetLayout_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/runtime/dynamic-object/records/{recordId}/relation-tables/{relationFieldKey}/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Query relation-table rows through View Layout */
+        post: operations["ViewLayoutsV1Controller_queryDynamicObjectRelationTable_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List view layouts */
+        get: operations["ViewLayoutsV1Controller_findAll_v1"];
+        put?: never;
+        /** Create view layout */
+        post: operations["ViewLayoutsV1Controller_create_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}/runtime-context-variables": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get View Layout runtime context variables */
+        get: operations["ViewLayoutsV1Controller_getRuntimeContextVariables_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get view layout */
+        get: operations["ViewLayoutsV1Controller_findOne_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update view layout */
+        patch: operations["ViewLayoutsV1Controller_update_v1"];
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}/archive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Archive view layout */
+        post: operations["ViewLayoutsV1Controller_archive_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Save view layout draft */
+        put: operations["ViewLayoutsV1Controller_saveDraft_v1"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}/draft/staged-field-definitions/{draftFieldDefinitionId}/options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get staged field options */
+        get: operations["ViewLayoutsV1Controller_getDraftStagedFieldOptions_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List view layout versions */
+        get: operations["ViewLayoutsV1Controller_listVersions_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}/versions/{versionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get view layout version */
+        get: operations["ViewLayoutsV1Controller_getVersion_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}/versions/{versionId}/restore-draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Restore view layout version as draft */
+        post: operations["ViewLayoutsV1Controller_restoreVersionAsDraft_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish view layout */
+        post: operations["ViewLayoutsV1Controller_publish_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/view-layouts/{layoutId}/assignments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Replace view layout assignments */
+        put: operations["ViewLayoutsV1Controller_replaceAssignments_v1"];
         post?: never;
         delete?: never;
         options?: never;
@@ -1835,6 +2442,203 @@ export interface components {
         DataOfExternalCustomRecordDto: {
             data: components["schemas"]["ExternalCustomRecordDto"];
         };
+        DynamicFormLayoutAvailabilityDto: {
+            /**
+             * @example PUBLISHED
+             * @enum {string}
+             */
+            state: "PUBLISHED" | "MISSING" | "DRAFT_ONLY" | "INVALID";
+            layoutId?: string | null;
+            layoutName?: string | null;
+            versionId?: string | null;
+        };
+        DynamicFormLayoutWarningDto: {
+            /** @enum {string} */
+            type: "VIEW" | "EDIT" | "CREATE";
+            /** @enum {string} */
+            code: "LAYOUT_MISSING" | "LAYOUT_DRAFT_ONLY" | "LAYOUT_INVALID" | "LAYOUT_MODE_ALREADY_USED";
+            message: string;
+            meta?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        ExternalCustomFormListItemDto: {
+            id: string;
+            name: string;
+            /** @description Opaque public lookup token. Present only for public forms. */
+            publicToken?: string | null;
+            types: ("VIEW" | "EDIT" | "CREATE")[];
+            /** @description Types the current caller can use. Present on available-form responses. */
+            availableTypes?: ("VIEW" | "EDIT" | "CREATE")[];
+            /** @description Union of access sources that made this form available to the current caller. */
+            accessSources?: ("DIRECT" | "ROLE" | "DEFAULT" | "SYSTEM_ADMIN")[];
+            /** @description Layout availability by form type. Present on dynamic-object form responses. */
+            layoutAvailability?: {
+                [key: string]: components["schemas"]["DynamicFormLayoutAvailabilityDto"];
+            };
+            /** @description Form types that are currently usable because the form type is available and a published valid View Layout exists. */
+            usableTypes?: ("VIEW" | "EDIT" | "CREATE")[];
+            layoutWarnings?: components["schemas"]["DynamicFormLayoutWarningDto"][];
+            /** @description The single View Layout container owned by this form. Its supported modes mirror the form types. */
+            viewLayoutId?: string | null;
+            viewLayoutName?: string | null;
+            isActive: boolean;
+            isPublic: boolean;
+            /** @description UI config: title, successMessage, description */
+            config?: {
+                [key: string]: unknown;
+            } | null;
+            objectId: string;
+            organizationId: string;
+            directUserAccessCount?: number;
+            roleAccessCount?: number;
+            isDefaultView?: boolean;
+            isDefaultEdit?: boolean;
+            isDefaultCreate?: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ListOfExternalCustomFormListItemDto: {
+            data: components["schemas"]["ExternalCustomFormListItemDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
+        };
+        ExternalCustomFormDto: {
+            id: string;
+            name: string;
+            /** @description Opaque public lookup token. Present only for public forms. */
+            publicToken?: string | null;
+            types: ("VIEW" | "EDIT" | "CREATE")[];
+            /** @description Types the current caller can use. Present on available-form responses. */
+            availableTypes?: ("VIEW" | "EDIT" | "CREATE")[];
+            /** @description Union of access sources that made this form available to the current caller. */
+            accessSources?: ("DIRECT" | "ROLE" | "DEFAULT" | "SYSTEM_ADMIN")[];
+            /** @description Layout availability by form type. Present on dynamic-object form responses. */
+            layoutAvailability?: {
+                [key: string]: components["schemas"]["DynamicFormLayoutAvailabilityDto"];
+            };
+            /** @description Form types that are currently usable because the form type is available and a published valid View Layout exists. */
+            usableTypes?: ("VIEW" | "EDIT" | "CREATE")[];
+            layoutWarnings?: components["schemas"]["DynamicFormLayoutWarningDto"][];
+            /** @description The single View Layout container owned by this form. Its supported modes mirror the form types. */
+            viewLayoutId?: string | null;
+            viewLayoutName?: string | null;
+            isActive: boolean;
+            isPublic: boolean;
+            /** @description UI config: title, successMessage, description */
+            config?: {
+                [key: string]: unknown;
+            } | null;
+            objectId: string;
+            organizationId: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DataArrayOfExternalCustomFormDto: {
+            data: components["schemas"]["ExternalCustomFormDto"][];
+        };
+        UpdateExternalCustomObjectFormDefaultsDto: {
+            /** @description Default VIEW form ID. Null clears the default. */
+            defaultViewFormId?: string | null;
+            /** @description Default EDIT form ID. Null clears the default. */
+            defaultEditFormId?: string | null;
+            /** @description Default CREATE form ID. Null clears the default. */
+            defaultCreateFormId?: string | null;
+        };
+        ExternalCustomObjectFormDefaultsDto: {
+            defaultViewFormId?: string | null;
+            defaultEditFormId?: string | null;
+            defaultCreateFormId?: string | null;
+        };
+        DataOfExternalCustomObjectFormDefaultsDto: {
+            data: components["schemas"]["ExternalCustomObjectFormDefaultsDto"];
+        };
+        CreateExternalCustomFormDto: {
+            /** @example Equipment Request Form */
+            name: string;
+            /**
+             * @description Form types supported by this form.
+             * @example [
+             *       "CREATE"
+             *     ]
+             */
+            types: ("VIEW" | "EDIT" | "CREATE")[];
+            /** @default false */
+            isPublic: boolean;
+            /** @default true */
+            isActive: boolean;
+            /**
+             * @description Business/runtime config such as title, successMessage, and description. Visual layout belongs to View Layouts.
+             * @example {
+             *       "title": "Zgłoszenie sprzętu",
+             *       "successMessage": "Thank you!"
+             *     }
+             */
+            config?: {
+                [key: string]: unknown;
+            };
+        };
+        DataOfExternalCustomFormDto: {
+            data: components["schemas"]["ExternalCustomFormDto"];
+        };
+        UpdateExternalCustomFormDto: {
+            /** @example Equipment Request Form */
+            name?: string;
+            isPublic?: boolean;
+            isActive?: boolean;
+            /**
+             * @description Full replacement of supported form types. When absent, types are unchanged.
+             * @example [
+             *       "VIEW",
+             *       "EDIT"
+             *     ]
+             */
+            types?: ("VIEW" | "EDIT" | "CREATE")[];
+            /**
+             * @description Full replacement of business/runtime config (title, successMessage, description). Pass null to clear. Visual layout belongs to View Layouts.
+             * @example {
+             *       "title": "Zgłoszenie sprzętu",
+             *       "successMessage": "Thank you!"
+             *     }
+             */
+            config?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        DynamicFormUserAccessResponseDto: {
+            membershipId: string;
+            types: ("VIEW" | "EDIT" | "CREATE")[];
+        };
+        DynamicFormRoleAccessResponseDto: {
+            roleId: string;
+            types: ("VIEW" | "EDIT" | "CREATE")[];
+        };
+        ExternalCustomFormAccessDto: {
+            users: components["schemas"]["DynamicFormUserAccessResponseDto"][];
+            roles: components["schemas"]["DynamicFormRoleAccessResponseDto"][];
+        };
+        DataOfExternalCustomFormAccessDto: {
+            data: components["schemas"]["ExternalCustomFormAccessDto"];
+        };
+        DynamicFormUserAccessInputDto: {
+            /** @description Organization membership ID. This is the canonical target for user form access. */
+            membershipId: string;
+            types: ("VIEW" | "EDIT" | "CREATE")[];
+        };
+        DynamicFormRoleAccessInputDto: {
+            /** @description Organization role ID. */
+            roleId: string;
+            types: ("VIEW" | "EDIT" | "CREATE")[];
+        };
+        ReplaceExternalCustomFormAccessDto: {
+            /** @default [] */
+            users: components["schemas"]["DynamicFormUserAccessInputDto"][];
+            /** @default [] */
+            roles: components["schemas"]["DynamicFormRoleAccessInputDto"][];
+        };
         CreateExternalCustomScriptDto: {
             /**
              * @description Stable organization-local identifier used by layout bindings and UI references.
@@ -1915,6 +2719,178 @@ export interface components {
             type?: "OPTION_FILTER" | "FIELD_VISIBILITY" | "FIELD_READONLY" | "FIELD_DEFAULT" | "BEFORE_ACTION" | "AFTER_ACTION" | "ON_RENDER" | "TEMPLATE_FUNCTION" | "CUSTOM";
             code?: string;
             metadata?: Record<string, never> | null;
+        };
+        /** @enum {string} */
+        ExternalSavedQueryScope: "SYSTEM" | "ORGANIZATION";
+        SavedQueryParameterResponseDto: {
+            name: string;
+            /** @enum {string} */
+            type: "string" | "number" | "date" | "uuid" | "boolean";
+            required: boolean;
+            description?: string | null;
+        };
+        ExternalSavedQueryActorDto: {
+            /** @enum {string} */
+            type: "USER" | "API_TOKEN";
+            userId?: string | null;
+            apiTokenId?: string | null;
+        };
+        ExternalSavedQuerySummaryResponseDto: {
+            id: string;
+            scope: components["schemas"]["ExternalSavedQueryScope"];
+            /** @description null for SYSTEM queries. */
+            organizationId?: string | null;
+            name: string;
+            key: string;
+            description?: string | null;
+            parameters?: components["schemas"]["SavedQueryParameterResponseDto"][] | null;
+            createdBy?: components["schemas"]["ExternalSavedQueryActorDto"] | null;
+            updatedBy?: components["schemas"]["ExternalSavedQueryActorDto"] | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ListOfExternalSavedQuerySummaryResponseDto: {
+            data: components["schemas"]["ExternalSavedQuerySummaryResponseDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
+        };
+        SchemaColumnDto: {
+            /**
+             * @description Column name
+             * @example fullName
+             */
+            name: string;
+            /**
+             * @description PostgreSQL data type (e.g. text, integer, boolean, timestamp with time zone, jsonb)
+             * @example text
+             */
+            type: string;
+            /**
+             * @description Whether the column accepts NULL
+             * @example true
+             */
+            nullable: boolean;
+            /**
+             * @description Human-readable field label (dynamic tables only)
+             * @example Full Name
+             */
+            label?: string;
+            /**
+             * @description For REFERENCE columns: the qualified table this column points to (JOIN target)
+             * @example runtime_dyn."dyn_employee_7db44b"
+             */
+            referencesTable?: string;
+        };
+        SchemaTableDto: {
+            /**
+             * @description Table name (unqualified)
+             * @example Contractor
+             */
+            name: string;
+            /**
+             * @description PostgreSQL schema
+             * @example public
+             * @enum {string}
+             */
+            schema: "public" | "runtime_dyn";
+            /**
+             * @description SQL-ready quoted identifier. Use this verbatim in FROM/JOIN clauses.
+             * @example "Contractor"
+             */
+            qualifiedName: string;
+            columns: components["schemas"]["SchemaColumnDto"][];
+            /**
+             * @description Human-readable object name (dynamic tables only)
+             * @example Equipment
+             */
+            objectName?: string;
+            /**
+             * @description Module and object context (dynamic tables only)
+             * @example Asset Management — Equipment (key: equipment)
+             */
+            description?: string;
+        };
+        QuerySchemaResponseDto: {
+            /** @description All tables accessible from this org scope — static tables plus org-owned dynamic tables. */
+            tables: components["schemas"]["SchemaTableDto"][];
+        };
+        DataOfQuerySchemaResponseDto: {
+            data: components["schemas"]["QuerySchemaResponseDto"];
+        };
+        SavedQueryParameterDto: {
+            name: string;
+            /** @enum {string} */
+            type: "string" | "number" | "date" | "uuid" | "boolean";
+            required: boolean;
+            description?: string;
+        };
+        CreateSavedQueryDto: {
+            name: string;
+            key: string;
+            description?: string;
+            sql: string;
+            parameters?: components["schemas"]["SavedQueryParameterDto"][];
+        };
+        ExternalSavedQueryValidationErrorDto: {
+            message: string;
+        };
+        ExternalSavedQueryValidationResponseDto: {
+            valid: boolean;
+            errors: components["schemas"]["ExternalSavedQueryValidationErrorDto"][];
+            referencedTables: string[];
+            namedParameters: string[];
+        };
+        DataOfExternalSavedQueryValidationResponseDto: {
+            data: components["schemas"]["ExternalSavedQueryValidationResponseDto"];
+        };
+        SavedQueryResultColumnResponseDto: {
+            name: string;
+            /** @enum {string} */
+            type: "string" | "number" | "boolean" | "date" | "uuid" | "json" | "array" | "unknown";
+            pgTypeOid: number;
+        };
+        ExternalSavedQueryResponseDto: {
+            id: string;
+            scope: components["schemas"]["ExternalSavedQueryScope"];
+            /** @description null for SYSTEM queries. */
+            organizationId?: string | null;
+            name: string;
+            key: string;
+            description?: string | null;
+            parameters?: components["schemas"]["SavedQueryParameterResponseDto"][] | null;
+            createdBy?: components["schemas"]["ExternalSavedQueryActorDto"] | null;
+            updatedBy?: components["schemas"]["ExternalSavedQueryActorDto"] | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            sql: string;
+            /** @description Expected column names and types inferred from the SQL. */
+            resultSchema?: components["schemas"]["SavedQueryResultColumnResponseDto"][] | null;
+        };
+        DataOfExternalSavedQueryResponseDto: {
+            data: components["schemas"]["ExternalSavedQueryResponseDto"];
+        };
+        UpdateSavedQueryDto: {
+            name?: string;
+            key?: string;
+            description?: string;
+            sql?: string;
+            parameters?: components["schemas"]["SavedQueryParameterDto"][];
+        };
+        ExecuteSavedQueryDto: {
+            params?: Record<string, never>;
+        };
+        ExternalSavedQueryExecutionResultDto: {
+            rows: {
+                [key: string]: unknown;
+            }[];
+            rowCount: number;
+            hasMore: boolean;
+        };
+        DataOfExternalSavedQueryExecutionResultDto: {
+            data: components["schemas"]["ExternalSavedQueryExecutionResultDto"];
         };
         CreateContractorDto: {
             /** @example ACME */
@@ -3016,6 +3992,2384 @@ export interface components {
         ListOfExternalRuleExecutionDto: {
             data: components["schemas"]["ExternalRuleExecutionDto"][];
             meta: components["schemas"]["PaginationMetaDto"];
+        };
+        ViewBlockRefDto: {
+            /** @example section */
+            componentKey?: string;
+            /** @example organization.name */
+            builtInFieldKey?: string;
+            /** @example field_123 */
+            fieldId?: string;
+            /** @example status */
+            fieldKey?: string;
+            /** @example custom_field_123 */
+            fieldDefinitionId?: string;
+            /** @example draft_custom_field_123 */
+            draftFieldDefinitionId?: string;
+            /** @example relation_field_123 */
+            relationFieldId?: string;
+            /** @example customer */
+            relationFieldKey?: string;
+            /** @example crm */
+            moduleKey?: string;
+            /** @example case */
+            objectKey?: string;
+            /** @example recent_cases */
+            widgetKey?: string;
+            /** @example saved_query_123 */
+            savedQueryId?: string;
+        };
+        ViewLayoutRuntimeAvailabilityConditionDto: {
+            /**
+             * @description Condition group logic. Used when conditions is present. Defaults to AND at runtime.
+             * @example AND
+             * @enum {string}
+             */
+            logic?: "AND" | "OR";
+            /** @description Nested condition group members. When present, this condition is evaluated as a group. */
+            conditions?: components["schemas"]["ViewLayoutRuntimeAvailabilityConditionDto"][];
+            /**
+             * @description Left operand for a leaf condition. String values may contain LiquidJS variable interpolation, for example {{ workflow.stage.parameters.showAccountingSection }}.
+             * @example {{ workflow.stage.parameters.showAccountingSection }}
+             */
+            value1?: (string | number | boolean | {
+                [key: string]: unknown;
+            } | unknown[]) | null;
+            /**
+             * @description Leaf comparison operator.
+             * @example EQUALS
+             * @enum {string}
+             */
+            operator?: "EQUALS" | "NOT_EQUALS" | "GREATER_THAN" | "GREATER_THAN_OR_EQUALS" | "LESS_THAN" | "LESS_THAN_OR_EQUALS" | "CONTAINS" | "NOT_CONTAINS" | "IS_EMPTY" | "IS_NOT_EMPTY";
+            /**
+             * @description Right operand for a leaf condition. Not required by unary operators such as IS_EMPTY and IS_NOT_EMPTY.
+             * @example true
+             */
+            value2?: (string | number | boolean | {
+                [key: string]: unknown;
+            } | unknown[]) | null;
+        };
+        ViewLayoutRuntimeAvailabilityDto: {
+            /**
+             * @description Backend-evaluated condition controlling whether the block belongs to the current runtime layout contract.
+             * @example {
+             *       "logic": "AND",
+             *       "conditions": [
+             *         {
+             *           "value1": "{{ workflow.stage.parameters.showAccountingSection }}",
+             *           "operator": "EQUALS",
+             *           "value2": true
+             *         }
+             *       ]
+             *     }
+             */
+            condition?: components["schemas"]["ViewLayoutRuntimeAvailabilityConditionDto"] | null;
+        };
+        ViewLayoutBlockDraftDto: {
+            /** @example block_case_status */
+            id?: string;
+            /**
+             * @example field
+             * @enum {string}
+             */
+            type: "field" | "tabs" | "tab" | "section" | "column" | "relation_table" | "builtin" | "custom_html" | "attachments" | "comments" | "action_bar" | "dashboard_widget" | "counter" | "query_table" | "tasks" | "button";
+            /**
+             * @example dynamic_field
+             * @enum {string}
+             */
+            source: "built_in" | "custom_field" | "dynamic_field" | "dynamic_relation" | "module" | "dashboard" | "system" | "draft_custom_field";
+            /**
+             * @example {
+             *       "fieldKey": "status"
+             *     }
+             */
+            ref: components["schemas"]["ViewBlockRefDto"];
+            /** @example main */
+            regionKey: string;
+            /** @example 0 */
+            displayOrder?: number;
+            /**
+             * @example {
+             *       "colSpan": 6
+             *     }
+             */
+            grid?: {
+                [key: string]: unknown;
+            } | null;
+            /** @example {} */
+            modeConfig?: {
+                [key: string]: unknown;
+            };
+            /**
+             * @example {
+             *       "label": "Status"
+             *     }
+             */
+            config?: {
+                [key: string]: unknown;
+            };
+            /**
+             * @description Frontend-owned presentation metadata. Backend stores and returns this object without interpreting its keys.
+             * @example null
+             */
+            frontendMeta?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @description Runtime-only block metadata. Accepted on draft saves for editor round-trips and ignored by persistence.
+             * @example null
+             */
+            meta?: {
+                [key: string]: unknown;
+            } | null;
+            /** @example null */
+            runtimeAvailability?: components["schemas"]["ViewLayoutRuntimeAvailabilityDto"] | null;
+            /**
+             * @example required
+             * @enum {string}
+             */
+            requiredPolicy?: "optional" | "required" | "system_locked";
+            /** @example false */
+            locked?: boolean;
+            /** @example true */
+            removable?: boolean;
+            /** @example true */
+            singleInstance?: boolean;
+            /**
+             * @example [
+             *       "VIEW",
+             *       "EDIT"
+             *     ]
+             * @enum {array}
+             */
+            supportedModes?: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+            /** @example [] */
+            children?: components["schemas"]["ViewLayoutBlockDraftDto"][];
+        };
+        ViewValidationMessageDto: {
+            code: string;
+            message: string;
+            path?: string | null;
+            blockId?: string | null;
+            /** @enum {string|null} */
+            mode?: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE" | null;
+            /** @enum {string} */
+            severity: "error" | "warning";
+            meta?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        ViewValidationResultDto: {
+            /** @enum {string} */
+            state: "valid" | "valid_with_warnings" | "invalid";
+            errors: components["schemas"]["ViewValidationMessageDto"][];
+            warnings: components["schemas"]["ViewValidationMessageDto"][];
+        };
+        CustomFieldDefinitionResponseDto: {
+            id: string;
+            /** @enum {string} */
+            ownerScope: "ORGANIZATION" | "SYSTEM";
+            organizationId: string | null;
+            entityType: string;
+            scopeId?: string | null;
+            name: string;
+            key: string;
+            /** @enum {string} */
+            type: "TEXT" | "TEXTAREA" | "CUSTOM_HTML" | "HTML_SECTION" | "NUMBER" | "CURRENCY" | "BOOLEAN" | "DATE" | "DATETIME" | "EMAIL" | "PHONE" | "URL" | "SELECT" | "MULTI_SELECT" | "FILE" | "FILES" | "USER" | "USER_MULTI" | "CONTRACTOR" | "CONTRACTOR_MULTI" | "CUSTOM_OBJECT" | "CUSTOM_OBJECT_MULTI";
+            isRequired: boolean;
+            isReadOnly: boolean;
+            isHidden: boolean;
+            defaultValue?: (string | number | boolean | string[] | {
+                html: string;
+                css?: string | null;
+            }) | null;
+            /** @description Type-specific validation config. FILE displayMode may be "any" or "image"; FILES displayMode may be "any" or "gallery". */
+            validationConfig?: Record<string, never> | null;
+            /** @description Frontend-owned presentation metadata stored on the field definition. */
+            frontendMeta?: {
+                [key: string]: unknown;
+            } | null;
+            dictionaryId?: string | null;
+            customObjectModuleId?: string | null;
+            customObjectId?: string | null;
+            customObjectModuleKey?: string | null;
+            customObjectKey?: string | null;
+            /** @description Number of stored values for this definition. */
+            valueCount?: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DynamicFieldChoiceOptionDto: {
+            /** @example approved */
+            key: string;
+            /** @example Approved */
+            label: string;
+        };
+        SelectDynamicFieldOptionsDto: {
+            choices: components["schemas"]["DynamicFieldChoiceOptionDto"][];
+            /** @description Optional Custom script id used by the frontend to filter visible options. */
+            optionFilterScriptId?: string;
+        };
+        SqlQuerySelectOptionMappingDto: {
+            /** @example {{ row.id }} */
+            value: string;
+            /** @example {{ row.name }} - {{ row.createdAt }} */
+            label: string;
+            /**
+             * @example {
+             *       "status": "{{ row.status }}"
+             *     }
+             */
+            meta?: {
+                [key: string]: unknown;
+            };
+        };
+        SqlQuerySelectDynamicFieldOptionsDto: {
+            /**
+             * @example sql_query
+             * @enum {string}
+             */
+            source: "sql_query";
+            /** @example saved-query-id */
+            queryId: string;
+            /** @description Saved-query parameters. String values support Liquid templates from record/user/runtime context. */
+            parameters?: {
+                [key: string]: unknown;
+            };
+            mapping: components["schemas"]["SqlQuerySelectOptionMappingDto"];
+        };
+        /** @enum {string} */
+        RelationType: "ONE_TO_ONE" | "ONE_TO_MANY";
+        ReferenceDynamicFieldByIdOptionsDto: {
+            /** @example model-uuid */
+            toObjectId: string;
+            /** @default ONE_TO_ONE */
+            cardinality: components["schemas"]["RelationType"];
+        };
+        ReferenceDynamicFieldByKeyOptionsDto: {
+            /** @example crm */
+            toModuleKey: string;
+            /** @example line_item */
+            toObjectKey: string;
+            /** @default ONE_TO_ONE */
+            cardinality: components["schemas"]["RelationType"];
+        };
+        FileDynamicFieldOptionsDto: {
+            /** @example application/pdf,image/* */
+            accept?: string;
+        };
+        HtmlDynamicFieldOptionsDto: {
+            /** @example <p>{{ record.name }}</p> */
+            html: string;
+            /** @example .card { font-weight: 600; } */
+            css?: string;
+        };
+        SubordinateReferenceDynamicFieldByIdOptionsDto: {
+            /** @example model-uuid */
+            toObjectId: string;
+            /** @default ONE_TO_ONE */
+            cardinality: components["schemas"]["RelationType"];
+        };
+        SubordinateReferenceDynamicFieldByKeyOptionsDto: {
+            /** @example crm */
+            toModuleKey: string;
+            /** @example line_item */
+            toObjectKey: string;
+            /** @default ONE_TO_ONE */
+            cardinality: components["schemas"]["RelationType"];
+        };
+        DynamicFieldResponseDto: {
+            /** @example cld5r2v1x0000abc */
+            id: string;
+            /** @example company_name */
+            key: string;
+            /** @example Company Name */
+            name: string;
+            type: components["schemas"]["DynamicFieldType"];
+            isRequired: boolean;
+            isIndexed: boolean;
+            /** @example Default value */
+            defaultValue?: string | null;
+            /**
+             * @description Type-specific config. SELECT/MULTI_SELECT: { choices: [{ key, label }] }. SQL-backed SELECT/MULTI_SELECT: { source: "sql_query", queryId, parameters?, mapping: { value, label, meta? } }. REFERENCE and SUBORDINATE_OBJECT_REFERENCE read responses are normalized to { toObjectId, toModuleKey, toObjectKey, cardinality } where cardinality is "ONE_TO_ONE" or "ONE_TO_MANY". Per-form ONE_TO_MANY rendering (list/table/tiles) is configured on dynamic form FIELD element config.displayMode. FILE/FILES: { accept } (MIME type hint). FILE stores one file id; FILES stores an array of file ids. Per-form FILE displayMode (any/image) and FILES displayMode (any/gallery) are configured on dynamic form FIELD element config.displayMode. CUSTOM_HTML values use { html, css? }; html/css support {{ record.* | filter }} templates. HTML_SECTION is readonly and stores { html, css? } here in options.
+             * @example {
+             *       "toObjectId": "model-uuid",
+             *       "toModuleKey": "crm",
+             *       "toObjectKey": "line_item",
+             *       "cardinality": "ONE_TO_MANY"
+             *     }
+             */
+            options?: (components["schemas"]["SelectDynamicFieldOptionsDto"] | components["schemas"]["SqlQuerySelectDynamicFieldOptionsDto"] | components["schemas"]["ReferenceDynamicFieldByIdOptionsDto"] | components["schemas"]["ReferenceDynamicFieldByKeyOptionsDto"] | components["schemas"]["FileDynamicFieldOptionsDto"] | components["schemas"]["HtmlDynamicFieldOptionsDto"]) | null;
+            /** @example 0 */
+            position: number;
+            /** @example model-123 */
+            objectId: string;
+            /**
+             * Format: date-time
+             * @example 2024-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * Format: date-time
+             * @example 2024-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        DashboardCounterBlockDataDto: {
+            /** @enum {string} */
+            state: "ready" | "unavailable" | "error";
+            savedQueryId?: string | null;
+            value: string;
+            label?: string | null;
+            description?: string | null;
+            row?: {
+                [key: string]: unknown;
+            } | null;
+            rowCount: number;
+            reason?: string;
+            message?: string;
+        };
+        DashboardQueryTablePaginationDto: {
+            enabled: boolean;
+            page: number;
+            limit: number;
+            hasMore: boolean;
+        };
+        DashboardQueryTableColumnDto: {
+            key: string;
+            label: string;
+        };
+        DashboardQueryTableBlockDataDto: {
+            /** @enum {string} */
+            state: "ready" | "unavailable" | "error";
+            savedQueryId?: string | null;
+            /** @enum {string} */
+            variant: "simple" | "normal";
+            pagination: components["schemas"]["DashboardQueryTablePaginationDto"];
+            columns: components["schemas"]["DashboardQueryTableColumnDto"][];
+            rows: Record<string, never>[];
+            rowCount: number;
+            reason?: string;
+            message?: string;
+        };
+        WorkflowTaskWorkflowResponseDto: {
+            id: string;
+            key?: string | null;
+            name?: string | null;
+        };
+        WorkflowTaskStageResponseDto: {
+            id: string;
+            key: string;
+            name: string;
+        };
+        WorkflowTaskTargetResponseDto: {
+            /** @enum {string} */
+            type: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+            id: string;
+            label?: string | null;
+            /**
+             * @description Dynamic module key for DYNAMIC_OBJECT_RECORD targets.
+             * @example crm
+             */
+            moduleKey?: string;
+            /**
+             * @description Dynamic object key for DYNAMIC_OBJECT_RECORD targets.
+             * @example case
+             */
+            objectKey?: string;
+        };
+        WorkflowTaskAssigneeResponseDto: {
+            /** @enum {string} */
+            type: "membership" | "role";
+            id: string;
+        };
+        WorkflowTaskResponseDto: {
+            id: string;
+            organizationId: string;
+            workflowId: string;
+            workflowInstanceId: string;
+            stageId: string;
+            /** @enum {string} */
+            status: "OPEN" | "COMPLETED" | "CANCELLED";
+            title: string;
+            workflow: components["schemas"]["WorkflowTaskWorkflowResponseDto"];
+            stage: components["schemas"]["WorkflowTaskStageResponseDto"];
+            target: components["schemas"]["WorkflowTaskTargetResponseDto"];
+            assignee?: components["schemas"]["WorkflowTaskAssigneeResponseDto"] | null;
+            assignees?: components["schemas"]["WorkflowTaskAssigneeResponseDto"][];
+            /** Format: date-time */
+            dueAt?: string | null;
+            /** Format: date-time */
+            openedAt: string;
+            /** Format: date-time */
+            completedAt?: string | null;
+            /** Format: date-time */
+            cancelledAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DashboardTasksBlockMetaDto: {
+            total: number;
+            page: number;
+            limit: number;
+        };
+        DashboardTasksBlockDataDto: {
+            /** @enum {string} */
+            state: "ready" | "unavailable" | "error";
+            /** @enum {string} */
+            assignmentType: "ALL" | "ONLY_MINE" | "ONLY_UNASSIGNED";
+            /** @example [] */
+            workflowIds: string[];
+            tasks: components["schemas"]["WorkflowTaskResponseDto"][];
+            meta: components["schemas"]["DashboardTasksBlockMetaDto"];
+            reason?: string;
+            message?: string;
+        };
+        ViewLayoutBlockMetaDto: {
+            /** @description Resolved runtime field metadata for dynamic_field and custom_field blocks. Config remains layout presentation; meta.field is the current field schema/definition, including custom-field isHidden. */
+            field?: (components["schemas"]["DynamicFieldResponseDto"] | components["schemas"]["CustomFieldDefinitionResponseDto"]) | null;
+            /** @description Stable data scopes owned by this block. Used by backend runtime-data and mutation enforcement for composite built-in blocks. */
+            dataScopes?: string[];
+            /** @description Stable mutation scopes owned by this block. If the block is unavailable at runtime, owning module update endpoints reject payloads for these scopes. */
+            mutationScopes?: string[];
+        };
+        ViewLayoutBlockResponseDto: {
+            /** @example block_case_status */
+            id: string;
+            /**
+             * @example field
+             * @enum {string}
+             */
+            type: "field" | "tabs" | "tab" | "section" | "column" | "relation_table" | "builtin" | "custom_html" | "attachments" | "comments" | "action_bar" | "dashboard_widget" | "counter" | "query_table" | "tasks" | "button";
+            /**
+             * @example dynamic_field
+             * @enum {string}
+             */
+            source: "built_in" | "custom_field" | "dynamic_field" | "dynamic_relation" | "module" | "dashboard" | "system" | "draft_custom_field";
+            /**
+             * @example {
+             *       "fieldKey": "status"
+             *     }
+             */
+            ref: components["schemas"]["ViewBlockRefDto"];
+            /** @example main */
+            regionKey: string;
+            /** @example 0 */
+            displayOrder: number;
+            /**
+             * @example {
+             *       "colSpan": 6
+             *     }
+             */
+            grid?: {
+                [key: string]: unknown;
+            } | null;
+            /** @example {} */
+            modeConfig: {
+                [key: string]: unknown;
+            };
+            /**
+             * @example {
+             *       "label": "Status"
+             *     }
+             */
+            config: {
+                [key: string]: unknown;
+            };
+            /**
+             * @description Frontend-owned presentation metadata stored with the layout block.
+             * @example null
+             */
+            frontendMeta?: {
+                [key: string]: unknown;
+            } | null;
+            /** @example null */
+            runtimeAvailability?: components["schemas"]["ViewLayoutRuntimeAvailabilityDto"] | null;
+            /**
+             * @example required
+             * @enum {string}
+             */
+            requiredPolicy: "optional" | "required" | "system_locked";
+            /** @example false */
+            locked: boolean;
+            /** @example true */
+            removable: boolean;
+            /** @example true */
+            singleInstance: boolean;
+            /**
+             * @example [
+             *       "VIEW",
+             *       "EDIT"
+             *     ]
+             */
+            supportedModes: ("VIEW" | "EDIT" | "CREATE" | "WORKSPACE")[];
+            validation: components["schemas"]["ViewValidationResultDto"];
+            /** @example null */
+            meta: components["schemas"]["ViewLayoutBlockMetaDto"] | null;
+            /** @example [] */
+            children: components["schemas"]["ViewLayoutBlockResponseDto"][];
+        };
+        ViewLayoutCatalogChildRulesDto: {
+            /**
+             * @example [
+             *       "field",
+             *       "builtin"
+             *     ]
+             */
+            allowedTypes?: string[] | null;
+            /**
+             * @example [
+             *       "dynamic_field",
+             *       "custom_field"
+             *     ]
+             */
+            allowedSources?: string[] | null;
+            /** @example 0 */
+            minChildren?: number | null;
+            /** @example 8 */
+            maxChildren?: number | null;
+            /** @example main */
+            defaultRegionKey?: string | null;
+            /** @example false */
+            allowNestedSections?: boolean | null;
+        };
+        ViewLayoutTargetDto: {
+            /** @example crm */
+            moduleKey?: string | null;
+            /** @example case */
+            objectKey?: string | null;
+            /** @example form_case_edit */
+            formId?: string | null;
+            /** @example org_123 */
+            entityId?: string | null;
+            /** @example dictionary_payment_methods */
+            scopeId?: string | null;
+            /** @example main */
+            dashboardKey?: string | null;
+        };
+        ViewLayoutDataRequirementDto: {
+            /** @example block_case_comments */
+            blockId?: string | null;
+            /**
+             * @example comments
+             * @enum {string}
+             */
+            type: "entity" | "record" | "built_in_fields" | "custom_fields" | "dynamic_fields" | "related_records" | "attachments" | "comments" | "counter" | "query_table" | "saved_query" | "dashboard_widget" | "workflow_tasks";
+            /** @example case.comments */
+            key?: string | null;
+            /**
+             * @example {
+             *       "moduleKey": "crm",
+             *       "objectKey": "case",
+             *       "formId": "form_case_edit"
+             *     }
+             */
+            target?: components["schemas"]["ViewLayoutTargetDto"] | null;
+            /**
+             * @example {
+             *       "blockId": "block_case_comments"
+             *     }
+             */
+            params?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        ViewLayoutRuntimeDataRequestDto: {
+            /** @description Optional subset of requirements from the resolved layout. When omitted, backend resolves all current layout requirements. */
+            requirements?: components["schemas"]["ViewLayoutDataRequirementDto"][];
+            /** @description Optional client context for lazy loaders. Backend treats this as advisory and re-resolves the authoritative layout context. */
+            clientContext?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        ViewLayoutResolvedAssignmentDto: {
+            /** @enum {string} */
+            source: "ROLE" | "ORGANIZATION_DEFAULT" | "DEFAULT" | "SYSTEM_DEFAULT" | "FORM_DEFAULT" | "EXPLICIT_LAYOUT";
+            assignmentId?: string | null;
+            layoutAssignmentId?: string | null;
+            roleId?: string | null;
+            layoutId?: string | null;
+            versionId?: string | null;
+            reason?: string | null;
+            fallbacks?: Record<string, never>[];
+        };
+        ViewLayoutRegionDto: {
+            /** @example main */
+            key: string;
+            /** @example Main */
+            label: string;
+            /**
+             * @example grid
+             * @enum {string}
+             */
+            layout: "grid" | "tabs" | "stack" | "sidebar" | "dashboard_grid";
+            /** @example 12 */
+            columns?: number | null;
+            /** @example 0 */
+            displayOrder: number;
+            /** @example {} */
+            config: {
+                [key: string]: unknown;
+            };
+        };
+        ViewLayoutUnavailableBlockDto: {
+            blockId: string;
+            reasonCode: string;
+            message: string;
+            block?: components["schemas"]["ViewLayoutBlockResponseDto"] | null;
+            meta?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        ViewLayoutRenderContextDto: {
+            /**
+             * @example DYNAMIC_OBJECT
+             * @enum {string}
+             */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            /**
+             * @example EDIT
+             * @enum {string}
+             */
+            mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+            moduleKey?: string | null;
+            objectKey?: string | null;
+            formId?: string | null;
+            recordId?: string | null;
+            entityId?: string | null;
+            scopeId?: string | null;
+            dashboardKey?: string | null;
+            expand?: string | null;
+            publicToken?: string | null;
+        };
+        ViewLayoutRuntimeContextDto: {
+            /**
+             * @example {
+             *       "workflow": {
+             *         "activeInstanceId": "workflow_instance_123",
+             *         "stage": {
+             *           "key": "review",
+             *           "parameters": {
+             *             "canEditFinance": false
+             *           }
+             *         }
+             *       },
+             *       "actor": {
+             *         "userId": "user_123",
+             *         "membershipId": "membership_123",
+             *         "roleIds": [
+             *           "role_finance"
+             *         ]
+             *       }
+             *     }
+             */
+            variables: {
+                [key: string]: unknown;
+            };
+        };
+        ViewLayoutRenderedBlockDto: {
+            blockId: string;
+            renderedHtml?: string | null;
+            renderedCss?: string | null;
+        };
+        ViewLayoutRenderDataDto: {
+            /**
+             * @example included_primary_and_lazy_secondary
+             * @enum {string}
+             */
+            strategy: "included_primary_and_lazy_secondary";
+            /**
+             * @example {
+             *       "id": "record_123",
+             *       "status": "open"
+             *     }
+             */
+            record?: {
+                [key: string]: unknown;
+            } | null;
+            /** @example null */
+            entity?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @example {
+             *       "id": "form_case_edit",
+             *       "type": "EDIT"
+             *     }
+             */
+            form?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @example {
+             *       "canEdit": true
+             *     }
+             */
+            permissions?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @example {
+             *       "moduleKey": "crm",
+             *       "objectKey": "case",
+             *       "formId": "form_case_edit"
+             *     }
+             */
+            context?: {
+                [key: string]: unknown;
+            } | null;
+            /** @example [] */
+            renderedBlocks?: components["schemas"]["ViewLayoutRenderedBlockDto"][];
+            /**
+             * @example {
+             *       "block_case_comments": {
+             *         "count": 2
+             *       }
+             *     }
+             */
+            blockData?: {
+                [key: string]: unknown;
+            };
+        };
+        ViewLayoutRuntimeScriptDto: {
+            id: string;
+            key: string;
+            type: string;
+            /** @enum {string} */
+            executionMode: "SYNC" | "ASYNC";
+            dependencies: components["schemas"]["CustomScriptDependenciesDto"];
+            code: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkflowInstanceWorkflowSummaryDto: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string | null;
+        };
+        WorkflowStageEditAccessOverrideEditorsDto: {
+            membershipIds?: string[];
+            roleIds?: string[];
+        };
+        WorkflowStageEditAccessConfigDto: {
+            /**
+             * @description Controls who may use EDIT forms/views and mutation endpoints while a record is in this stage.
+             * @enum {string}
+             */
+            mode: "everyone" | "assignee_and_overrides" | "overrides_only";
+            overrideEditors?: components["schemas"]["WorkflowStageEditAccessOverrideEditorsDto"];
+        };
+        WorkflowStageResponseDto: {
+            id: string;
+            key: string;
+            name: string;
+            taskName?: string | null;
+            description?: string | null;
+            /** @enum {string} */
+            category: "DRAFT" | "ACTIVE" | "WAITING" | "APPROVED" | "REJECTED" | "TERMINAL" | "ARCHIVED";
+            color?: string | null;
+            icon?: string | null;
+            position: number;
+            isInitial: boolean;
+            isTerminal: boolean;
+            isReadOnly: boolean;
+            parameters?: Record<string, never> | null;
+            editAccessConfig?: components["schemas"]["WorkflowStageEditAccessConfigDto"] | null;
+            isActive: boolean;
+        };
+        WorkflowTargetSnapshotDto: {
+            label: string;
+            summary?: Record<string, never>;
+        };
+        WorkflowRuntimeTransitionStageResponseDto: {
+            id: string;
+            key: string;
+            name: string;
+            color?: string | null;
+            icon?: string | null;
+            /** @enum {string} */
+            category?: "DRAFT" | "ACTIVE" | "WAITING" | "APPROVED" | "REJECTED" | "TERMINAL" | "ARCHIVED";
+            /**
+             * @description Controls whether the target stage accepts exactly one assignee or multiple assignees. Defaults to single.
+             * @enum {string}
+             */
+            assignmentMode: "single" | "multiple";
+        };
+        WorkflowAssigneeDto: {
+            /** @enum {string} */
+            type: "membership" | "role";
+            id: string;
+        };
+        WorkflowAssignmentCandidatesDto: {
+            /**
+             * @description Controls membership candidate scope. "specific" uses membershipIds; "any" allows any membership in the organization. Defaults to "specific".
+             * @enum {string}
+             */
+            membershipMode?: "specific" | "any";
+            membershipIds?: string[];
+            roleIds?: string[];
+        };
+        WorkflowRuntimeTransitionAssignmentResponseDto: {
+            /**
+             * @description How assignment is resolved when this transition is executed. FE should require assignee selection only for mode "select".
+             * @enum {string}
+             */
+            mode: "none" | "fixed" | "select";
+            /** @description Resolved automatic assignee for fixed transition assignment or target-stage default assignment when exactly one assignee exists. Compatibility field. */
+            assignee?: components["schemas"]["WorkflowAssigneeDto"];
+            /** @description Resolved automatic assignees for fixed transition assignment or target-stage default assignment. */
+            assignees?: components["schemas"]["WorkflowAssigneeDto"][];
+            /** @description Effective allowed choices when mode is "select", after applying the target stage assignment candidate gate. FE should send assignee for single target stages and assignees for multiple target stages. */
+            candidates?: components["schemas"]["WorkflowAssignmentCandidatesDto"];
+        };
+        WorkflowRuntimeTransitionResponseDto: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            fromStageId: string;
+            toStageId: string;
+            position: number;
+            buttonStyle?: string | null;
+            requiredComment: boolean;
+            isActive: boolean;
+            toStageKey: string;
+            toStageName: string;
+            toStage: components["schemas"]["WorkflowRuntimeTransitionStageResponseDto"];
+            assignment: components["schemas"]["WorkflowRuntimeTransitionAssignmentResponseDto"];
+        };
+        WorkflowRuntimePermissionsDto: {
+            canView: boolean;
+            canEdit: boolean;
+            /** @enum {string|null} */
+            editBlockedReason?: "READ_ONLY_STAGE" | "NOT_STAGE_EDITOR" | null;
+        };
+        WorkflowInstanceCurrentTaskResponseDto: {
+            id: string;
+            /** @enum {string} */
+            status: "OPEN" | "COMPLETED" | "CANCELLED";
+            title: string;
+            assignee?: components["schemas"]["WorkflowTaskAssigneeResponseDto"] | null;
+            assignees?: components["schemas"]["WorkflowTaskAssigneeResponseDto"][];
+            reassignmentCandidates?: components["schemas"]["WorkflowAssignmentCandidatesDto"] | null;
+            canReassign: boolean;
+            /** Format: date-time */
+            dueAt?: string | null;
+            /** Format: date-time */
+            openedAt: string;
+        };
+        WorkflowInstanceResponseDto: {
+            id: string;
+            organizationId: string;
+            workflowId: string;
+            workflow?: components["schemas"]["WorkflowInstanceWorkflowSummaryDto"] | null;
+            /** @enum {string} */
+            targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+            targetId: string;
+            currentStageId: string;
+            currentStage: components["schemas"]["WorkflowStageResponseDto"];
+            startedByUserId?: string | null;
+            authorUserId?: string | null;
+            currentAssigneeMembershipId?: string | null;
+            currentAssigneeRoleId?: string | null;
+            assignees?: components["schemas"]["WorkflowTaskAssigneeResponseDto"][];
+            /** Format: date-time */
+            dueAt?: string | null;
+            metadata?: Record<string, never> | null;
+            startedSnapshot?: components["schemas"]["WorkflowTargetSnapshotDto"] | null;
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            completedAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            availableTransitions: components["schemas"]["WorkflowRuntimeTransitionResponseDto"][];
+            permissions: components["schemas"]["WorkflowRuntimePermissionsDto"];
+            currentTask?: components["schemas"]["WorkflowInstanceCurrentTaskResponseDto"] | null;
+        };
+        WorkflowTargetResponseDto: {
+            id: string;
+            /** @enum {string} */
+            type: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+            config: Record<string, never>;
+            targetHash: string;
+        };
+        WorkflowListItemResponseDto: {
+            id: string;
+            organizationId: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            targets: components["schemas"]["WorkflowTargetResponseDto"][];
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "INACTIVE";
+            isSystemTemplateCopy: boolean;
+            templateSourceId?: string | null;
+            currentPublicationId?: string | null;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            publishedByUserId?: string | null;
+            hasDraft: boolean;
+            /** Format: date-time */
+            draftUpdatedAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkflowRuntimeWarningDto: {
+            code: string;
+            message: string;
+        };
+        WorkflowTargetWorkflowStateDto: {
+            /** @enum {string} */
+            targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+            targetId: string;
+            instances: components["schemas"]["WorkflowInstanceResponseDto"][];
+            startableWorkflows: components["schemas"]["WorkflowListItemResponseDto"][];
+            selectedInstanceId?: string | null;
+            activeInstanceId?: string | null;
+            hiddenInstanceCount: number;
+            warnings: components["schemas"]["WorkflowRuntimeWarningDto"][];
+            permissions: components["schemas"]["WorkflowRuntimePermissionsDto"];
+        };
+        CustomScriptBindingTargetDto: {
+            blockId?: string;
+            fieldKey?: string;
+            actionId?: string;
+            regionKey?: string;
+        };
+        CustomScriptBindingDto: {
+            id?: string;
+            scriptId: string;
+            /** @enum {string} */
+            hook: "optionFilter" | "fieldVisibility" | "fieldReadonly" | "fieldDefault" | "beforeAction" | "afterAction" | "onRender" | "onBlockRender";
+            target: components["schemas"]["CustomScriptBindingTargetDto"];
+            /** @default true */
+            enabled: boolean;
+            /** @default 0 */
+            priority: number;
+            config?: {
+                [key: string]: unknown;
+            };
+        };
+        StagedCustomFieldValueImpactDto: {
+            destructive: boolean;
+            requiresConfirmation: boolean;
+            valueCount: number;
+            reasonCode?: string | null;
+        };
+        StagedCustomFieldDefinitionStateDto: {
+            /** @example mutation_01HZYDRAFT */
+            draftId: string;
+            /**
+             * @example create
+             * @enum {string}
+             */
+            action: "create" | "update" | "unlink" | "delete";
+            /** @example null */
+            existingFieldDefinitionId?: string | null;
+            /** @example null */
+            scopeId?: string | null;
+            /** @example Risk score */
+            name: string;
+            /** @example risk_score */
+            key: string;
+            /** @example NUMBER */
+            type: string;
+            /**
+             * @example {
+             *       "required": false
+             *     }
+             */
+            config?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @description Frontend-owned presentation metadata for the custom-field definition created or updated from this staged entry.
+             * @example null
+             */
+            frontendMeta?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @description Required for staged updates that change field type or option source and would clear existing values.
+             * @default false
+             */
+            confirmDestructiveChange: boolean;
+            /** @enum {string} */
+            state: "valid" | "valid_with_warnings" | "requires_confirmation" | "invalid";
+            errors: components["schemas"]["ViewValidationMessageDto"][];
+            warnings: components["schemas"]["ViewValidationMessageDto"][];
+            valueImpact: components["schemas"]["StagedCustomFieldValueImpactDto"];
+        };
+        ExternalViewLayoutVersionResponseDto: {
+            id: string;
+            layoutId: string;
+            version: number;
+            /** @enum {string} */
+            status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+            schemaVersion: number;
+            /**
+             * @example [
+             *       {
+             *         "key": "main",
+             *         "label": "Main",
+             *         "layout": "grid",
+             *         "columns": 12,
+             *         "displayOrder": 0,
+             *         "config": {}
+             *       }
+             *     ]
+             */
+            regions: components["schemas"]["ViewLayoutRegionDto"][];
+            /**
+             * @example [
+             *       {
+             *         "id": "block_case_status",
+             *         "type": "field",
+             *         "source": "dynamic_field",
+             *         "ref": {
+             *           "fieldKey": "status"
+             *         },
+             *         "regionKey": "main",
+             *         "displayOrder": 0,
+             *         "grid": {
+             *           "colSpan": 6
+             *         },
+             *         "modeConfig": {},
+             *         "config": {
+             *           "label": "Status"
+             *         },
+             *         "runtimeAvailability": null,
+             *         "requiredPolicy": "required",
+             *         "locked": false,
+             *         "removable": true,
+             *         "singleInstance": true,
+             *         "supportedModes": [
+             *           "VIEW",
+             *           "EDIT"
+             *         ],
+             *         "children": [],
+             *         "validation": {
+             *           "state": "valid",
+             *           "errors": [],
+             *           "warnings": []
+             *         }
+             *       }
+             *     ]
+             */
+            blocks: components["schemas"]["ViewLayoutBlockResponseDto"][];
+            stagedFieldDefinitions?: components["schemas"]["StagedCustomFieldDefinitionStateDto"][] | null;
+            validation?: components["schemas"]["ViewValidationResultDto"] | null;
+            scriptBindings: components["schemas"]["CustomScriptBindingDto"][];
+            metadata?: {
+                [key: string]: unknown;
+            } | null;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        ExternalViewLayoutAssignmentResponseDto: {
+            id: string;
+            layoutId: string;
+            /** @enum {string} */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            supportedModes: ("VIEW" | "EDIT" | "CREATE" | "WORKSPACE")[];
+            target: components["schemas"]["ViewLayoutTargetDto"];
+            roleId?: string | null;
+            priority: number;
+            isDefault: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ExternalViewLayoutDetailResponseDto: {
+            id: string;
+            /** @enum {string} */
+            ownerScope: "SYSTEM" | "ORGANIZATION";
+            /** @enum {string} */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            supportedModes: ("VIEW" | "EDIT" | "CREATE" | "WORKSPACE")[];
+            target: components["schemas"]["ViewLayoutTargetDto"];
+            name: string;
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "ARCHIVED";
+            currentVersionId?: string | null;
+            latestDraftVersionId?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            currentVersion?: components["schemas"]["ExternalViewLayoutVersionResponseDto"] | null;
+            latestDraftVersion?: components["schemas"]["ExternalViewLayoutVersionResponseDto"] | null;
+            assignments: components["schemas"]["ExternalViewLayoutAssignmentResponseDto"][];
+        };
+        ExternalResolvedViewLayoutResponseDto: {
+            assignment: components["schemas"]["ViewLayoutResolvedAssignmentDto"];
+            validation: components["schemas"]["ViewValidationResultDto"];
+            /**
+             * @example [
+             *       {
+             *         "key": "main",
+             *         "label": "Main",
+             *         "layout": "grid",
+             *         "columns": 12,
+             *         "displayOrder": 0,
+             *         "config": {}
+             *       }
+             *     ]
+             */
+            regions: components["schemas"]["ViewLayoutRegionDto"][];
+            /**
+             * @example [
+             *       {
+             *         "id": "block_case_status",
+             *         "type": "field",
+             *         "source": "dynamic_field",
+             *         "ref": {
+             *           "fieldKey": "status"
+             *         },
+             *         "regionKey": "main",
+             *         "displayOrder": 0,
+             *         "grid": {
+             *           "colSpan": 6
+             *         },
+             *         "modeConfig": {},
+             *         "config": {
+             *           "label": "Status"
+             *         },
+             *         "runtimeAvailability": null,
+             *         "requiredPolicy": "required",
+             *         "locked": false,
+             *         "removable": true,
+             *         "singleInstance": true,
+             *         "supportedModes": [
+             *           "VIEW",
+             *           "EDIT"
+             *         ],
+             *         "children": [],
+             *         "validation": {
+             *           "state": "valid",
+             *           "errors": [],
+             *           "warnings": []
+             *         }
+             *       }
+             *     ]
+             */
+            blocks: components["schemas"]["ViewLayoutBlockResponseDto"][];
+            unavailableBlocks: components["schemas"]["ViewLayoutUnavailableBlockDto"][];
+            /** @example view-layout-catalog:v1 */
+            catalogVersion: string;
+            renderContext: components["schemas"]["ViewLayoutRenderContextDto"];
+            runtimeContext: components["schemas"]["ViewLayoutRuntimeContextDto"];
+            /**
+             * @example [
+             *       {
+             *         "blockId": "block_case_comments",
+             *         "type": "comments",
+             *         "key": "case.comments",
+             *         "target": {
+             *           "moduleKey": "crm",
+             *           "objectKey": "case",
+             *           "formId": "form_case_edit"
+             *         },
+             *         "params": {
+             *           "blockId": "block_case_comments"
+             *         }
+             *       }
+             *     ]
+             */
+            dataRequirements: components["schemas"]["ViewLayoutDataRequirementDto"][];
+            renderData: components["schemas"]["ViewLayoutRenderDataDto"];
+            scripts: components["schemas"]["ViewLayoutRuntimeScriptDto"][];
+            workflow?: components["schemas"]["WorkflowTargetWorkflowStateDto"];
+            scriptBindings: components["schemas"]["CustomScriptBindingDto"][];
+            layout: components["schemas"]["ExternalViewLayoutDetailResponseDto"];
+        };
+        DataOfExternalResolvedViewLayoutResponseDto: {
+            data: components["schemas"]["ExternalResolvedViewLayoutResponseDto"];
+        };
+        ViewLayoutCatalogCategoryDto: {
+            /** @example dynamic_fields */
+            key: string;
+            /** @example Dynamic fields */
+            label: string;
+            /** @example viewLayouts.catalog.dynamicFields */
+            i18nKey?: string | null;
+            /** @example 10 */
+            displayOrder: number;
+        };
+        ViewLayoutCatalogAvailabilityDto: {
+            /** @example available */
+            state: string;
+            /** @example null */
+            reason?: string | null;
+            /** @example null */
+            message?: string | null;
+            /** @example null */
+            meta?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        ViewLayoutCatalogPresetDto: {
+            /** @example compact */
+            key: string;
+            /** @example Compact */
+            label: string;
+            /**
+             * @example {
+             *       "id": "block_case_status",
+             *       "type": "field",
+             *       "source": "dynamic_field",
+             *       "ref": {
+             *         "fieldKey": "status"
+             *       },
+             *       "regionKey": "main",
+             *       "displayOrder": 0,
+             *       "grid": {
+             *         "colSpan": 6
+             *       },
+             *       "modeConfig": {},
+             *       "config": {
+             *         "label": "Status"
+             *       },
+             *       "runtimeAvailability": null,
+             *       "requiredPolicy": "required",
+             *       "locked": false,
+             *       "removable": true,
+             *       "singleInstance": true,
+             *       "supportedModes": [
+             *         "VIEW",
+             *         "EDIT"
+             *       ],
+             *       "children": []
+             *     }
+             */
+            block?: components["schemas"]["ViewLayoutBlockDraftDto"] | null;
+            /** @example Adds the field as a compact row. */
+            description?: string | null;
+        };
+        ViewLayoutCatalogEntryDto: {
+            /** @example dynamic_field.status */
+            key: string;
+            /** @example field */
+            type: string;
+            /** @example dynamic_field */
+            source: string;
+            /** @example dynamic_fields */
+            category: string;
+            /** @example Status */
+            label: string;
+            /** @example viewLayouts.blocks.status */
+            i18nKey?: string | null;
+            /** @example Status field from the case object. */
+            description?: string | null;
+            /** @example ListChecks */
+            icon: string;
+            /** @example dynamicField */
+            rendererKey: string;
+            /**
+             * @example {
+             *       "id": "block_case_status",
+             *       "type": "field",
+             *       "source": "dynamic_field",
+             *       "ref": {
+             *         "fieldKey": "status"
+             *       },
+             *       "regionKey": "main",
+             *       "displayOrder": 0,
+             *       "grid": {
+             *         "colSpan": 6
+             *       },
+             *       "modeConfig": {},
+             *       "config": {
+             *         "label": "Status"
+             *       },
+             *       "runtimeAvailability": null,
+             *       "requiredPolicy": "required",
+             *       "locked": false,
+             *       "removable": true,
+             *       "singleInstance": true,
+             *       "supportedModes": [
+             *         "VIEW",
+             *         "EDIT"
+             *       ],
+             *       "children": []
+             *     }
+             */
+            defaultBlock: components["schemas"]["ViewLayoutBlockDraftDto"];
+            /**
+             * @description JSON Schema 2020-12 compatible object. Backend emits the supported subset used by the generic builder config panel.
+             * @example {
+             *       "type": "object",
+             *       "properties": {
+             *         "label": {
+             *           "type": "string",
+             *           "title": "Etykieta"
+             *         }
+             *       }
+             *     }
+             */
+            configSchema: {
+                [key: string]: unknown;
+            };
+            /**
+             * @example [
+             *       "VIEW",
+             *       "EDIT"
+             *     ]
+             * @enum {array}
+             */
+            allowedModes: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+            /**
+             * @example optional
+             * @enum {string}
+             */
+            requiredPolicy: "optional" | "required" | "system_locked";
+            /** @example false */
+            locked: boolean;
+            /** @example true */
+            removable: boolean;
+            /** @example true */
+            singleInstance: boolean;
+            availability: components["schemas"]["ViewLayoutCatalogAvailabilityDto"];
+            /** @example [] */
+            presets: components["schemas"]["ViewLayoutCatalogPresetDto"][];
+            /** @example null */
+            childRules?: components["schemas"]["ViewLayoutCatalogChildRulesDto"] | null;
+            /**
+             * @example {
+             *       "fieldKey": "status"
+             *     }
+             */
+            meta?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        ExternalViewLayoutCatalogResponseDto: {
+            /**
+             * @example DYNAMIC_OBJECT
+             * @enum {string}
+             */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            /**
+             * @example EDIT
+             * @enum {string}
+             */
+            mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+            /**
+             * @example {
+             *       "moduleKey": "crm",
+             *       "objectKey": "case",
+             *       "formId": "form_case_edit"
+             *     }
+             */
+            target: components["schemas"]["ViewLayoutTargetDto"];
+            /** @example view-layout-catalog:v1 */
+            catalogVersion: string;
+            /**
+             * @example [
+             *       {
+             *         "key": "dynamic_fields",
+             *         "label": "Dynamic fields",
+             *         "i18nKey": "viewLayouts.catalog.dynamicFields",
+             *         "displayOrder": 10
+             *       }
+             *     ]
+             */
+            categories: components["schemas"]["ViewLayoutCatalogCategoryDto"][];
+            /**
+             * @example [
+             *       {
+             *         "key": "dynamic_field.status",
+             *         "type": "field",
+             *         "source": "dynamic_field",
+             *         "category": "dynamic_fields",
+             *         "label": "Status",
+             *         "i18nKey": "viewLayouts.blocks.status",
+             *         "description": "Pole statusu z obiektu sprawy.",
+             *         "icon": "ListChecks",
+             *         "rendererKey": "dynamicField",
+             *         "defaultBlock": {
+             *           "id": "block_case_status",
+             *           "type": "field",
+             *           "source": "dynamic_field",
+             *           "ref": {
+             *             "fieldKey": "status"
+             *           },
+             *           "regionKey": "main",
+             *           "displayOrder": 0,
+             *           "grid": {
+             *             "colSpan": 6
+             *           },
+             *           "modeConfig": {},
+             *           "config": {
+             *             "label": "Status"
+             *           },
+             *           "runtimeAvailability": null,
+             *           "requiredPolicy": "required",
+             *           "locked": false,
+             *           "removable": true,
+             *           "singleInstance": true,
+             *           "supportedModes": [
+             *             "VIEW",
+             *             "EDIT"
+             *           ],
+             *           "children": []
+             *         },
+             *         "configSchema": {
+             *           "type": "object",
+             *           "properties": {
+             *             "label": {
+             *               "type": "string",
+             *               "title": "Etykieta"
+             *             }
+             *           }
+             *         },
+             *         "allowedModes": [
+             *           "VIEW",
+             *           "EDIT"
+             *         ],
+             *         "requiredPolicy": "optional",
+             *         "locked": false,
+             *         "removable": true,
+             *         "singleInstance": true,
+             *         "availability": {
+             *           "state": "available"
+             *         },
+             *         "presets": [],
+             *         "childRules": null,
+             *         "meta": {
+             *           "fieldKey": "status"
+             *         }
+             *       }
+             *     ]
+             */
+            entries: components["schemas"]["ViewLayoutCatalogEntryDto"][];
+        };
+        DataOfExternalViewLayoutCatalogResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutCatalogResponseDto"];
+        };
+        CustomFieldTypeCatalogEntryDto: {
+            /** @enum {string} */
+            type: "TEXT" | "TEXTAREA" | "CUSTOM_HTML" | "HTML_SECTION" | "NUMBER" | "CURRENCY" | "BOOLEAN" | "DATE" | "DATETIME" | "EMAIL" | "PHONE" | "URL" | "SELECT" | "MULTI_SELECT" | "FILE" | "FILES" | "USER" | "USER_MULTI" | "CONTRACTOR" | "CONTRACTOR_MULTI" | "CUSTOM_OBJECT" | "CUSTOM_OBJECT_MULTI";
+            label: string;
+            valueKind: string;
+            /** @enum {string} */
+            optionSource: "none" | "dictionary" | "dynamic-object" | "user" | "contractor";
+            configSchemaVersion: number;
+            createSchema: {
+                [key: string]: unknown;
+            };
+            updateSchema: {
+                [key: string]: unknown;
+            };
+            defaults: {
+                [key: string]: unknown;
+            };
+        };
+        ExternalCustomFieldTypeCatalogResponseDto: {
+            version: number;
+            entries: components["schemas"]["CustomFieldTypeCatalogEntryDto"][];
+        };
+        DataOfExternalCustomFieldTypeCatalogResponseDto: {
+            data: components["schemas"]["ExternalCustomFieldTypeCatalogResponseDto"];
+        };
+        ViewLayoutSurfaceCapabilityDto: {
+            /** @enum {string} */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            supportedModes: ("VIEW" | "EDIT" | "CREATE" | "WORKSPACE")[];
+            allowsSharedModes: boolean;
+            requiresSingleMode: boolean;
+        };
+        ExternalViewLayoutSurfaceCapabilitiesResponseDto: {
+            surfaces: components["schemas"]["ViewLayoutSurfaceCapabilityDto"][];
+        };
+        DataOfExternalViewLayoutSurfaceCapabilitiesResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutSurfaceCapabilitiesResponseDto"];
+        };
+        ViewLayoutSurfaceDefinitionRegionDto: {
+            /** @example main */
+            key: string;
+            /** @example Main */
+            label: string;
+            /** @example grid */
+            layout: string;
+            /** @example 12 */
+            columns: number;
+            /** @example 350 */
+            maxWidth?: number | null;
+        };
+        ViewLayoutSurfaceDefinitionGridDto: {
+            /** @example 12 */
+            colSpan: number;
+        };
+        ViewLayoutSurfaceDefinitionSectionDto: {
+            /** @example organization-details */
+            key: string;
+            /** @example Organization details */
+            label: string;
+            /** @example viewLayouts.builtIns.organization.details */
+            labelKey?: string | null;
+            /** @example main */
+            regionKey: string;
+            grid: components["schemas"]["ViewLayoutSurfaceDefinitionGridDto"];
+            /** @example true */
+            wrapInCard: boolean;
+        };
+        ViewLayoutSurfaceDefinitionPlacementDto: {
+            /**
+             * @example [
+             *       "main"
+             *     ]
+             */
+            allowedRegionKeys: string[];
+            /**
+             * @example [
+             *       "section"
+             *     ]
+             */
+            allowedParentTypes: string[];
+            /** @example true */
+            singleInstance: boolean;
+        };
+        ViewLayoutSurfaceDefinitionBuiltInBlockDto: {
+            /** @example organization.details */
+            key: string;
+            /** @example Organization details */
+            label: string;
+            /** @example viewLayouts.builtIns.organization.details */
+            labelKey?: string | null;
+            /** @example null */
+            description?: string | null;
+            /** @example built_in */
+            source: string;
+            /** @example builtin */
+            type: string;
+            /**
+             * @example composite
+             * @enum {string}
+             */
+            kind: "field" | "composite";
+            ref: {
+                [key: string]: unknown;
+            };
+            /** @example true */
+            required: boolean;
+            /**
+             * @example [
+             *       "VIEW",
+             *       "EDIT"
+             *     ]
+             */
+            supportedModes: ("VIEW" | "EDIT" | "CREATE" | "WORKSPACE")[];
+            /** @example organization-details */
+            defaultSectionKey?: string | null;
+            /** @example main */
+            defaultRegionKey: string;
+            grid: components["schemas"]["ViewLayoutSurfaceDefinitionGridDto"];
+            placement: components["schemas"]["ViewLayoutSurfaceDefinitionPlacementDto"];
+        };
+        ViewLayoutSurfaceDefinitionDto: {
+            /** @enum {string} */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            supportedModes: ("VIEW" | "EDIT" | "CREATE" | "WORKSPACE")[];
+            /** @example true */
+            allowsSharedModes: boolean;
+            /** @example false */
+            requiresSingleMode: boolean;
+            regions: components["schemas"]["ViewLayoutSurfaceDefinitionRegionDto"][];
+            defaultSections: components["schemas"]["ViewLayoutSurfaceDefinitionSectionDto"][];
+            builtInBlocks: components["schemas"]["ViewLayoutSurfaceDefinitionBuiltInBlockDto"][];
+        };
+        ExternalViewLayoutSurfaceDefinitionsResponseDto: {
+            /** @example view-layout-surface-definitions:v1 */
+            definitionVersion: string;
+            surfaces: components["schemas"]["ViewLayoutSurfaceDefinitionDto"][];
+        };
+        DataOfExternalViewLayoutSurfaceDefinitionsResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutSurfaceDefinitionsResponseDto"];
+        };
+        ViewLayoutRuntimeDataUnavailableRequirementDto: {
+            requirement: components["schemas"]["ViewLayoutDataRequirementDto"];
+            /** @example requirement_not_in_resolved_layout */
+            reason: string;
+        };
+        ExternalViewLayoutRuntimeDataResponseDto: {
+            renderContext: components["schemas"]["ViewLayoutRenderContextDto"];
+            runtimeContext: components["schemas"]["ViewLayoutRuntimeContextDto"];
+            requirements: components["schemas"]["ViewLayoutDataRequirementDto"][];
+            /**
+             * @example {
+             *       "block_case_comments": {
+             *         "state": "included",
+             *         "count": 2
+             *       }
+             *     }
+             */
+            blockData: {
+                [key: string]: unknown;
+            };
+            unavailableRequirements?: components["schemas"]["ViewLayoutRuntimeDataUnavailableRequirementDto"][];
+        };
+        DataOfExternalViewLayoutRuntimeDataResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutRuntimeDataResponseDto"];
+        };
+        CreateRelationTableMutationDto: {
+            /** @default [] */
+            setExistingIds: string[];
+        };
+        SubordinateObjectCreateRowDto: {
+            /** @example tmp_1 */
+            clientId: string;
+            values: {
+                [key: string]: unknown;
+            };
+        };
+        CreateSubordinateObjectMutationDto: {
+            /** @description One-to-one subordinate payload. Creates the owned row during parent create. */
+            set?: {
+                [key: string]: unknown;
+            };
+            /**
+             * @description One-to-many subordinate rows to create during parent create.
+             * @default []
+             */
+            create: components["schemas"]["SubordinateObjectCreateRowDto"][];
+        };
+        CreateDynamicFormRecordDto: {
+            /**
+             * @description Required for aggregate create idempotency. Scope is organization + parent module/object + form + clientMutationId.
+             * @example 019f2e3a-7c8b-7a33-9fc8-90db2b5b1e50
+             */
+            clientMutationId: string;
+            values?: {
+                [key: string]: unknown;
+            };
+            /** @description Workflow to start immediately after creating the parent dynamic record. Required when one or more active workflows apply to the target dynamic object; omit only when no active workflow applies. */
+            workflowId?: string;
+            /** @description Optional relation-table mutations. Omit or send an empty object for a parent-only create. */
+            relationTables?: {
+                [key: string]: components["schemas"]["CreateRelationTableMutationDto"];
+            };
+            /** @description Nested subordinate object mutations keyed by SUBORDINATE_OBJECT_REFERENCE field key. Regular references must not use this envelope. */
+            subordinateObjects?: {
+                [key: string]: components["schemas"]["CreateSubordinateObjectMutationDto"];
+            };
+        };
+        DynamicExpandedBuiltInReferenceDto: {
+            /** @example user_123 */
+            id: string;
+            /**
+             * @example USER
+             * @enum {string}
+             */
+            type: "USER" | "CONTRACTOR";
+            /** @example Anna Nowak */
+            displayLabel: string;
+            /** @example anna@example.com */
+            email?: string | null;
+            /** @example ACME Sp. z o.o. */
+            fullName?: string | null;
+            /** @example ACME */
+            acronym?: string | null;
+        };
+        DynamicRecordFileMetadataDto: {
+            id: string;
+            originalName: string;
+            mimeType: string;
+            sizeBytes: number;
+            /** Format: date-time */
+            createdAt?: string;
+            urlPath: string;
+            downloadPath: string;
+        };
+        DynamicRecordResponseDto: {
+            /** @example rec-uuid-abc123 */
+            id: string;
+            /** @example org-123 */
+            org_id: string;
+            /**
+             * Format: date-time
+             * @example 2024-01-01T00:00:00.000Z
+             */
+            created_at: string;
+            /**
+             * Format: date-time
+             * @example 2024-01-01T00:00:00.000Z
+             */
+            updated_at: string;
+            /** @example user-123 */
+            created_by_id: string | null;
+            /**
+             * @description Backend-resolved display label for this record, using the dynamic object displayLabel template when configured and the standard record-label fallback otherwise.
+             * @example Acme Corp
+             */
+            displayLabel: string;
+            /**
+             * @description Only present when ?expand was used. Keys are expandable field keys: REFERENCE, USER, USER_MULTI, CONTRACTOR, or CONTRACTOR_MULTI. Expanded dynamic REFERENCE records include id, displayLabel, moduleKey, objectKey, objectName, color, and icon. Expanded built-in user/contractor references include id, type, displayLabel, and source-specific metadata such as email, fullName, or acronym. ONE_TO_ONE fields: value is the referenced record or null for a dangling reference. ONE_TO_MANY fields: value is an array of referenced records (null entries for dangling references). Form-gated reads may reduce ONE_TO_MANY form FIELD config.displayMode="table" values to lightweight reference summaries so custom HTML can render labels while table rows are loaded through relation-table endpoints.
+             * @example {
+             *       "company_id": {
+             *         "id": "company-uuid",
+             *         "displayLabel": "Acme",
+             *         "moduleKey": "crm",
+             *         "objectKey": "companies",
+             *         "objectName": "Company",
+             *         "color": "#3B82F6",
+             *         "icon": "building-2"
+             *       },
+             *       "tag_ids": [
+             *         {
+             *           "id": "tag-1",
+             *           "displayLabel": "VIP",
+             *           "moduleKey": "crm",
+             *           "objectKey": "tags",
+             *           "objectName": "Tag",
+             *           "color": "#22C55E",
+             *           "icon": "tag"
+             *         },
+             *         {
+             *           "id": "tag-2",
+             *           "displayLabel": "Partner",
+             *           "moduleKey": "crm",
+             *           "objectKey": "tags",
+             *           "objectName": "Tag",
+             *           "color": "#F59E0B",
+             *           "icon": "handshake"
+             *         }
+             *       ]
+             *     }
+             */
+            _expanded?: {
+                [key: string]: components["schemas"]["DynamicExpandedReferenceDto"] | components["schemas"]["DynamicExpandedBuiltInReferenceDto"] | (components["schemas"]["DynamicExpandedReferenceDto"] | components["schemas"]["DynamicExpandedBuiltInReferenceDto"] | null)[] | null;
+            };
+            /** @description Present when the object has FILE or FILES fields with stored values. Keys are field keys. FILE values are file metadata or null for dangling references. FILES values are arrays of file metadata with null entries for dangling references. */
+            _files?: {
+                [key: string]: (components["schemas"]["DynamicRecordFileMetadataDto"] | (components["schemas"]["DynamicRecordFileMetadataDto"] | null)[]) | null;
+            };
+        };
+        RelationTableCreatedRowResponseDto: {
+            /** @example tmp_1 */
+            clientId: string;
+            record: components["schemas"]["DynamicRecordResponseDto"];
+        };
+        RelationTableUpdatedRowResponseDto: {
+            /** @example rec_existing_1 */
+            recordId: string;
+            record: components["schemas"]["DynamicRecordResponseDto"];
+        };
+        RelationTableDeletedRowResponseDto: {
+            /** @example rec_deleted_1 */
+            recordId: string;
+        };
+        RelationTableMutationResponseDto: {
+            ids: string[];
+            created: components["schemas"]["RelationTableCreatedRowResponseDto"][];
+            updated: components["schemas"]["RelationTableUpdatedRowResponseDto"][];
+            deleted: components["schemas"]["RelationTableDeletedRowResponseDto"][];
+        };
+        ExternalDynamicFormRecordSaveResponseDto: {
+            clientMutationId?: string;
+            parent: components["schemas"]["DynamicRecordResponseDto"];
+            relationTables: {
+                [key: string]: components["schemas"]["RelationTableMutationResponseDto"];
+            };
+            subordinateObjects?: {
+                [key: string]: components["schemas"]["RelationTableMutationResponseDto"];
+            };
+            /** @description Workflow state for the parent record when create started a workflow. */
+            workflow?: {
+                [key: string]: unknown;
+            };
+        };
+        DataOfExternalDynamicFormRecordSaveResponseDto: {
+            data: components["schemas"]["ExternalDynamicFormRecordSaveResponseDto"];
+        };
+        RelationTableMutationDto: {
+            /** @default [] */
+            setExistingIds: string[];
+        };
+        SubordinateObjectUpdateRowDto: {
+            /** @example rec_existing_1 */
+            recordId: string;
+            values: {
+                [key: string]: unknown;
+            };
+        };
+        SaveSubordinateObjectMutationDto: {
+            /** @description One-to-one subordinate payload. Creates the owned row during parent create. */
+            set?: {
+                [key: string]: unknown;
+            };
+            /**
+             * @description One-to-many subordinate rows to create during parent create.
+             * @default []
+             */
+            create: components["schemas"]["SubordinateObjectCreateRowDto"][];
+            /**
+             * @description One-to-one subordinate removal. Cannot be combined with set.
+             * @default false
+             */
+            remove: boolean;
+            /**
+             * @description One-to-many subordinate rows to update. Each row must already be owned by this parent field.
+             * @default []
+             */
+            update: components["schemas"]["SubordinateObjectUpdateRowDto"][];
+            /**
+             * @description One-to-many subordinate row IDs to remove. Each row must already be owned by this parent field.
+             * @default []
+             */
+            removeIds: string[];
+        };
+        SaveDynamicFormRecordDto: {
+            /**
+             * @description Recommended for every aggregate update. Required when child rows are created or deleted.
+             * @example 019f2e3a-7c8b-7a33-9fc8-90db2b5b1e50
+             */
+            clientMutationId?: string;
+            values?: {
+                [key: string]: unknown;
+            };
+            relationTables?: {
+                [key: string]: components["schemas"]["RelationTableMutationDto"];
+            };
+            /** @description Nested subordinate object mutations keyed by SUBORDINATE_OBJECT_REFERENCE field key. Regular references must not use this envelope. */
+            subordinateObjects?: {
+                [key: string]: components["schemas"]["SaveSubordinateObjectMutationDto"];
+            };
+        };
+        RelationTableExpandRequestDto: {
+            /** @example product */
+            fieldKey: string;
+            /**
+             * @example [
+             *       "name",
+             *       "sku"
+             *     ]
+             */
+            columns: string[];
+        };
+        RelationTableLayoutRequestDto: {
+            /**
+             * @example [
+             *       "rec_1",
+             *       "rec_2"
+             *     ]
+             */
+            recordIds: string[];
+            /**
+             * @example [
+             *       "name",
+             *       "quantity",
+             *       "product.name",
+             *       "product.sku"
+             *     ]
+             */
+            columns: string[];
+            expand?: components["schemas"]["RelationTableExpandRequestDto"][];
+        };
+        ViewLayoutRelationTableLayoutContextDto: {
+            /** @example layout_123 */
+            id: string;
+            /** @example version_123 */
+            versionId: string;
+            /**
+             * @example DYNAMIC_OBJECT
+             * @enum {string}
+             */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            /**
+             * @example VIEW
+             * @enum {string}
+             */
+            mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+            /** @example crm */
+            moduleKey: string;
+            /** @example invoice_line */
+            objectKey: string;
+            /** @example line-view-form */
+            formId: string;
+        };
+        ViewLayoutRelationTableFieldDto: {
+            /** @example block_line_name */
+            blockId: string;
+            /** @example field_name_id */
+            fieldId: string;
+            /** @example name */
+            fieldKey: string;
+            /** @example Name */
+            label: string;
+            /** @enum {string} */
+            type: "TEXT" | "TEXTAREA" | "CUSTOM_HTML" | "HTML_SECTION" | "NUMBER" | "DECIMAL" | "CURRENCY" | "BOOLEAN" | "DATE" | "DATETIME" | "SELECT" | "MULTI_SELECT" | "REFERENCE" | "FILE" | "FILES" | "USER" | "USER_MULTI" | "CONTRACTOR" | "CONTRACTOR_MULTI" | "EMAIL" | "PHONE" | "URL" | "SUBORDINATE_OBJECT_REFERENCE";
+            options?: {
+                [key: string]: unknown;
+            } | null;
+            config: {
+                [key: string]: unknown;
+            };
+            /** @example false */
+            editable: boolean;
+            /** @example false */
+            isRequired?: boolean;
+        };
+        ViewLayoutRelationTableColumnDto: {
+            /** @example product.name */
+            path: string;
+            /** @example Product / Name */
+            label: string;
+            /** @enum {string} */
+            type: "TEXT" | "TEXTAREA" | "CUSTOM_HTML" | "HTML_SECTION" | "NUMBER" | "DECIMAL" | "CURRENCY" | "BOOLEAN" | "DATE" | "DATETIME" | "SELECT" | "MULTI_SELECT" | "REFERENCE" | "FILE" | "FILES" | "USER" | "USER_MULTI" | "CONTRACTOR" | "CONTRACTOR_MULTI" | "EMAIL" | "PHONE" | "URL" | "SUBORDINATE_OBJECT_REFERENCE";
+            /** @enum {string} */
+            source: "row" | "expanded";
+            editable: boolean;
+            /** @example block_line_name */
+            blockId?: string;
+            /** @example name */
+            fieldKey?: string;
+            /** @example field_name_id */
+            fieldId?: string;
+        };
+        ViewLayoutRelationTableRecordDto: {
+            /** @example rec_1 */
+            id: string;
+            values: {
+                [key: string]: unknown;
+            };
+        };
+        ExternalViewLayoutRelationTableLayoutResponseDto: {
+            layout: components["schemas"]["ViewLayoutRelationTableLayoutContextDto"];
+            fields: components["schemas"]["ViewLayoutRelationTableFieldDto"][];
+            columns: components["schemas"]["ViewLayoutRelationTableColumnDto"][];
+            records: components["schemas"]["ViewLayoutRelationTableRecordDto"][];
+        };
+        DataOfExternalViewLayoutRelationTableLayoutResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutRelationTableLayoutResponseDto"];
+        };
+        ViewLayoutRelationTableTargetContextDto: {
+            /** @example crm */
+            moduleKey: string;
+            /** @example invoice_line */
+            objectKey: string;
+        };
+        ExternalViewLayoutRelationTableTargetLayoutResponseDto: {
+            /** @example line_items */
+            relationFieldKey: string;
+            /**
+             * @example CREATE
+             * @enum {string}
+             */
+            targetMode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+            parentLayout: components["schemas"]["ViewLayoutRelationTableLayoutContextDto"];
+            target: components["schemas"]["ViewLayoutRelationTableTargetContextDto"];
+            targetLayout: components["schemas"]["ExternalResolvedViewLayoutResponseDto"];
+        };
+        DataOfExternalViewLayoutRelationTableTargetLayoutResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutRelationTableTargetLayoutResponseDto"];
+        };
+        ListFilterGroupDto: {
+            /**
+             * @example AND
+             * @enum {string}
+             */
+            op: "AND" | "OR";
+            /**
+             * @description Recursive filter tree. Each item is either a nested group or a condition object with `field` and `operator`.
+             * @example [
+             *       {
+             *         "field": "status",
+             *         "operator": "eq",
+             *         "value": "ACTIVE"
+             *       },
+             *       {
+             *         "field": "email",
+             *         "operator": "contains",
+             *         "value": "acme"
+             *       }
+             *     ]
+             */
+            items?: unknown[];
+        };
+        ListSortRuleDto: {
+            /** @example createdAt */
+            field: string;
+            /**
+             * @example desc
+             * @enum {string}
+             */
+            direction: "asc" | "desc";
+            /**
+             * @example last
+             * @enum {string}
+             */
+            nulls?: "first" | "last";
+        };
+        RelationTableQueryRequestDto: {
+            /**
+             * @example [
+             *       "name",
+             *       "quantity",
+             *       "product.name",
+             *       "product.sku"
+             *     ]
+             */
+            columns: string[];
+            expand?: components["schemas"]["RelationTableExpandRequestDto"][];
+            /** @default 1 */
+            page: number;
+            /** @default 20 */
+            limit: number;
+            /** @description Recursive filter tree. V1 supports row fields only; expanded-field filters are not supported. */
+            filters?: components["schemas"]["ListFilterGroupDto"];
+            /** @description Ordered sort rules. V1 supports row fields only; expanded-field sort is not supported. */
+            sort?: components["schemas"]["ListSortRuleDto"][];
+            /** @description Search across searchable row fields on the target object. Expanded-field search is not supported in v1. */
+            search?: string;
+        };
+        ExternalViewLayoutRelationTableQueryResponseDto: {
+            layout: components["schemas"]["ViewLayoutRelationTableLayoutContextDto"];
+            fields: components["schemas"]["ViewLayoutRelationTableFieldDto"][];
+            columns: components["schemas"]["ViewLayoutRelationTableColumnDto"][];
+            records: components["schemas"]["ViewLayoutRelationTableRecordDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
+        };
+        DataOfExternalViewLayoutRelationTableQueryResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutRelationTableQueryResponseDto"];
+        };
+        ExternalViewLayoutListItemResponseDto: {
+            id: string;
+            /** @enum {string} */
+            ownerScope: "SYSTEM" | "ORGANIZATION";
+            /** @enum {string} */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            supportedModes: ("VIEW" | "EDIT" | "CREATE" | "WORKSPACE")[];
+            target: components["schemas"]["ViewLayoutTargetDto"];
+            name: string;
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "ARCHIVED";
+            currentVersionId?: string | null;
+            latestDraftVersionId?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ListOfExternalViewLayoutListItemResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutListItemResponseDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
+        };
+        StagedCustomFieldDefinitionDto: {
+            /** @example mutation_01HZYDRAFT */
+            draftId: string;
+            /**
+             * @example create
+             * @enum {string}
+             */
+            action: "create" | "update" | "unlink" | "delete";
+            /** @example null */
+            existingFieldDefinitionId?: string | null;
+            /** @example null */
+            scopeId?: string | null;
+            /** @example Risk score */
+            name: string;
+            /** @example risk_score */
+            key: string;
+            /** @example NUMBER */
+            type: string;
+            /**
+             * @example {
+             *       "required": false
+             *     }
+             */
+            config?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @description Frontend-owned presentation metadata for the custom-field definition created or updated from this staged entry.
+             * @example null
+             */
+            frontendMeta?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * @description Required for staged updates that change field type or option source and would clear existing values.
+             * @default false
+             */
+            confirmDestructiveChange: boolean;
+        };
+        CreateViewLayoutInitialDraftDto: {
+            schemaVersion: number;
+            regions: components["schemas"]["ViewLayoutRegionDto"][];
+            blocks: components["schemas"]["ViewLayoutBlockDraftDto"][];
+            stagedFieldDefinitions?: components["schemas"]["StagedCustomFieldDefinitionDto"][];
+            scriptBindings?: components["schemas"]["CustomScriptBindingDto"][];
+            metadata?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        CreateViewLayoutDto: {
+            clientMutationId: string;
+            /** @enum {string} */
+            ownerScope?: "SYSTEM" | "ORGANIZATION";
+            /** @enum {string} */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            /**
+             * @description Modes supported by this layout. Resolve requests still pass one requested mode, and backend returns a layout whose supportedModes contains it.
+             * @example [
+             *       "VIEW",
+             *       "EDIT"
+             *     ]
+             * @enum {array}
+             */
+            supportedModes: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+            target: components["schemas"]["ViewLayoutTargetDto"];
+            name: string;
+            copyFromLayoutId?: string | null;
+            initialDraft?: components["schemas"]["CreateViewLayoutInitialDraftDto"] | null;
+            metadata?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        DataOfExternalViewLayoutDetailResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutDetailResponseDto"];
+        };
+        ViewLayoutRuntimeContextVariableDto: {
+            /** @example workflow.stage.key */
+            path: string;
+            /** @example {{ workflow.stage.key }} */
+            expression: string;
+            /** @example Workflow stage key */
+            label: string;
+            /**
+             * @example string
+             * @enum {string}
+             */
+            type: "string" | "number" | "boolean" | "string[]" | "number[]" | "boolean[]" | "object" | "null" | "unknown";
+            /**
+             * @example workflow
+             * @enum {string}
+             */
+            category: "organization" | "actor" | "record" | "workflow" | "public";
+            description?: string | null;
+            /** @description Example value from the evaluated runtime context when available. */
+            example?: Record<string, never> | null;
+            /**
+             * @description True for generated hints such as workflow stage parameter keys discovered from the current runtime context.
+             * @example true
+             */
+            dynamic?: boolean;
+        };
+        ExternalViewLayoutRuntimeContextVariablesResponseDto: {
+            layoutId: string;
+            /** @enum {string} */
+            surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            /** @enum {string} */
+            mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+            target: components["schemas"]["ViewLayoutTargetDto"];
+            renderContext: components["schemas"]["ViewLayoutRenderContextDto"];
+            runtimeContext: components["schemas"]["ViewLayoutRuntimeContextDto"];
+            availableVariables: components["schemas"]["ViewLayoutRuntimeContextVariableDto"][];
+        };
+        DataOfExternalViewLayoutRuntimeContextVariablesResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutRuntimeContextVariablesResponseDto"];
+        };
+        UpdateViewLayoutDto: {
+            /** @example Organization edit layout */
+            name?: string;
+            /** @enum {string} */
+            surface?: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            /**
+             * @example [
+             *       "VIEW",
+             *       "EDIT"
+             *     ]
+             * @enum {array}
+             */
+            supportedModes?: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+            target?: components["schemas"]["ViewLayoutTargetDto"];
+            metadata?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        SaveViewLayoutDraftDto: {
+            /** @example mutation_01HZY_SAVE_DRAFT */
+            clientMutationId: string;
+            /** @example version_draft_123 */
+            expectedDraftVersionId?: string | null;
+            /** @example 1 */
+            schemaVersion: number;
+            /**
+             * @example [
+             *       {
+             *         "key": "main",
+             *         "label": "Main",
+             *         "layout": "grid",
+             *         "columns": 12,
+             *         "displayOrder": 0,
+             *         "config": {}
+             *       }
+             *     ]
+             */
+            regions: components["schemas"]["ViewLayoutRegionDto"][];
+            /**
+             * @example [
+             *       {
+             *         "id": "block_case_status",
+             *         "type": "field",
+             *         "source": "dynamic_field",
+             *         "ref": {
+             *           "fieldKey": "status"
+             *         },
+             *         "regionKey": "main",
+             *         "displayOrder": 0,
+             *         "grid": {
+             *           "colSpan": 6
+             *         },
+             *         "modeConfig": {},
+             *         "config": {
+             *           "label": "Status"
+             *         },
+             *         "runtimeAvailability": null,
+             *         "requiredPolicy": "required",
+             *         "locked": false,
+             *         "removable": true,
+             *         "singleInstance": true,
+             *         "supportedModes": [
+             *           "VIEW",
+             *           "EDIT"
+             *         ],
+             *         "children": []
+             *       }
+             *     ]
+             */
+            blocks: components["schemas"]["ViewLayoutBlockDraftDto"][];
+            stagedFieldDefinitions?: components["schemas"]["StagedCustomFieldDefinitionDto"][];
+            scriptBindings?: components["schemas"]["CustomScriptBindingDto"][];
+            metadata?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        ExternalViewLayoutDraftSaveResponseDto: {
+            validation: components["schemas"]["ViewValidationResultDto"];
+            stagedFieldDefinitions: components["schemas"]["StagedCustomFieldDefinitionStateDto"][];
+            layout: components["schemas"]["ExternalViewLayoutDetailResponseDto"];
+            draftVersion: components["schemas"]["ExternalViewLayoutVersionResponseDto"];
+        };
+        DataOfExternalViewLayoutDraftSaveResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutDraftSaveResponseDto"];
+        };
+        ViewLayoutOptionDto: {
+            value: string;
+            label: string;
+            meta?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        ViewLayoutOptionsMetaDto: {
+            page: number;
+            limit: number;
+            total?: number;
+        };
+        ExternalViewLayoutOptionsResponseDto: {
+            data: components["schemas"]["ViewLayoutOptionDto"][];
+            meta: components["schemas"]["ViewLayoutOptionsMetaDto"];
+        };
+        DataArrayOfExternalViewLayoutVersionResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutVersionResponseDto"][];
+        };
+        DataOfExternalViewLayoutVersionResponseDto: {
+            data: components["schemas"]["ExternalViewLayoutVersionResponseDto"];
+        };
+        RestoreViewLayoutDraftDto: {
+            clientMutationId: string;
+        };
+        ConfirmFieldChangeDto: {
+            /** @example draft_custom_field_123 */
+            draftId: string;
+            /** @example true */
+            confirmTypeChange?: boolean;
+            /** @example true */
+            confirmValueClear?: boolean;
+        };
+        PublishViewLayoutDto: {
+            /** @example mutation_01HZY_PUBLISH */
+            clientMutationId: string;
+            /** @example version_draft_123 */
+            draftVersionId?: string | null;
+            /** @example version_published_122 */
+            expectedPublishedVersionId?: string | null;
+            /**
+             * @example [
+             *       {
+             *         "draftId": "draft_custom_field_123",
+             *         "confirmTypeChange": true,
+             *         "confirmValueClear": true
+             *       }
+             *     ]
+             */
+            confirmFieldChanges?: components["schemas"]["ConfirmFieldChangeDto"][];
+            /** @example false */
+            advancePublicPinnedVersion?: boolean;
+        };
+        CommittedCustomFieldDefinitionDto: {
+            draftId: string;
+            fieldDefinitionId: string;
+            fieldKey: string;
+            scopeId?: string | null;
+            /** @enum {string} */
+            action: "create" | "update" | "delete" | "unlink";
+            /**
+             * @description True when a staged delete only removed the block from the published layout because another layout still references the definition.
+             * @example true
+             */
+            removedFromLayoutOnly?: boolean;
+            /**
+             * @description Number of remaining layout-version references that kept the definition alive.
+             * @example 1
+             */
+            remainingReferenceCount?: number;
+            referencedByLayouts?: {
+                layoutId?: string;
+                versionId?: string;
+            }[];
+            /**
+             * @description Number of custom-field value rows deleted when a staged delete removed the field definition.
+             * @example 2
+             */
+            deletedValueCount?: number;
+            /** @description Other layout versions that had this custom-field block removed because the staged action was delete. */
+            removedFromLayouts?: {
+                layoutId?: string;
+                oldVersionId?: string;
+                newVersionId?: string;
+                status?: string;
+            }[];
+        };
+        ExternalPublishViewLayoutResponseDto: {
+            validation: components["schemas"]["ViewValidationResultDto"];
+            committedFieldDefinitions: components["schemas"]["CommittedCustomFieldDefinitionDto"][];
+            layout: components["schemas"]["ExternalViewLayoutDetailResponseDto"];
+            publishedVersion: components["schemas"]["ExternalViewLayoutVersionResponseDto"];
+        };
+        DataOfExternalPublishViewLayoutResponseDto: {
+            data: components["schemas"]["ExternalPublishViewLayoutResponseDto"];
+        };
+        ViewLayoutRoleAssignmentInputDto: {
+            roleId: string;
+            priority?: number;
+        };
+        ReplaceViewLayoutAssignmentsDto: {
+            clientMutationId: string;
+            organizationDefault?: boolean;
+            roles?: components["schemas"]["ViewLayoutRoleAssignmentInputDto"][];
         };
     };
     responses: never;
@@ -5172,6 +8526,559 @@ export interface operations {
             };
         };
     };
+    CustomFormsV1Controller_findForms_v1: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page. Maximum 100. */
+                limit?: number;
+                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
+                count?: "exact" | "none" | "hasMore";
+                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
+                filters?: string;
+                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
+                sort?: string;
+                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
+                columns?: string;
+            };
+            header?: never;
+            path: {
+                moduleKey: string;
+                objectKey: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOfExternalCustomFormListItemDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomFormsV1Controller_createForm_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                moduleKey: string;
+                objectKey: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateExternalCustomFormDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCustomFormDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomFormsV1Controller_findAvailableForms_v1: {
+        parameters: {
+            query?: {
+                type?: "VIEW" | "EDIT" | "CREATE";
+            };
+            header?: never;
+            path: {
+                moduleKey: string;
+                objectKey: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataArrayOfExternalCustomFormDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomFormsV1Controller_updateFormDefaults_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                moduleKey: string;
+                objectKey: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateExternalCustomObjectFormDefaultsDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCustomObjectFormDefaultsDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomFormsV1Controller_findForm_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                moduleKey: string;
+                objectKey: string;
+                formId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCustomFormDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomFormsV1Controller_deleteForm_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                moduleKey: string;
+                objectKey: string;
+                formId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Custom object form deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomFormsV1Controller_updateForm_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                moduleKey: string;
+                objectKey: string;
+                formId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateExternalCustomFormDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCustomFormDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomFormsV1Controller_findFormAccess_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                moduleKey: string;
+                objectKey: string;
+                formId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCustomFormAccessDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CustomFormsV1Controller_replaceFormAccess_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                moduleKey: string;
+                objectKey: string;
+                formId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReplaceExternalCustomFormAccessDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCustomFormAccessDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
     CustomScriptsV1Controller_findAll_v1: {
         parameters: {
             query?: {
@@ -5513,6 +9420,416 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DataOfExternalCustomScriptResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    SavedQueriesV1Controller_findAll_v1: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page. Maximum 100. */
+                limit?: number;
+                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
+                count?: "exact" | "none" | "hasMore";
+                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
+                filters?: string;
+                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
+                sort?: string;
+                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
+                columns?: string;
+                /** @description Filter by query scope */
+                scope?: "SYSTEM" | "ORGANIZATION";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOfExternalSavedQuerySummaryResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    SavedQueriesV1Controller_create_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSavedQueryDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalSavedQueryResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    SavedQueriesV1Controller_getSchema_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfQuerySchemaResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    SavedQueriesV1Controller_validate_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSavedQueryDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalSavedQueryValidationResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    SavedQueriesV1Controller_findOne_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Saved query ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalSavedQueryResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    SavedQueriesV1Controller_remove_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Saved query ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Saved query deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    SavedQueriesV1Controller_update_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Saved query ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSavedQueryDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalSavedQueryResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    SavedQueriesV1Controller_execute_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Saved query ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExecuteSavedQueryDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalSavedQueryExecutionResultDto"];
                 };
             };
             400: {
@@ -7660,6 +11977,1373 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DataOfExternalRuleExecutionDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_resolve_v1: {
+        parameters: {
+            query: {
+                surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+                mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                moduleKey?: string;
+                objectKey?: string;
+                formId?: string;
+                recordId?: string;
+                /** @description Explicit published View Layout ID to resolve when it is already available through normal runtime assignment. */
+                layoutId?: string;
+                /** @description Comma-separated dynamic form field keys to expand for form-specific record resolves. Uses the same validation rules as dynamic form record runtime layout endpoints. */
+                expand?: string;
+                entityId?: string;
+                scopeId?: string;
+                dashboardKey?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalResolvedViewLayoutResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getCatalog_v1: {
+        parameters: {
+            query: {
+                surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+                mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                moduleKey?: string;
+                objectKey?: string;
+                formId?: string;
+                scopeId?: string;
+                dashboardKey?: string;
+                draftVersionId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutCatalogResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getCustomFieldTypes_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCustomFieldTypeCatalogResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getSurfaceCapabilities_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutSurfaceCapabilitiesResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getSurfaceDefinitions_v1: {
+        parameters: {
+            query?: {
+                surface?: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutSurfaceDefinitionsResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getRuntimeData_v1: {
+        parameters: {
+            query: {
+                surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+                mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                moduleKey?: string;
+                objectKey?: string;
+                formId?: string;
+                recordId?: string;
+                /** @description Explicit published View Layout ID to resolve when it is already available through normal runtime assignment. */
+                layoutId?: string;
+                /** @description Comma-separated dynamic form field keys to expand for form-specific record resolves. Uses the same validation rules as dynamic form record runtime layout endpoints. */
+                expand?: string;
+                entityId?: string;
+                scopeId?: string;
+                dashboardKey?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ViewLayoutRuntimeDataRequestDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutRuntimeDataResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_createDynamicObjectRecord_v1: {
+        parameters: {
+            query: {
+                surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+                mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                moduleKey?: string;
+                objectKey?: string;
+                formId?: string;
+                recordId?: string;
+                /** @description Explicit published View Layout ID to resolve when it is already available through normal runtime assignment. */
+                layoutId?: string;
+                /** @description Comma-separated dynamic form field keys to expand for form-specific record resolves. Uses the same validation rules as dynamic form record runtime layout endpoints. */
+                expand?: string;
+                entityId?: string;
+                scopeId?: string;
+                dashboardKey?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDynamicFormRecordDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalDynamicFormRecordSaveResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_updateDynamicObjectRecord_v1: {
+        parameters: {
+            query: {
+                surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+                mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                moduleKey?: string;
+                objectKey?: string;
+                formId?: string;
+                /** @description Explicit published View Layout ID to resolve when it is already available through normal runtime assignment. */
+                layoutId?: string;
+                /** @description Comma-separated dynamic form field keys to expand for form-specific record resolves. Uses the same validation rules as dynamic form record runtime layout endpoints. */
+                expand?: string;
+                entityId?: string;
+                scopeId?: string;
+                dashboardKey?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Dynamic record ID */
+                recordId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveDynamicFormRecordDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalDynamicFormRecordSaveResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getDynamicObjectRelationTableLayout_v1: {
+        parameters: {
+            query: {
+                surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+                mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                moduleKey?: string;
+                objectKey?: string;
+                formId?: string;
+                recordId?: string;
+                /** @description Explicit published View Layout ID to resolve when it is already available through normal runtime assignment. */
+                layoutId?: string;
+                /** @description Comma-separated dynamic form field keys to expand for form-specific record resolves. Uses the same validation rules as dynamic form record runtime layout endpoints. */
+                expand?: string;
+                entityId?: string;
+                scopeId?: string;
+                dashboardKey?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RelationTableLayoutRequestDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutRelationTableLayoutResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getDynamicObjectRelationTableTargetLayout_v1: {
+        parameters: {
+            query: {
+                surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+                mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                moduleKey?: string;
+                objectKey?: string;
+                formId?: string;
+                recordId?: string;
+                /** @description Explicit published View Layout ID to resolve when it is already available through normal runtime assignment. */
+                layoutId?: string;
+                /** @description Comma-separated dynamic form field keys to expand for form-specific record resolves. Uses the same validation rules as dynamic form record runtime layout endpoints. */
+                expand?: string;
+                entityId?: string;
+                scopeId?: string;
+                dashboardKey?: string;
+                /** @description Target row layout mode to resolve for relation-table create/edit UI. */
+                targetMode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                /** @description Selected target row dynamic form id. When omitted, backend falls back to the target object default form for targetMode. */
+                targetFormId?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Parent one-to-many reference field key */
+                relationFieldKey: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutRelationTableTargetLayoutResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_queryDynamicObjectRelationTable_v1: {
+        parameters: {
+            query: {
+                surface: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+                mode: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                moduleKey?: string;
+                objectKey?: string;
+                formId?: string;
+                /** @description Explicit published View Layout ID to resolve when it is already available through normal runtime assignment. */
+                layoutId?: string;
+                /** @description Comma-separated dynamic form field keys to expand for form-specific record resolves. Uses the same validation rules as dynamic form record runtime layout endpoints. */
+                expand?: string;
+                entityId?: string;
+                scopeId?: string;
+                dashboardKey?: string;
+                /** @description Target row layout mode for relation-table metadata. Defaults to VIEW. */
+                targetMode?: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                /** @description Selected target row dynamic form id. When omitted, backend falls back to the target object default form for targetMode. */
+                targetFormId?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Parent dynamic record ID */
+                recordId: string;
+                /** @description Parent one-to-many reference field key */
+                relationFieldKey: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RelationTableQueryRequestDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutRelationTableQueryResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_findAll_v1: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page. Maximum 100. */
+                limit?: number;
+                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
+                count?: "exact" | "none" | "hasMore";
+                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
+                filters?: string;
+                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
+                sort?: string;
+                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
+                columns?: string;
+                surface?: "DYNAMIC_OBJECT" | "CONTRACTOR" | "ORGANIZATION" | "SALES_INVOICE" | "COST_INVOICE" | "DASHBOARD" | "USER";
+                mode?: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                moduleKey?: string;
+                objectKey?: string;
+                formId?: string;
+                scopeId?: string;
+                dashboardKey?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOfExternalViewLayoutListItemResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_create_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateViewLayoutDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutDetailResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getRuntimeContextVariables_v1: {
+        parameters: {
+            query?: {
+                /** @description Runtime mode to use for variable examples. When omitted, backend picks a supported mode from the layout. */
+                mode?: "VIEW" | "EDIT" | "CREATE" | "WORKSPACE";
+                /** @description Dynamic object record id. When supplied for a dynamic-object layout, workflow variables are evaluated for this record. */
+                recordId?: string;
+                /** @description Built-in entity id. When supplied for contractor/invoice layouts, workflow variables are evaluated for this entity. */
+                entityId?: string;
+            };
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutRuntimeContextVariablesResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_findOne_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutDetailResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_update_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateViewLayoutDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutDetailResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_archive_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description View layout archived */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_saveDraft_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveViewLayoutDraftDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutDraftSaveResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getDraftStagedFieldOptions_v1: {
+        parameters: {
+            query?: {
+                search?: string;
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+                /** @description Staged custom-field draft ID */
+                draftFieldDefinitionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExternalViewLayoutOptionsResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_listVersions_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataArrayOfExternalViewLayoutVersionResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_getVersion_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+                /** @description View layout version ID */
+                versionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutVersionResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_restoreVersionAsDraft_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+                /** @description View layout version ID */
+                versionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RestoreViewLayoutDraftDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutDraftSaveResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_publish_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishViewLayoutDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalPublishViewLayoutResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ViewLayoutsV1Controller_replaceAssignments_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description View layout ID */
+                layoutId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReplaceViewLayoutAssignmentsDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalViewLayoutDetailResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
             401: {

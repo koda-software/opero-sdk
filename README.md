@@ -131,7 +131,8 @@ List bundled agent skills:
 opero --json skills list
 ```
 
-The current bundle includes `opero-cli` for general CLI usage and
+The current bundle includes `opero-cli` for general CLI usage,
+`opero-queries` for saved SQL query authoring and schema discovery, and
 `opero-scripts` for Custom Script workflows, context, and validation.
 
 Install Opero agent skills for Codex or Claude:
@@ -226,6 +227,15 @@ opero custom-scripts update <id> --body-file script.json
 opero custom-scripts archive <id>
 opero custom-scripts restore <id>
 opero custom-scripts delete <id>
+
+opero --json queries list --limit 20
+opero --json queries get <id>
+opero --json queries schema
+opero --json queries validate --body-file query.json
+opero queries create --body-file query.json
+opero queries update <id> --body-file query.json
+opero --json queries execute <id> --body-file execute.json
+opero queries delete <id>
 ```
 
 File commands:

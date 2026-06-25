@@ -62,8 +62,10 @@ Use when the task involves:
 - SQL queries.
 - Creating, updating, validating, or executing queries.
 - Schema discovery for reporting.
+- `opero queries schema` and queryable table/column discovery.
 - Joins, filters, aggregates, sorting, and query lifecycle.
 - Debugging SQL or query execution failures.
 
 Query tasks should verify schema and expected result shape before generating or
-changing SQL.
+changing SQL. Use `opero queries validate` before create/update, and use
+`opero queries get` plus `opero queries execute` to verify saved behavior.

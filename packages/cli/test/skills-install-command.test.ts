@@ -39,6 +39,10 @@ describe('skills install commands', () => {
       }),
       expect.objectContaining({
         action: 'installed',
+        name: 'opero-queries',
+      }),
+      expect.objectContaining({
+        action: 'installed',
         name: 'opero-scripts',
       }),
     ])
@@ -66,6 +70,10 @@ describe('skills install commands', () => {
       expect.objectContaining({
         action: 'would-install',
         name: 'opero-cli',
+      }),
+      expect.objectContaining({
+        action: 'would-install',
+        name: 'opero-queries',
       }),
       expect.objectContaining({
         action: 'would-install',
@@ -103,8 +111,9 @@ describe('skills install commands', () => {
     await command.run()
 
     const output = command.log.mock.calls.map((call) => String(call[0])).join('\n')
-    expect(stripAnsi(output)).toContain('Installed 2 Opero skills for Codex')
+    expect(stripAnsi(output)).toContain('Installed 3 Opero skills for Codex')
     expect(stripAnsi(output)).toContain('opero-cli installed to')
+    expect(stripAnsi(output)).toContain('opero-queries installed to')
     expect(stripAnsi(output)).toContain('opero-scripts installed to')
     expect(output).not.toContain('dryRun')
   })

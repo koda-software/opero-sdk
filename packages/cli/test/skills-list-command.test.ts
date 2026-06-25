@@ -17,6 +17,10 @@ describe('skills list command', () => {
         name: 'opero-cli',
       }),
       expect.objectContaining({
+        description: expect.stringContaining('saved SQL queries'),
+        name: 'opero-queries',
+      }),
+      expect.objectContaining({
         description: expect.stringContaining('custom scripts'),
         name: 'opero-scripts',
       }),

@@ -127,6 +127,20 @@ opero custom-scripts restore <id>
 opero custom-scripts delete <id>
 ```
 
+Saved queries:
+
+```bash
+opero --json queries list --limit 20
+opero --json queries list --scope ORGANIZATION
+opero --json queries get <id>
+opero --json queries schema
+opero --json queries validate --body-file query.json
+opero queries create --body-file query.json
+opero queries update <id> --body-file query.json
+opero --json queries execute <id> --body-file execute.json
+opero queries delete <id>
+```
+
 Rules:
 
 ```bash

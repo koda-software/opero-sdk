@@ -51,8 +51,8 @@ Read only the reference needed for the task:
   and raw-write safety.
 - `references/troubleshooting.md`: diagnosis workflow for config, auth, network,
   API, JSON, and file errors.
-- `references/specialized-skills.md`: when to use future specialized Opero
-  skills for workflows, view layouts, scripts, and SQL queries.
+- `references/specialized-skills.md`: when to use specialized Opero skills for
+  workflows, view layouts, scripts, and SQL queries.
 
 ## Default Procedure
 

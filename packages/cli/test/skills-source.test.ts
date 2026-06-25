@@ -6,18 +6,21 @@ import {AGENT_SKILLS_DIR, listAvailableSkills} from '../src/skills/source.js'
 import {findReferencedMarkdownFiles, validateSkillFolder} from '../src/skills/validate.js'
 
 const operoCliSkillDir = new URL('opero-cli/', AGENT_SKILLS_DIR)
+const operoQueriesSkillDir = new URL('opero-queries/', AGENT_SKILLS_DIR)
 const operoScriptsSkillDir = new URL('opero-scripts/', AGENT_SKILLS_DIR)
 
 describe('agent skills source', () => {
   it('discovers bundled skills', async () => {
     await expect(listAvailableSkills()).resolves.toEqual([
       expect.objectContaining({name: 'opero-cli'}),
+      expect.objectContaining({name: 'opero-queries'}),
       expect.objectContaining({name: 'opero-scripts'}),
     ])
   })
 
   it.each([
     ['opero-cli', operoCliSkillDir],
+    ['opero-queries', operoQueriesSkillDir],
     ['opero-scripts', operoScriptsSkillDir],
   ])('uses portable skill frontmatter for %s compatible with Codex and Claude', async (name, skillDir) => {
     const markdown = await readFile(new URL('SKILL.md', skillDir), 'utf8')
@@ -57,8 +60,23 @@ describe('agent skills source', () => {
     ])
   })
 
+  it('references existing bundled reference files for opero-queries', async () => {
+    await expect(validateSkillFolder(operoQueriesSkillDir)).resolves.toBeUndefined()
+
+    const markdown = await readFile(new URL('SKILL.md', operoQueriesSkillDir), 'utf8')
+    expect(findReferencedMarkdownFiles(markdown)).toEqual([
+      'references/concepts.md',
+      'references/lifecycle-and-validation.md',
+      'references/parameters.md',
+      'references/payloads-and-examples.md',
+      'references/schema-discovery.md',
+      'references/sql-authoring.md',
+    ])
+  })
+
   it.each([
     ['opero-cli', operoCliSkillDir],
+    ['opero-queries', operoQueriesSkillDir],
     ['opero-scripts', operoScriptsSkillDir],
   ])('does not include platform-specific or local-only install content in %s', async (_name, skillDir) => {
     const files = [
@@ -74,5 +92,9 @@ describe('agent skills source', () => {
     expect(content).not.toContain('.claude')
     expect(content).not.toContain('`s b')
     expect(content).not.toContain('`s f')
+    expect(content).not.toContain('`s d')
+    expect(content).not.toContain('search back')
+    expect(content).not.toContain('search front')
+    expect(content).not.toContain('search docs')
   })
 })

@@ -35,6 +35,11 @@ describe('skills install', () => {
       },
       {
         action: 'would-install',
+        name: 'opero-queries',
+        targetPath: join(targetDir, 'opero-queries'),
+      },
+      {
+        action: 'would-install',
         name: 'opero-scripts',
         targetPath: join(targetDir, 'opero-scripts'),
       },
@@ -59,10 +64,16 @@ describe('skills install', () => {
     })
     expect(result.data.skills[1]).toMatchObject({
       action: 'installed',
+      name: 'opero-queries',
+      targetPath: join(targetDir, 'opero-queries'),
+    })
+    expect(result.data.skills[2]).toMatchObject({
+      action: 'installed',
       name: 'opero-scripts',
       targetPath: join(targetDir, 'opero-scripts'),
     })
     expect(await readFile(join(targetDir, 'opero-cli', 'SKILL.md'), 'utf8')).toContain('name: opero-cli')
+    expect(await readFile(join(targetDir, 'opero-queries', 'SKILL.md'), 'utf8')).toContain('name: opero-queries')
     expect(await readFile(join(targetDir, 'opero-scripts', 'SKILL.md'), 'utf8')).toContain('name: opero-scripts')
 
     const manifest = JSON.parse(await readFile(join(targetDir, 'opero-cli', INSTALLED_SKILL_MANIFEST), 'utf8')) as InstalledSkillManifest
@@ -99,6 +110,10 @@ describe('skills install', () => {
     })
     expect(second.data.skills[1]).toMatchObject({
       action: 'skipped',
+      name: 'opero-queries',
+    })
+    expect(second.data.skills[2]).toMatchObject({
+      action: 'skipped',
       name: 'opero-scripts',
     })
   })
@@ -124,6 +139,10 @@ describe('skills install', () => {
       name: 'opero-cli',
     })
     expect(second.data.skills[1]).toMatchObject({
+      action: 'updated',
+      name: 'opero-queries',
+    })
+    expect(second.data.skills[2]).toMatchObject({
       action: 'updated',
       name: 'opero-scripts',
     })

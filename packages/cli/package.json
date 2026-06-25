@@ -96,6 +96,9 @@
       "files": {
         "description": "Upload, inspect, and download files."
       },
+      "queries": {
+        "description": "Manage saved SQL queries."
+      },
       "request": {
         "description": "Run raw authenticated Opero API requests."
       },

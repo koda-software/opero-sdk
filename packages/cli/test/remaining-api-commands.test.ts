@@ -39,6 +39,14 @@ import CustomScriptsGet from '../src/commands/custom-scripts/get.js'
 import CustomScriptsList from '../src/commands/custom-scripts/list.js'
 import CustomScriptsRestore from '../src/commands/custom-scripts/restore.js'
 import CustomScriptsUpdate from '../src/commands/custom-scripts/update.js'
+import QueriesCreate from '../src/commands/queries/create.js'
+import QueriesDelete from '../src/commands/queries/delete.js'
+import QueriesExecute from '../src/commands/queries/execute.js'
+import QueriesGet from '../src/commands/queries/get.js'
+import QueriesList from '../src/commands/queries/list.js'
+import QueriesSchema from '../src/commands/queries/schema.js'
+import QueriesUpdate from '../src/commands/queries/update.js'
+import QueriesValidate from '../src/commands/queries/validate.js'
 import RulesConfig from '../src/commands/rules/config.js'
 import RulesContextSchema from '../src/commands/rules/context-schema.js'
 import RulesContextSchemas from '../src/commands/rules/context-schemas.js'
@@ -167,6 +175,69 @@ describe('rules commands', () => {
     expect(client.post).toHaveBeenCalledWith('/v1/rules/context-schemas', {body: {name: 'Rule'}})
     expect(client.post).toHaveBeenCalledWith('/v1/rules/validate-script', {body: {name: 'Rule'}})
     expect(client.delete).toHaveBeenCalledWith('/v1/rules/rule%201')
+    await cleanup()
+  })
+})
+
+describe('queries commands', () => {
+  it('maps saved query read requests', async () => {
+    const client = mockClient()
+
+    await runCommand(QueriesList, client, {
+      flags: {
+        columns: 'id,key,name',
+        count: 'hasMore',
+        'filter-json': '{"op":"AND","items":[]}',
+        limit: 10,
+        page: 2,
+        scope: 'ORGANIZATION',
+        'sort-json': '[{"field":"createdAt","direction":"desc"}]',
+      },
+    })
+    await runCommand(QueriesGet, client, {args: {id: 'query 1'}})
+    await runCommand(QueriesSchema, client, {})
+
+    expect(client.get).toHaveBeenCalledWith('/v1/saved-queries', {
+      query: {
+        columns: '["id","key","name"]',
+        count: 'hasMore',
+        filters: '{"op":"AND","items":[]}',
+        limit: 10,
+        page: 2,
+        scope: 'ORGANIZATION',
+        sort: '[{"field":"createdAt","direction":"desc"}]',
+      },
+    })
+    expect(client.get).toHaveBeenCalledWith('/v1/saved-queries/query%201', {query: undefined})
+    expect(client.get).toHaveBeenCalledWith('/v1/saved-queries/schema', {query: undefined})
+  })
+
+  it('maps saved query write requests from body files', async () => {
+    const {bodyFile, cleanup} = await createBodyFile({
+      key: 'active-assets',
+      name: 'Active assets',
+      parameters: [{name: 'ownerId', required: false, type: 'uuid'}],
+      sql: 'select id from runtime_dyn."dyn_assets" where owner_id = :ownerId',
+    })
+    const client = mockClient()
+
+    await runCommand(QueriesValidate, client, {flags: {'body-file': bodyFile}})
+    await runCommand(QueriesCreate, client, {flags: {'body-file': bodyFile}})
+    await runCommand(QueriesUpdate, client, {args: {id: 'query 1'}, flags: {'body-file': bodyFile}})
+    await runCommand(QueriesExecute, client, {args: {id: 'query 1'}, flags: {'body-file': bodyFile}})
+    await runCommand(QueriesDelete, client, {args: {id: 'query 1'}})
+
+    const body = {
+      key: 'active-assets',
+      name: 'Active assets',
+      parameters: [{name: 'ownerId', required: false, type: 'uuid'}],
+      sql: 'select id from runtime_dyn."dyn_assets" where owner_id = :ownerId',
+    }
+    expect(client.post).toHaveBeenCalledWith('/v1/saved-queries/validate', {body})
+    expect(client.post).toHaveBeenCalledWith('/v1/saved-queries', {body})
+    expect(client.patch).toHaveBeenCalledWith('/v1/saved-queries/query%201', {body})
+    expect(client.post).toHaveBeenCalledWith('/v1/saved-queries/query%201/execute', {body})
+    expect(client.delete).toHaveBeenCalledWith('/v1/saved-queries/query%201')
     await cleanup()
   })
 })

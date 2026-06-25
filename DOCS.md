@@ -324,6 +324,8 @@ Current bundled skills:
 
 - `opero-cli`: general Opero CLI usage, diagnostics, output, raw requests, and
   routing to specialized Opero skills.
+- `opero-queries`: saved SQL query schema discovery, authoring, parameters,
+  validation, create/update/execute lifecycle, and result contracts.
 - `opero-scripts`: Custom Script creation/update workflows, script types,
   context, save-time validation, dependencies, and safe runtime assumptions.
 
@@ -733,6 +735,31 @@ opero custom-scripts delete <id>
 
 Delete is immediate. It does not prompt for confirmation.
 
+### Queries
+
+Manage saved SQL queries:
+
+```bash
+opero --json queries list --limit 20
+opero --json queries list --scope ORGANIZATION
+opero --json queries get <id>
+opero --json queries schema
+opero --json queries validate --body-file query.json
+opero queries create --body-file query.json
+opero queries update <id> --body-file query.json
+opero --json queries execute <id> --body-file execute.json
+opero queries delete <id>
+```
+
+`queries schema` returns tables and columns available to custom SQL queries in
+the API token organization scope. It includes static RLS-protected tables and
+organization-owned `runtime_dyn` custom object tables. The API token must have
+`api.saved_queries.read`.
+
+`queries list` returns query metadata and omits SQL. Use `queries get <id>` for
+full SQL, parameters, and inferred result schema. Validate payloads before
+create/update, and pass execution values as `{ "params": { ... } }`.
+
 ### Files
 
 Upload an attachment file:
@@ -1050,6 +1077,14 @@ opero entity-comments update
 opero files download
 opero files get
 opero files upload
+opero queries create
+opero queries delete
+opero queries execute
+opero queries get
+opero queries list
+opero queries schema
+opero queries update
+opero queries validate
 opero request get
 opero request post
 opero request patch
