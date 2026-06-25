@@ -760,6 +760,44 @@ organization-owned `runtime_dyn` custom object tables. The API token must have
 full SQL, parameters, and inferred result schema. Validate payloads before
 create/update, and pass execution values as `{ "params": { ... } }`.
 
+### View Layouts
+
+Manage View Layouts, draft/publish lifecycle, runtime data, dynamic record
+runtime mutations, and relation-table runtime endpoints:
+
+```bash
+opero --json view-layouts list --surface DYNAMIC_OBJECT --mode EDIT --module-key crm --object-key deal
+opero --json view-layouts get <layoutId>
+opero view-layouts create --body-file layout.json
+opero view-layouts update <layoutId> --body-file layout.json
+opero view-layouts archive <layoutId>
+opero --json view-layouts resolve --surface DYNAMIC_OBJECT --mode EDIT --module-key crm --object-key deal
+opero --json view-layouts catalog --surface DYNAMIC_OBJECT --mode EDIT --module-key crm --object-key deal
+opero --json view-layouts custom-field-types
+opero --json view-layouts surface-capabilities
+opero --json view-layouts surface-definitions --surface DYNAMIC_OBJECT
+opero --json view-layouts runtime-context-variables <layoutId> --mode EDIT --record-id <recordId>
+opero --json view-layouts runtime-data --surface DYNAMIC_OBJECT --mode EDIT --body-file runtime-data.json
+opero view-layouts draft save <layoutId> --body-file draft.json
+opero --json view-layouts draft staged-field-definitions options <layoutId> <draftFieldDefinitionId>
+opero view-layouts publish <layoutId> --body-file publish.json
+opero view-layouts assignments replace <layoutId> --body-file assignments.json
+opero --json view-layouts versions list <layoutId>
+opero --json view-layouts versions get <layoutId> <versionId>
+opero view-layouts versions restore-draft <layoutId> <versionId> --body-file restore.json
+opero view-layouts runtime dynamic-object records create --surface DYNAMIC_OBJECT --mode CREATE --body-file record.json
+opero view-layouts runtime dynamic-object records update <recordId> --surface DYNAMIC_OBJECT --mode EDIT --body-file record.json
+opero --json view-layouts runtime dynamic-object relation-tables table-layout --surface DYNAMIC_OBJECT --mode VIEW --body-file table-layout.json
+opero --json view-layouts runtime dynamic-object relation-tables target-layout <relationFieldKey> --surface DYNAMIC_OBJECT --mode EDIT --target-mode CREATE
+opero --json view-layouts runtime dynamic-object relation-tables query <recordId> <relationFieldKey> --surface DYNAMIC_OBJECT --mode VIEW --body-file relation-query.json
+```
+
+Most runtime endpoints require `--surface` and `--mode`, plus target selectors
+such as `--module-key`, `--object-key`, `--form-id`, `--record-id`,
+`--entity-id`, `--scope-id`, or `--dashboard-key` depending on the surface.
+Write endpoints use `--body-file`; draft and assignment saves use `PUT` under
+the hood.
+
 ### Files
 
 Upload an attachment file:
@@ -1085,6 +1123,30 @@ opero queries list
 opero queries schema
 opero queries update
 opero queries validate
+opero view-layouts archive
+opero view-layouts assignments replace
+opero view-layouts catalog
+opero view-layouts create
+opero view-layouts custom-field-types
+opero view-layouts draft save
+opero view-layouts draft staged-field-definitions options
+opero view-layouts get
+opero view-layouts list
+opero view-layouts publish
+opero view-layouts resolve
+opero view-layouts runtime-data
+opero view-layouts runtime-context-variables
+opero view-layouts runtime dynamic-object records create
+opero view-layouts runtime dynamic-object records update
+opero view-layouts runtime dynamic-object relation-tables query
+opero view-layouts runtime dynamic-object relation-tables table-layout
+opero view-layouts runtime dynamic-object relation-tables target-layout
+opero view-layouts surface-capabilities
+opero view-layouts surface-definitions
+opero view-layouts update
+opero view-layouts versions get
+opero view-layouts versions list
+opero view-layouts versions restore-draft
 opero request get
 opero request post
 opero request patch

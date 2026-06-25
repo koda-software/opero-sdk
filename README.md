@@ -236,6 +236,21 @@ opero queries create --body-file query.json
 opero queries update <id> --body-file query.json
 opero --json queries execute <id> --body-file execute.json
 opero queries delete <id>
+
+opero --json view-layouts list --surface DYNAMIC_OBJECT --mode EDIT
+opero --json view-layouts get <layoutId>
+opero view-layouts create --body-file layout.json
+opero view-layouts update <layoutId> --body-file layout.json
+opero view-layouts archive <layoutId>
+opero --json view-layouts resolve --surface DYNAMIC_OBJECT --mode EDIT
+opero --json view-layouts catalog --surface DYNAMIC_OBJECT --mode EDIT
+opero --json view-layouts custom-field-types
+opero --json view-layouts surface-capabilities
+opero --json view-layouts surface-definitions --surface DYNAMIC_OBJECT
+opero --json view-layouts runtime-data --surface DYNAMIC_OBJECT --mode EDIT --body-file runtime-data.json
+opero view-layouts draft save <layoutId> --body-file draft.json
+opero view-layouts publish <layoutId> --body-file publish.json
+opero view-layouts runtime dynamic-object records create --surface DYNAMIC_OBJECT --mode CREATE --body-file record.json
 ```
 
 File commands:

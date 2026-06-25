@@ -30,10 +30,10 @@ export abstract class WriteCommand extends BaseCommand {
     return result
   }
 
-  protected async patchJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown): Promise<unknown> {
+  protected async patchJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown, query?: Query): Promise<unknown> {
     const {settings} = await this.loadSettings(flags)
     const client = this.createApiClient(settings)
-    const result = await client.patch(path, {body: body ?? (await readRequiredJsonBodyFile(flags['body-file']))})
+    const result = await client.patch(path, writeOptions(body ?? (await readRequiredJsonBodyFile(flags['body-file'])), query))
 
     if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
@@ -48,10 +48,10 @@ export abstract class WriteCommand extends BaseCommand {
     return result
   }
 
-  protected async postJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown): Promise<unknown> {
+  protected async postJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown, query?: Query): Promise<unknown> {
     const {settings} = await this.loadSettings(flags)
     const client = this.createApiClient(settings)
-    const result = await client.post(path, {body: body ?? (await readRequiredJsonBodyFile(flags['body-file']))})
+    const result = await client.post(path, writeOptions(body ?? (await readRequiredJsonBodyFile(flags['body-file'])), query))
 
     if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
@@ -65,6 +65,19 @@ export abstract class WriteCommand extends BaseCommand {
     if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
   }
+
+  protected async putJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown, query?: Query): Promise<unknown> {
+    const {settings} = await this.loadSettings(flags)
+    const client = this.createApiClient(settings)
+    const result = await client.request('PUT', path, writeOptions(body ?? (await readRequiredJsonBodyFile(flags['body-file'])), query))
+
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
+    return result
+  }
+}
+
+function writeOptions(body: unknown, query: Query | undefined): {body: unknown; query?: Query} {
+  return query === undefined ? {body} : {body, query}
 }
 
 async function readRequiredJsonBodyFile(path: string | undefined): Promise<unknown> {

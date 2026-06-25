@@ -108,6 +108,33 @@
       "service-catalog": {
         "description": "Manage service catalog items."
       },
+      "view-layouts": {
+        "description": "Manage View Layouts and runtime layout data."
+      },
+      "view-layouts assignments": {
+        "description": "Manage View Layout assignments."
+      },
+      "view-layouts draft": {
+        "description": "Manage View Layout drafts."
+      },
+      "view-layouts draft staged-field-definitions": {
+        "description": "Read staged custom-field draft options."
+      },
+      "view-layouts runtime": {
+        "description": "Use View Layout runtime endpoints."
+      },
+      "view-layouts runtime dynamic-object": {
+        "description": "Use dynamic-object runtime View Layout endpoints."
+      },
+      "view-layouts runtime dynamic-object records": {
+        "description": "Create and update dynamic records through View Layouts."
+      },
+      "view-layouts runtime dynamic-object relation-tables": {
+        "description": "Use relation-table runtime View Layout endpoints."
+      },
+      "view-layouts versions": {
+        "description": "Read and restore View Layout versions."
+      },
       "skills": {
         "description": "List and install Opero agent skills."
       },

@@ -141,6 +141,35 @@ opero --json queries execute <id> --body-file execute.json
 opero queries delete <id>
 ```
 
+View layouts:
+
+```bash
+opero --json view-layouts list --surface DYNAMIC_OBJECT --mode EDIT --module-key crm --object-key deal
+opero --json view-layouts get <layoutId>
+opero view-layouts create --body-file layout.json
+opero view-layouts update <layoutId> --body-file layout.json
+opero view-layouts archive <layoutId>
+opero --json view-layouts resolve --surface DYNAMIC_OBJECT --mode EDIT --module-key crm --object-key deal
+opero --json view-layouts catalog --surface DYNAMIC_OBJECT --mode EDIT --module-key crm --object-key deal
+opero --json view-layouts custom-field-types
+opero --json view-layouts surface-capabilities
+opero --json view-layouts surface-definitions --surface DYNAMIC_OBJECT
+opero --json view-layouts runtime-context-variables <layoutId> --mode EDIT --record-id <recordId>
+opero --json view-layouts runtime-data --surface DYNAMIC_OBJECT --mode EDIT --body-file runtime-data.json
+opero view-layouts draft save <layoutId> --body-file draft.json
+opero --json view-layouts draft staged-field-definitions options <layoutId> <draftFieldDefinitionId>
+opero view-layouts publish <layoutId> --body-file publish.json
+opero view-layouts assignments replace <layoutId> --body-file assignments.json
+opero --json view-layouts versions list <layoutId>
+opero --json view-layouts versions get <layoutId> <versionId>
+opero view-layouts versions restore-draft <layoutId> <versionId> --body-file restore.json
+opero view-layouts runtime dynamic-object records create --surface DYNAMIC_OBJECT --mode CREATE --body-file record.json
+opero view-layouts runtime dynamic-object records update <recordId> --surface DYNAMIC_OBJECT --mode EDIT --body-file record.json
+opero --json view-layouts runtime dynamic-object relation-tables table-layout --surface DYNAMIC_OBJECT --mode VIEW --body-file table-layout.json
+opero --json view-layouts runtime dynamic-object relation-tables target-layout <relationFieldKey> --surface DYNAMIC_OBJECT --mode EDIT --target-mode CREATE
+opero --json view-layouts runtime dynamic-object relation-tables query <recordId> <relationFieldKey> --surface DYNAMIC_OBJECT --mode VIEW --body-file relation-query.json
+```
+
 Rules:
 
 ```bash
