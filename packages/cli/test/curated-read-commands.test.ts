@@ -15,6 +15,19 @@ import CustomRecordsSingleton from '../src/commands/custom-records/singleton.js'
 import DictionariesEntries from '../src/commands/dictionaries/entries/index.js'
 import DictionariesGet from '../src/commands/dictionaries/get.js'
 import DictionariesList from '../src/commands/dictionaries/list.js'
+import WorkflowTemplatesList from '../src/commands/workflow-templates/list.js'
+import WorkflowsAssignmentCandidatesLookup from '../src/commands/workflows/assignment-candidates/lookup.js'
+import WorkflowsDraftGet from '../src/commands/workflows/draft/get.js'
+import WorkflowsGet from '../src/commands/workflows/get.js'
+import WorkflowsList from '../src/commands/workflows/list.js'
+import WorkflowsPublicationsList from '../src/commands/workflows/publications/list.js'
+import WorkflowsRuntimeCreateOptions from '../src/commands/workflows/runtime/create-options.js'
+import WorkflowsRuntimeGet from '../src/commands/workflows/runtime/get.js'
+import WorkflowsRuntimeHistory from '../src/commands/workflows/runtime/history.js'
+import WorkflowsRuntimeReplay from '../src/commands/workflows/runtime/replay.js'
+import WorkflowsRuntimeTargetState from '../src/commands/workflows/runtime/target-state.js'
+import WorkflowsTasksGet from '../src/commands/workflows/tasks/get.js'
+import WorkflowsTasksList from '../src/commands/workflows/tasks/list.js'
 
 type CommandInstance = {
   createApiClient: ReturnType<typeof vi.fn>
@@ -97,6 +110,48 @@ describe('curated read commands', () => {
       options: {query: {expand: 'owner'}},
       path: '/v1/custom-modules/crm%20module/objects/settings/record',
     },
+    {
+      args: {workflowId: 'workflow 1'},
+      command: WorkflowsGet,
+      flags: {},
+      options: {query: undefined},
+      path: '/v1/workflows/workflow%201',
+    },
+    {
+      args: {workflowId: 'workflow 1'},
+      command: WorkflowsDraftGet,
+      flags: {},
+      options: {query: undefined},
+      path: '/v1/workflows/workflow%201/draft',
+    },
+    {
+      args: {instanceId: 'instance 1'},
+      command: WorkflowsRuntimeGet,
+      flags: {},
+      options: {query: undefined},
+      path: '/v1/workflows/runtime/instances/instance%201',
+    },
+    {
+      args: {instanceId: 'instance 1'},
+      command: WorkflowsRuntimeReplay,
+      flags: {},
+      options: {query: undefined},
+      path: '/v1/workflows/runtime/instances/instance%201/replay',
+    },
+    {
+      args: {instanceId: 'instance 1'},
+      command: WorkflowsRuntimeHistory,
+      flags: {},
+      options: {query: undefined},
+      path: '/v1/workflows/runtime/instances/instance%201/history',
+    },
+    {
+      args: {taskId: 'task 1'},
+      command: WorkflowsTasksGet,
+      flags: {},
+      options: {query: undefined},
+      path: '/v1/workflows/tasks/task%201',
+    },
   ])('$path', async ({args, command, flags, options, path}) => {
     const {client, result} = await runCommand(command, {args, flags})
 
@@ -136,6 +191,26 @@ describe('curated read commands', () => {
       command: CustomRecordsList,
       path: '/v1/custom-modules/crm%20module/objects/deal%20type/records',
     },
+    {
+      args: {},
+      command: WorkflowTemplatesList,
+      path: '/v1/workflow-templates',
+    },
+    {
+      args: {},
+      command: WorkflowsList,
+      path: '/v1/workflows',
+    },
+    {
+      args: {workflowId: 'workflow 1'},
+      command: WorkflowsPublicationsList,
+      path: '/v1/workflows/workflow%201/publications',
+    },
+    {
+      args: {},
+      command: WorkflowsTasksList,
+      path: '/v1/workflows/tasks',
+    },
   ])('$path forwards normalized list query', async ({args, command, path}) => {
     const flags = {
       columns: 'id,name',
@@ -160,6 +235,41 @@ describe('curated read commands', () => {
         limit: 10,
         page: 2,
         sort: '[{"field":"createdAt","direction":"desc"}]',
+      },
+    })
+  })
+
+  it('maps workflow runtime target queries', async () => {
+    const {client: createOptionsClient} = await runCommand(WorkflowsRuntimeCreateOptions, {
+      flags: {'module-key': 'crm', 'object-key': 'deal', 'target-type': 'DYNAMIC_OBJECT_RECORD'},
+    })
+    const {client: targetStateClient} = await runCommand(WorkflowsRuntimeTargetState, {
+      args: {targetId: 'record 1'},
+      flags: {'module-key': 'crm', 'object-key': 'deal', 'target-type': 'DYNAMIC_OBJECT_RECORD'},
+    })
+    const {client: candidatesClient} = await runCommand(WorkflowsAssignmentCandidatesLookup, {
+      flags: {
+        'candidate-type': 'membership',
+        limit: 5,
+        search: 'ada',
+        'source-id': 'stage 1',
+        'source-type': 'stage',
+      },
+    })
+
+    expect(createOptionsClient.get).toHaveBeenCalledWith('/v1/workflows/runtime/create-options', {
+      query: {moduleKey: 'crm', objectKey: 'deal', targetType: 'DYNAMIC_OBJECT_RECORD'},
+    })
+    expect(targetStateClient.get).toHaveBeenCalledWith('/v1/workflows/runtime/targets/DYNAMIC_OBJECT_RECORD/record%201', {
+      query: {moduleKey: 'crm', objectKey: 'deal'},
+    })
+    expect(candidatesClient.get).toHaveBeenCalledWith('/v1/workflows/assignment-candidates/lookup', {
+      query: {
+        candidateType: 'membership',
+        limit: 5,
+        search: 'ada',
+        sourceId: 'stage 1',
+        sourceType: 'stage',
       },
     })
   })

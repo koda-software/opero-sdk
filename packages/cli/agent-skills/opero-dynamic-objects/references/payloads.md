@@ -49,11 +49,19 @@ valid payload.
 }
 ```
 
+Use `createDefaultForm: true` by default for new regular objects so Opero also
+creates default `CREATE`, `VIEW`, and `EDIT` forms plus the owned View Layout
+container. Omit it or set it to `false` only when the user explicitly does not
+want forms/layouts. Do not use it for subordinate objects.
+
 ```bash
 opero custom-objects schema-drafts create support ticket --body-file draft.json
 ```
 
 ## Add Fields Draft
+
+After applying an add-field draft, inspect the object's forms and ask whether
+the new field should be added to create, view, or edit View Layouts.
 
 ```json
 {
@@ -190,7 +198,6 @@ field contract includes `sql_query`.
       "name": "Opportunity",
       "namePlural": "Opportunities",
       "kind": "REGULAR",
-      "createDefaultForm": false,
       "displayLabel": "name"
     }
   }

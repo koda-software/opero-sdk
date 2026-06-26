@@ -55,11 +55,19 @@ describe('skills install commands', () => {
       }),
       expect.objectContaining({
         action: 'installed',
+        name: 'opero-rules',
+      }),
+      expect.objectContaining({
+        action: 'installed',
         name: 'opero-scripts',
       }),
       expect.objectContaining({
         action: 'installed',
         name: 'opero-view-layouts',
+      }),
+      expect.objectContaining({
+        action: 'installed',
+        name: 'opero-workflows',
       }),
     ])
   })
@@ -105,11 +113,19 @@ describe('skills install commands', () => {
       }),
       expect.objectContaining({
         action: 'would-install',
+        name: 'opero-rules',
+      }),
+      expect.objectContaining({
+        action: 'would-install',
         name: 'opero-scripts',
       }),
       expect.objectContaining({
         action: 'would-install',
         name: 'opero-view-layouts',
+      }),
+      expect.objectContaining({
+        action: 'would-install',
+        name: 'opero-workflows',
       }),
     ])
   })
@@ -143,14 +159,16 @@ describe('skills install commands', () => {
     await command.run()
 
     const output = command.log.mock.calls.map((call) => String(call[0])).join('\n')
-    expect(stripAnsi(output)).toContain('Installed 7 Opero skills for Codex')
+    expect(stripAnsi(output)).toContain('Installed 9 Opero skills for Codex')
     expect(stripAnsi(output)).toContain('opero-cli installed to')
     expect(stripAnsi(output)).toContain('opero-dictionaries installed to')
     expect(stripAnsi(output)).toContain('opero-dynamic-modules installed to')
     expect(stripAnsi(output)).toContain('opero-dynamic-objects installed to')
     expect(stripAnsi(output)).toContain('opero-queries installed to')
+    expect(stripAnsi(output)).toContain('opero-rules installed to')
     expect(stripAnsi(output)).toContain('opero-scripts installed to')
     expect(stripAnsi(output)).toContain('opero-view-layouts installed to')
+    expect(stripAnsi(output)).toContain('opero-workflows installed to')
     expect(output).not.toContain('dryRun')
   })
 })

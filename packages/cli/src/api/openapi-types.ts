@@ -1814,6 +1814,369 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/workflows/runtime/create-options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get workflow create options */
+        get: operations["WorkflowsRuntimeV1Controller_getCreateOptions_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/runtime/targets/{targetType}/{targetId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get workflow runtime state */
+        get: operations["WorkflowsRuntimeV1Controller_getRuntimeState_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/runtime/targets/{targetType}/{targetId}/instances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Start workflow instance */
+        post: operations["WorkflowsRuntimeV1Controller_startInstance_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/runtime/instances/{instanceId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get workflow instance */
+        get: operations["WorkflowsRuntimeV1Controller_getInstance_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/runtime/instances/{instanceId}/replay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get workflow replay */
+        get: operations["WorkflowsRuntimeV1Controller_getReplay_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/runtime/instances/{instanceId}/author": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update workflow instance author */
+        patch: operations["WorkflowsRuntimeV1Controller_updateAuthor_v1"];
+        trace?: never;
+    };
+    "/v1/workflows/runtime/instances/{instanceId}/transitions/{transitionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Execute workflow transition */
+        post: operations["WorkflowsRuntimeV1Controller_executeTransition_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/runtime/instances/{instanceId}/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get workflow instance history */
+        get: operations["WorkflowsRuntimeV1Controller_getHistory_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/tasks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List workflow tasks */
+        get: operations["WorkflowsTasksV1Controller_findAll_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/tasks/{taskId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get workflow task */
+        get: operations["WorkflowsTasksV1Controller_findOne_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/tasks/{taskId}/reassign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reassign workflow task */
+        post: operations["WorkflowsTasksV1Controller_reassign_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/assignment-candidates/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lookup workflow assignment candidates */
+        get: operations["WorkflowsAssignmentCandidatesV1Controller_lookup_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflow-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List workflow templates */
+        get: operations["WorkflowTemplatesV1Controller_findAll_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflow-templates/{templateId}/create-workflow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create workflow from template */
+        post: operations["WorkflowTemplatesV1Controller_createWorkflow_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List workflows */
+        get: operations["WorkflowsV1Controller_findAll_v1"];
+        put?: never;
+        /** Create workflow */
+        post: operations["WorkflowsV1Controller_create_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/{workflowId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get workflow */
+        get: operations["WorkflowsV1Controller_findOne_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update workflow metadata */
+        patch: operations["WorkflowsV1Controller_update_v1"];
+        trace?: never;
+    };
+    "/v1/workflows/{workflowId}/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get workflow draft */
+        get: operations["WorkflowsV1Controller_getDraft_v1"];
+        /**
+         * Save workflow draft
+         * @description Replaces the editable draft definition, including stages and transitions.
+         */
+        put: operations["WorkflowsV1Controller_saveDraft_v1"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/{workflowId}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish workflow draft */
+        post: operations["WorkflowsV1Controller_publish_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/{workflowId}/discard-draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Discard workflow draft */
+        post: operations["WorkflowsV1Controller_discardDraft_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/{workflowId}/publications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List workflow publications */
+        get: operations["WorkflowsV1Controller_listPublications_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/workflows/{workflowId}/publications/{publicationId}/create-draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create draft from workflow publication */
+        post: operations["WorkflowsV1Controller_createDraftFromPublication_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -6549,6 +6912,623 @@ export interface components {
             clientMutationId: string;
             organizationDefault?: boolean;
             roles?: components["schemas"]["ViewLayoutRoleAssignmentInputDto"][];
+        };
+        WorkflowCreateOptionDto: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string | null;
+        };
+        ExternalWorkflowCreateOptionsDto: {
+            /** @enum {string} */
+            targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+            targetConfig: Record<string, never>;
+            required: boolean;
+            workflows: components["schemas"]["WorkflowCreateOptionDto"][];
+        };
+        DataOfExternalWorkflowCreateOptionsDto: {
+            data: components["schemas"]["ExternalWorkflowCreateOptionsDto"];
+        };
+        ExternalWorkflowRuntimeStateDto: {
+            /** @enum {string} */
+            targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+            targetId: string;
+            availableWorkflows: components["schemas"]["WorkflowListItemResponseDto"][];
+            instances: components["schemas"]["WorkflowInstanceResponseDto"][];
+            defaultWorkflowId?: string | null;
+        };
+        DataOfExternalWorkflowRuntimeStateDto: {
+            data: components["schemas"]["ExternalWorkflowRuntimeStateDto"];
+        };
+        ExternalStartWorkflowInstanceDto: {
+            workflowId: string;
+            metadata?: Record<string, never>;
+        };
+        ExternalWorkflowInstanceDto: {
+            id: string;
+            organizationId: string;
+            workflowId: string;
+            workflow?: components["schemas"]["WorkflowInstanceWorkflowSummaryDto"] | null;
+            /** @enum {string} */
+            targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+            targetId: string;
+            currentStageId: string;
+            currentStage: components["schemas"]["WorkflowStageResponseDto"];
+            startedByUserId?: string | null;
+            authorUserId?: string | null;
+            currentAssigneeMembershipId?: string | null;
+            currentAssigneeRoleId?: string | null;
+            assignees?: components["schemas"]["WorkflowTaskAssigneeResponseDto"][];
+            /** Format: date-time */
+            dueAt?: string | null;
+            metadata?: Record<string, never> | null;
+            startedSnapshot?: components["schemas"]["WorkflowTargetSnapshotDto"] | null;
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            completedAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            availableTransitions: components["schemas"]["WorkflowRuntimeTransitionResponseDto"][];
+            permissions: components["schemas"]["WorkflowRuntimePermissionsDto"];
+            currentTask?: components["schemas"]["WorkflowInstanceCurrentTaskResponseDto"] | null;
+        };
+        DataOfExternalWorkflowInstanceDto: {
+            data: components["schemas"]["ExternalWorkflowInstanceDto"];
+        };
+        WorkflowHistoryStagePresentationDto: {
+            id: string;
+            key: string;
+            name: string;
+            color?: string | null;
+            icon?: string | null;
+            /** @enum {string} */
+            category: "DRAFT" | "ACTIVE" | "WAITING" | "APPROVED" | "REJECTED" | "TERMINAL" | "ARCHIVED";
+        };
+        WorkflowHistoryActorUserResponseDto: {
+            id: string;
+            firstName: string;
+            lastName: string;
+            name: string;
+            email: string;
+            /** @enum {string} */
+            status: "ACTIVE" | "INACTIVE" | "ARCHIVED";
+            isActive: boolean;
+        };
+        WorkflowHistoryActorMembershipResponseDto: {
+            id: string;
+            userId: string;
+            roleIds: string[];
+        };
+        WorkflowHistoryActorRoleResponseDto: {
+            id: string;
+            key: string;
+            name: string;
+            color: string;
+            icon?: string | null;
+        };
+        WorkflowHistoryActorApiTokenResponseDto: {
+            id: string;
+            name: string;
+            /** @enum {string} */
+            kind: "ORGANIZATION" | "USER";
+            isActive: boolean;
+        };
+        WorkflowHistoryActorsResponseDto: {
+            users: {
+                [key: string]: components["schemas"]["WorkflowHistoryActorUserResponseDto"];
+            };
+            memberships: {
+                [key: string]: components["schemas"]["WorkflowHistoryActorMembershipResponseDto"];
+            };
+            roles: {
+                [key: string]: components["schemas"]["WorkflowHistoryActorRoleResponseDto"];
+            };
+            apiTokens: {
+                [key: string]: components["schemas"]["WorkflowHistoryActorApiTokenResponseDto"];
+            };
+        };
+        WorkflowReplayStageVisualPositionDto: {
+            x: number;
+            y: number;
+        };
+        WorkflowReplayStageVisualDto: {
+            position?: components["schemas"]["WorkflowReplayStageVisualPositionDto"];
+        };
+        WorkflowReplayTransitionVisualDto: {
+            labelPathPosition?: number;
+        };
+        WorkflowReplayInstanceResponseDto: {
+            id: string;
+            workflowId: string;
+            workflowKey: string;
+            workflowName: string;
+            /** @enum {string} */
+            targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+            targetId: string;
+            currentStageKey: string;
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            completedAt?: string | null;
+            publicationId?: string | null;
+            publicationNumber?: number | null;
+        };
+        WorkflowReplayStageDto: {
+            id: string;
+            key: string;
+            name: string;
+            taskName?: string | null;
+            description?: string | null;
+            /** @enum {string} */
+            category: "DRAFT" | "ACTIVE" | "WAITING" | "APPROVED" | "REJECTED" | "TERMINAL" | "ARCHIVED";
+            color?: string | null;
+            icon?: string | null;
+            position: number;
+            isInitial: boolean;
+            isTerminal: boolean;
+            isReadOnly: boolean;
+            visual?: components["schemas"]["WorkflowReplayStageVisualDto"];
+        };
+        WorkflowReplayTransitionDto: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            fromStageKey: string;
+            toStageKey: string;
+            position: number;
+            buttonStyle?: string | null;
+            visual?: components["schemas"]["WorkflowReplayTransitionVisualDto"];
+        };
+        WorkflowReplayVisualConfigDto: {
+            edgeLabelPositions?: {
+                [key: string]: number;
+            };
+        };
+        WorkflowReplayDefinitionDto: {
+            stages: components["schemas"]["WorkflowReplayStageDto"][];
+            transitions: components["schemas"]["WorkflowReplayTransitionDto"][];
+            visual: components["schemas"]["WorkflowReplayVisualConfigDto"];
+        };
+        WorkflowConditionResultDto: {
+            passed: boolean;
+            failedConditionKey?: string | null;
+            reason?: string | null;
+            debug?: Record<string, never>;
+        };
+        WorkflowHistoryEventResponseDto: {
+            id: string;
+            workflowInstanceId: string;
+            workflowId: string;
+            /** @enum {string} */
+            eventType: "STARTED" | "TRANSITIONED" | "COMPLETED" | "ASSIGNEE_CHANGED" | "AUTHOR_CHANGED";
+            transitionId?: string | null;
+            fromStageId?: string | null;
+            toStageId?: string | null;
+            stageId?: string | null;
+            transitionKey?: string | null;
+            transitionName?: string | null;
+            fromStageKey?: string | null;
+            fromStageName?: string | null;
+            toStageKey?: string | null;
+            toStageName?: string | null;
+            stageKey?: string | null;
+            stageName?: string | null;
+            fromStage?: components["schemas"]["WorkflowHistoryStagePresentationDto"] | null;
+            toStage?: components["schemas"]["WorkflowHistoryStagePresentationDto"] | null;
+            stage?: components["schemas"]["WorkflowHistoryStagePresentationDto"] | null;
+            actorUserId?: string | null;
+            actorMembershipId?: string | null;
+            actorApiTokenId?: string | null;
+            /** @enum {string} */
+            actorType: "USER" | "API_TOKEN";
+            comment?: string | null;
+            payload?: Record<string, never> | null;
+            targetSnapshot?: components["schemas"]["WorkflowTargetSnapshotDto"] | null;
+            conditionResult?: components["schemas"]["WorkflowConditionResultDto"] | null;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        WorkflowHistoryResponseDto: {
+            events: components["schemas"]["WorkflowHistoryEventResponseDto"][];
+            actors: components["schemas"]["WorkflowHistoryActorsResponseDto"];
+        };
+        ExternalWorkflowReplayDto: {
+            instance: components["schemas"]["WorkflowReplayInstanceResponseDto"];
+            definition: components["schemas"]["WorkflowReplayDefinitionDto"];
+            history: components["schemas"]["WorkflowHistoryResponseDto"];
+        };
+        DataOfExternalWorkflowReplayDto: {
+            data: components["schemas"]["ExternalWorkflowReplayDto"];
+        };
+        ExternalUpdateWorkflowInstanceAuthorDto: {
+            /** @description User ID to store as the mutable workflow Author/Reporter, or null to clear the author. Non-null users must be members of the active organization. */
+            authorUserId: string | null;
+        };
+        ExternalExecuteWorkflowTransitionDto: {
+            comment?: string;
+            payload?: Record<string, never>;
+            /** @description Selected assignee for transitions configured with assignment mode "select". Use for target stages with assignmentMode "single" or as a one-item compatibility shorthand. */
+            assignee?: components["schemas"]["WorkflowAssigneeDto"];
+            /** @description Selected assignees for transitions configured with assignment mode "select" when the target stage assignmentMode is "multiple". Must be non-empty when provided. */
+            assignees?: components["schemas"]["WorkflowAssigneeDto"][];
+        };
+        ExternalWorkflowHistoryDto: {
+            events: components["schemas"]["WorkflowHistoryEventResponseDto"][];
+            actors: components["schemas"]["WorkflowHistoryActorsResponseDto"];
+        };
+        DataOfExternalWorkflowHistoryDto: {
+            data: components["schemas"]["ExternalWorkflowHistoryDto"];
+        };
+        ExternalWorkflowTaskDto: {
+            id: string;
+            organizationId: string;
+            workflowId: string;
+            workflowInstanceId: string;
+            stageId: string;
+            /** @enum {string} */
+            status: "OPEN" | "COMPLETED" | "CANCELLED";
+            title: string;
+            workflow: components["schemas"]["WorkflowTaskWorkflowResponseDto"];
+            stage: components["schemas"]["WorkflowTaskStageResponseDto"];
+            target: components["schemas"]["WorkflowTaskTargetResponseDto"];
+            assignee?: components["schemas"]["WorkflowTaskAssigneeResponseDto"] | null;
+            assignees?: components["schemas"]["WorkflowTaskAssigneeResponseDto"][];
+            /** Format: date-time */
+            dueAt?: string | null;
+            /** Format: date-time */
+            openedAt: string;
+            /** Format: date-time */
+            completedAt?: string | null;
+            /** Format: date-time */
+            cancelledAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ListOfExternalWorkflowTaskDto: {
+            data: components["schemas"]["ExternalWorkflowTaskDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
+        };
+        DataOfExternalWorkflowTaskDto: {
+            data: components["schemas"]["ExternalWorkflowTaskDto"];
+        };
+        ExternalReassignWorkflowTaskDto: {
+            /** @description Next task assignee for single-assignee stages, or a one-item compatibility shorthand. Null is invalid. */
+            assignee?: components["schemas"]["WorkflowAssigneeDto"];
+            /** @description Replacement assignee set for the shared workflow task. Must be non-empty when provided. Null and empty arrays are invalid. */
+            assignees?: components["schemas"]["WorkflowAssigneeDto"][];
+        };
+        WorkflowAssignmentCandidateRoleSummaryDto: {
+            id: string;
+            key: string;
+            name: string;
+            color: string;
+            icon?: string | null;
+        };
+        WorkflowAssignmentCandidateLookupItemDto: {
+            /** @enum {string} */
+            type: "membership" | "role";
+            id: string;
+            label: string;
+            userId?: string;
+            email?: string | null;
+            firstName?: string | null;
+            lastName?: string | null;
+            key?: string;
+            color?: string;
+            icon?: string | null;
+            roles?: components["schemas"]["WorkflowAssignmentCandidateRoleSummaryDto"][];
+        };
+        ExternalWorkflowAssignmentCandidateLookupDto: {
+            items: components["schemas"]["WorkflowAssignmentCandidateLookupItemDto"][];
+        };
+        DataOfExternalWorkflowAssignmentCandidateLookupDto: {
+            data: components["schemas"]["ExternalWorkflowAssignmentCandidateLookupDto"];
+        };
+        ExternalWorkflowTemplateDto: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            targets: components["schemas"]["WorkflowTargetResponseDto"][];
+            definition: Record<string, never>;
+            isSystem: boolean;
+            isActive: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ListOfExternalWorkflowTemplateDto: {
+            data: components["schemas"]["ExternalWorkflowTemplateDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
+        };
+        ExternalCreateWorkflowFromTemplateDto: {
+            /** @example sales_invoice_approval */
+            key: string;
+            /** @example Sales invoice approval */
+            name: string;
+            description?: string;
+            metadata?: Record<string, never>;
+        };
+        WorkflowTransitionResponseDto: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            fromStageId: string;
+            toStageId: string;
+            position: number;
+            buttonStyle?: string | null;
+            requiredComment: boolean;
+            isActive: boolean;
+        };
+        ExternalWorkflowDetailDto: {
+            id: string;
+            organizationId: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            targets: components["schemas"]["WorkflowTargetResponseDto"][];
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "INACTIVE";
+            isSystemTemplateCopy: boolean;
+            templateSourceId?: string | null;
+            currentPublicationId?: string | null;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            publishedByUserId?: string | null;
+            hasDraft: boolean;
+            /** Format: date-time */
+            draftUpdatedAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            stages: components["schemas"]["WorkflowStageResponseDto"][];
+            transitions: components["schemas"]["WorkflowTransitionResponseDto"][];
+            metadata?: Record<string, never> | null;
+        };
+        DataOfExternalWorkflowDetailDto: {
+            data: components["schemas"]["ExternalWorkflowDetailDto"];
+        };
+        ExternalWorkflowListItemDto: {
+            id: string;
+            organizationId: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            targets: components["schemas"]["WorkflowTargetResponseDto"][];
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "INACTIVE";
+            isSystemTemplateCopy: boolean;
+            templateSourceId?: string | null;
+            currentPublicationId?: string | null;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            publishedByUserId?: string | null;
+            hasDraft: boolean;
+            /** Format: date-time */
+            draftUpdatedAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ListOfExternalWorkflowListItemDto: {
+            data: components["schemas"]["ExternalWorkflowListItemDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
+        };
+        WorkflowDefinitionTargetDto: {
+            /** @enum {string} */
+            type: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+            config?: Record<string, never>;
+        };
+        WorkflowStageAssignmentConfigDto: {
+            /**
+             * @description Controls whether tasks in this stage accept exactly one assignee or multiple assignees. Defaults to single.
+             * @enum {string}
+             */
+            assignmentMode?: "single" | "multiple";
+            assignee?: components["schemas"]["WorkflowAssigneeDto"];
+            assignees?: components["schemas"]["WorkflowAssigneeDto"][];
+            reassignmentCandidates?: components["schemas"]["WorkflowAssignmentCandidatesDto"];
+        };
+        WorkflowStageSlaConfigDto: {
+            /** @description Number of calendar days after task creation when task is due. */
+            dueInDays?: number;
+        };
+        WorkflowTransitionFixedAssignmentConfigDto: {
+            /** @enum {string} */
+            mode: "fixed";
+            assignee?: components["schemas"]["WorkflowAssigneeDto"];
+            assignees?: components["schemas"]["WorkflowAssigneeDto"][];
+        };
+        WorkflowTransitionSelectAssignmentConfigDto: {
+            /** @enum {string} */
+            mode: "select";
+            /** @description Filters the target stage assignment candidates. membershipMode "any" means every candidate allowed by the target stage. */
+            candidates: components["schemas"]["WorkflowAssignmentCandidatesDto"];
+        };
+        WorkflowStageDefinitionDto: {
+            /**
+             * @description Stable internal key. Omit for new stages and the backend will generate one.
+             * @example stage_4f7a12c9e8b340fa
+             */
+            key?: string;
+            /** @example Draft */
+            name: string;
+            /**
+             * @description Default work-queue task label used when this stage creates a task.
+             * @example Review invoice
+             */
+            taskName?: string;
+            description?: string;
+            /** @enum {string} */
+            category?: "DRAFT" | "ACTIVE" | "WAITING" | "APPROVED" | "REJECTED" | "TERMINAL" | "ARCHIVED";
+            color?: string;
+            icon?: string;
+            /** @default 0 */
+            position: number;
+            /** @default false */
+            isInitial: boolean;
+            /** @default false */
+            isTerminal: boolean;
+            /** @default false */
+            isReadOnly: boolean;
+            assignmentConfig?: components["schemas"]["WorkflowStageAssignmentConfigDto"];
+            slaConfig?: components["schemas"]["WorkflowStageSlaConfigDto"];
+            editAccessConfig?: components["schemas"]["WorkflowStageEditAccessConfigDto"];
+            uiConfig?: Record<string, never>;
+            parameters?: Record<string, never>;
+        };
+        WorkflowTransitionDefinitionDto: {
+            /**
+             * @description Stable internal key. Omit for new transitions and the backend will generate one.
+             * @example transition_4f7a12c9e8b340fa
+             */
+            key?: string;
+            /** @example Submit for review */
+            name: string;
+            description?: string;
+            /** @example draft */
+            fromStageKey: string;
+            /** @example in_review */
+            toStageKey: string;
+            /** @default 0 */
+            position: number;
+            buttonStyle?: string;
+            /** @default false */
+            requiredComment: boolean;
+            permissionConfig?: Record<string, never>;
+            conditionConfig?: Record<string, never>;
+            requiredFieldsConfig?: Record<string, never>;
+            assignmentConfig?: components["schemas"]["WorkflowTransitionFixedAssignmentConfigDto"] | components["schemas"]["WorkflowTransitionSelectAssignmentConfigDto"];
+            eventConfig?: Record<string, never>;
+        };
+        WorkflowDefinitionDto: {
+            /** @description Objects this workflow can run on. Conditions are evaluated against the actual runtime object. */
+            targets: components["schemas"]["WorkflowDefinitionTargetDto"][];
+            stages: components["schemas"]["WorkflowStageDefinitionDto"][];
+            transitions: components["schemas"]["WorkflowTransitionDefinitionDto"][];
+            metadata?: Record<string, never>;
+        };
+        ExternalCreateWorkflowDto: {
+            /** @example sales_invoice_approval */
+            key: string;
+            /** @example Sales invoice approval */
+            name: string;
+            description?: string;
+            /** @description Objects this workflow can run on. Conditions are evaluated at runtime for the selected object. */
+            targets: components["schemas"]["WorkflowDefinitionTargetDto"][];
+            definition?: components["schemas"]["WorkflowDefinitionDto"];
+            metadata?: Record<string, never>;
+        };
+        ExternalUpdateWorkflowDto: {
+            /** @example Sales invoice approval */
+            name?: string;
+            description?: string;
+            metadata?: Record<string, never>;
+        };
+        WorkflowValidationIssueDto: {
+            code: string;
+            message: string;
+            path?: string;
+            severity?: Record<string, never>;
+        };
+        WorkflowValidationResultDto: {
+            valid: boolean;
+            errors: components["schemas"]["WorkflowValidationIssueDto"][];
+            warnings: components["schemas"]["WorkflowValidationIssueDto"][];
+        };
+        ExternalWorkflowDraftDto: {
+            id: string;
+            workflowId: string;
+            organizationId: string;
+            definition: Record<string, never>;
+            validationResult?: components["schemas"]["WorkflowValidationResultDto"] | null;
+            /** Format: date-time */
+            lastValidatedAt?: string | null;
+            updatedByUserId?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DataOfExternalWorkflowDraftDto: {
+            data: components["schemas"]["ExternalWorkflowDraftDto"];
+        };
+        ExternalSaveWorkflowDraftDto: {
+            /** @description Complete workflow draft definition. It may be structurally invalid while the builder is autosaving. */
+            definition: Record<string, never>;
+        };
+        ExternalPublishWorkflowDto: {
+            summary?: string;
+        };
+        WorkflowDetailResponseDto: {
+            id: string;
+            organizationId: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            targets: components["schemas"]["WorkflowTargetResponseDto"][];
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "INACTIVE";
+            isSystemTemplateCopy: boolean;
+            templateSourceId?: string | null;
+            currentPublicationId?: string | null;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            publishedByUserId?: string | null;
+            hasDraft: boolean;
+            /** Format: date-time */
+            draftUpdatedAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            stages: components["schemas"]["WorkflowStageResponseDto"][];
+            transitions: components["schemas"]["WorkflowTransitionResponseDto"][];
+            metadata?: Record<string, never> | null;
+        };
+        WorkflowPublicationResponseDto: {
+            id: string;
+            workflowId: string;
+            organizationId: string;
+            publicationNumber: number;
+            definitionSnapshot: Record<string, never>;
+            publishedByUserId?: string | null;
+            /** Format: date-time */
+            publishedAt: string;
+            summary?: string | null;
+        };
+        ExternalPublishWorkflowResponseDto: {
+            workflow: components["schemas"]["WorkflowDetailResponseDto"];
+            publication: components["schemas"]["WorkflowPublicationResponseDto"];
+            validation: components["schemas"]["WorkflowValidationResultDto"];
+        };
+        DataOfExternalPublishWorkflowResponseDto: {
+            data: components["schemas"]["ExternalPublishWorkflowResponseDto"];
+        };
+        ExternalWorkflowPublicationDto: {
+            id: string;
+            workflowId: string;
+            organizationId: string;
+            publicationNumber: number;
+            definitionSnapshot: Record<string, never>;
+            publishedByUserId?: string | null;
+            /** Format: date-time */
+            publishedAt: string;
+            summary?: string | null;
+        };
+        ListOfExternalWorkflowPublicationDto: {
+            data: components["schemas"]["ExternalWorkflowPublicationDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
         };
     };
     responses: never;
@@ -13504,6 +14484,1338 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DataOfExternalViewLayoutDetailResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsRuntimeV1Controller_getCreateOptions_v1: {
+        parameters: {
+            query: {
+                targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+                /** @description Required when targetType is DYNAMIC_OBJECT_RECORD. */
+                moduleKey?: string;
+                /** @description Required when targetType is DYNAMIC_OBJECT_RECORD. */
+                objectKey?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowCreateOptionsDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsRuntimeV1Controller_getRuntimeState_v1: {
+        parameters: {
+            query?: {
+                /** @description Dynamic module key. Required when targetType is DYNAMIC_OBJECT_RECORD. */
+                moduleKey?: string;
+                /** @description Dynamic object key. Required when targetType is DYNAMIC_OBJECT_RECORD. */
+                objectKey?: string;
+            };
+            header?: never;
+            path: {
+                targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+                /** @description Target record ID */
+                targetId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowRuntimeStateDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsRuntimeV1Controller_startInstance_v1: {
+        parameters: {
+            query?: {
+                /** @description Dynamic module key. Required when targetType is DYNAMIC_OBJECT_RECORD. */
+                moduleKey?: string;
+                /** @description Dynamic object key. Required when targetType is DYNAMIC_OBJECT_RECORD. */
+                objectKey?: string;
+            };
+            header?: never;
+            path: {
+                targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
+                /** @description Target record ID */
+                targetId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExternalStartWorkflowInstanceDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowInstanceDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsRuntimeV1Controller_getInstance_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow instance ID */
+                instanceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowInstanceDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsRuntimeV1Controller_getReplay_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow instance ID */
+                instanceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowReplayDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsRuntimeV1Controller_updateAuthor_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow instance ID */
+                instanceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExternalUpdateWorkflowInstanceAuthorDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowInstanceDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsRuntimeV1Controller_executeTransition_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow instance ID */
+                instanceId: string;
+                /** @description Workflow transition ID */
+                transitionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExternalExecuteWorkflowTransitionDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowInstanceDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsRuntimeV1Controller_getHistory_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow instance ID */
+                instanceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowHistoryDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsTasksV1Controller_findAll_v1: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page. Maximum 100. */
+                limit?: number;
+                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
+                count?: "exact" | "none" | "hasMore";
+                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
+                filters?: string;
+                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
+                sort?: string;
+                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
+                columns?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOfExternalWorkflowTaskDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsTasksV1Controller_findOne_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow task ID */
+                taskId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowTaskDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsTasksV1Controller_reassign_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow task ID */
+                taskId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExternalReassignWorkflowTaskDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowTaskDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsAssignmentCandidatesV1Controller_lookup_v1: {
+        parameters: {
+            query: {
+                sourceType: "stage" | "transition";
+                sourceId: string;
+                candidateType: "membership" | "role";
+                /** @description Case-insensitive text search for dropdown autocomplete. */
+                search?: string;
+                /** @description Dropdown result limit. Values above 10 are capped at 10. */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowAssignmentCandidateLookupDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowTemplatesV1Controller_findAll_v1: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page. Maximum 100. */
+                limit?: number;
+                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
+                count?: "exact" | "none" | "hasMore";
+                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
+                filters?: string;
+                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
+                sort?: string;
+                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
+                columns?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOfExternalWorkflowTemplateDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowTemplatesV1Controller_createWorkflow_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow template ID */
+                templateId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExternalCreateWorkflowFromTemplateDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowDetailDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_findAll_v1: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page. Maximum 100. */
+                limit?: number;
+                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
+                count?: "exact" | "none" | "hasMore";
+                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
+                filters?: string;
+                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
+                sort?: string;
+                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
+                columns?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOfExternalWorkflowListItemDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_create_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExternalCreateWorkflowDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowDetailDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_findOne_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow ID */
+                workflowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowDetailDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_update_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow ID */
+                workflowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExternalUpdateWorkflowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowDetailDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_getDraft_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow ID */
+                workflowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowDraftDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_saveDraft_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow ID */
+                workflowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExternalSaveWorkflowDraftDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowDraftDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_publish_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow ID */
+                workflowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExternalPublishWorkflowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalPublishWorkflowResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_discardDraft_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow ID */
+                workflowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowDraftDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_listPublications_v1: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page. Maximum 100. */
+                limit?: number;
+                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
+                count?: "exact" | "none" | "hasMore";
+                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
+                filters?: string;
+                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
+                sort?: string;
+                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
+                columns?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Workflow ID */
+                workflowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOfExternalWorkflowPublicationDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    WorkflowsV1Controller_createDraftFromPublication_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Workflow ID */
+                workflowId: string;
+                /** @description Workflow publication ID */
+                publicationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalWorkflowDraftDto"];
                 };
             };
             400: {

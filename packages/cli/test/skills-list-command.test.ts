@@ -33,12 +33,20 @@ describe('skills list command', () => {
         name: 'opero-queries',
       }),
       expect.objectContaining({
+        description: expect.stringContaining('automation rules'),
+        name: 'opero-rules',
+      }),
+      expect.objectContaining({
         description: expect.stringContaining('custom scripts'),
         name: 'opero-scripts',
       }),
       expect.objectContaining({
         description: expect.stringContaining('View Layouts'),
         name: 'opero-view-layouts',
+      }),
+      expect.objectContaining({
+        description: expect.stringContaining('workflows'),
+        name: 'opero-workflows',
       }),
     ])
     expect(command.printOutput).not.toHaveBeenCalled()

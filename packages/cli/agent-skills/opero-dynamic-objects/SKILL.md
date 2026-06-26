@@ -44,6 +44,11 @@ Before changing an object:
 - Understand what the user wants to store or change in plain language.
 - Read current object/schema state before planning the payload.
 - For every field create/update, fetch the exact field-type contract.
+- For new regular objects, plan to create default forms and the form-owned View
+  Layout by setting `createDefaultForm: true`, unless the user explicitly does
+  not want forms/layouts.
+- For object edits, inspect existing forms and View Layouts and ask whether new
+  or changed fields should also be added to those layouts.
 - If existing data may be deleted or cleared, preview impact and explain it.
 
 Before creating, updating, applying, or deleting, summarize:
@@ -53,6 +58,7 @@ I will change this object:
 - Module: ...
 - Object: ...
 - Change: ...
+- Forms/layouts: create/update/leave unchanged
 - Data risk: ...
 - Validation or impact check: ...
 ```
@@ -81,15 +87,26 @@ Do not create, update, apply, or delete until the user approves.
 4. For schema changes, read `references/schema-drafts.md`, prepare an
    object-scoped draft, validate it, review the plan/errors, then apply only
    after approval.
-5. For record changes, read `references/records.md` and use custom record
+5. When creating a regular object, include `draft.object.createDefaultForm:
+   true` by default so Opero creates default `CREATE`, `VIEW`, and `EDIT` forms
+   and the owned View Layout container. Do not use it for subordinate objects.
+6. When adding or changing fields on an existing object, inspect forms and
+   layouts and ask whether to update layouts:
+
+   ```bash
+   opero --json request get /v1/custom-modules/<moduleKey>/objects/<objectKey>/forms
+   opero --json request get /v1/custom-modules/<moduleKey>/objects/<objectKey>/forms/defaults
+   ```
+
+7. For record changes, read `references/records.md` and use custom record
    commands.
-6. For delete requests, run delete impact before deleting:
+8. For delete requests, run delete impact before deleting:
 
    ```bash
    opero --json custom-objects delete-impact <moduleKey> <objectKey>
    ```
 
-7. Verify the result with object/schema/record read commands.
+9. Verify the result with object/schema/record read commands.
 
 ## Rules
 
@@ -100,7 +117,12 @@ Do not create, update, apply, or delete until the user approves.
   existing schema.
 - Always verify field create/update shape with
   `opero --json custom-objects field-types get <type>` before drafting.
+- For new regular objects, use `createDefaultForm: true` unless the user asks
+  not to create forms/layouts. Subordinate objects cannot create default forms.
 - Validate schema drafts before apply.
+- After applying object or field schema changes, check whether form-owned View
+  Layouts need updates. Do not assume new fields are visible to users just
+  because the schema exists.
 - Treat apply, object delete, field delete, and record delete as live changes.
 - If the task is about forms, form defaults, access, or form-owned layouts,
   prefer `opero-dynamic-forms` or `opero-view-layouts` when installed.

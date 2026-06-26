@@ -10,8 +10,10 @@ const operoDictionariesSkillDir = new URL('opero-dictionaries/', AGENT_SKILLS_DI
 const operoDynamicModulesSkillDir = new URL('opero-dynamic-modules/', AGENT_SKILLS_DIR)
 const operoDynamicObjectsSkillDir = new URL('opero-dynamic-objects/', AGENT_SKILLS_DIR)
 const operoQueriesSkillDir = new URL('opero-queries/', AGENT_SKILLS_DIR)
+const operoRulesSkillDir = new URL('opero-rules/', AGENT_SKILLS_DIR)
 const operoScriptsSkillDir = new URL('opero-scripts/', AGENT_SKILLS_DIR)
 const operoViewLayoutsSkillDir = new URL('opero-view-layouts/', AGENT_SKILLS_DIR)
+const operoWorkflowsSkillDir = new URL('opero-workflows/', AGENT_SKILLS_DIR)
 
 describe('agent skills source', () => {
   it('discovers bundled skills', async () => {
@@ -21,8 +23,10 @@ describe('agent skills source', () => {
       expect.objectContaining({name: 'opero-dynamic-modules'}),
       expect.objectContaining({name: 'opero-dynamic-objects'}),
       expect.objectContaining({name: 'opero-queries'}),
+      expect.objectContaining({name: 'opero-rules'}),
       expect.objectContaining({name: 'opero-scripts'}),
       expect.objectContaining({name: 'opero-view-layouts'}),
+      expect.objectContaining({name: 'opero-workflows'}),
     ])
   })
 
@@ -32,8 +36,10 @@ describe('agent skills source', () => {
     ['opero-dynamic-modules', operoDynamicModulesSkillDir],
     ['opero-dynamic-objects', operoDynamicObjectsSkillDir],
     ['opero-queries', operoQueriesSkillDir],
+    ['opero-rules', operoRulesSkillDir],
     ['opero-scripts', operoScriptsSkillDir],
     ['opero-view-layouts', operoViewLayoutsSkillDir],
+    ['opero-workflows', operoWorkflowsSkillDir],
   ])('uses portable skill frontmatter for %s compatible with Codex and Claude', async (name, skillDir) => {
     const markdown = await readFile(new URL('SKILL.md', skillDir), 'utf8')
     const manifest = parseSkillManifest(markdown)
@@ -100,6 +106,21 @@ describe('agent skills source', () => {
     ])
   })
 
+  it('references existing bundled reference files for opero-rules', async () => {
+    await expect(validateSkillFolder(operoRulesSkillDir)).resolves.toBeUndefined()
+
+    const markdown = await readFile(new URL('SKILL.md', operoRulesSkillDir), 'utf8')
+    expect(findReferencedMarkdownFiles(markdown)).toEqual([
+      'references/authoring.md',
+      'references/concepts.md',
+      'references/context-and-scripts.md',
+      'references/discovery.md',
+      'references/execution-and-debugging.md',
+      'references/impact-and-safety.md',
+      'references/payloads.md',
+    ])
+  })
+
   it('references existing bundled reference files for opero-dynamic-modules', async () => {
     await expect(validateSkillFolder(operoDynamicModulesSkillDir)).resolves.toBeUndefined()
 
@@ -143,14 +164,31 @@ describe('agent skills source', () => {
     ])
   })
 
+  it('references existing bundled reference files for opero-workflows', async () => {
+    await expect(validateSkillFolder(operoWorkflowsSkillDir)).resolves.toBeUndefined()
+
+    const markdown = await readFile(new URL('SKILL.md', operoWorkflowsSkillDir), 'utf8')
+    expect(findReferencedMarkdownFiles(markdown)).toEqual([
+      'references/assignments-and-permissions.md',
+      'references/concepts.md',
+      'references/definition-lifecycle.md',
+      'references/payloads.md',
+      'references/runtime.md',
+      'references/stages-and-transitions.md',
+      'references/tasks.md',
+    ])
+  })
+
   it.each([
     ['opero-cli', operoCliSkillDir],
     ['opero-dictionaries', operoDictionariesSkillDir],
     ['opero-dynamic-modules', operoDynamicModulesSkillDir],
     ['opero-dynamic-objects', operoDynamicObjectsSkillDir],
     ['opero-queries', operoQueriesSkillDir],
+    ['opero-rules', operoRulesSkillDir],
     ['opero-scripts', operoScriptsSkillDir],
     ['opero-view-layouts', operoViewLayoutsSkillDir],
+    ['opero-workflows', operoWorkflowsSkillDir],
   ])('does not include platform-specific or local-only install content in %s', async (_name, skillDir) => {
     const files = [
       new URL('SKILL.md', skillDir),

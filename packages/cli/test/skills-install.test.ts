@@ -55,6 +55,11 @@ describe('skills install', () => {
       },
       {
         action: 'would-install',
+        name: 'opero-rules',
+        targetPath: join(targetDir, 'opero-rules'),
+      },
+      {
+        action: 'would-install',
         name: 'opero-scripts',
         targetPath: join(targetDir, 'opero-scripts'),
       },
@@ -62,6 +67,11 @@ describe('skills install', () => {
         action: 'would-install',
         name: 'opero-view-layouts',
         targetPath: join(targetDir, 'opero-view-layouts'),
+      },
+      {
+        action: 'would-install',
+        name: 'opero-workflows',
+        targetPath: join(targetDir, 'opero-workflows'),
       },
     ])
     await expect(readFile(join(targetDir, 'opero-cli', 'SKILL.md'), 'utf8')).rejects.toMatchObject({code: 'ENOENT'})
@@ -104,21 +114,33 @@ describe('skills install', () => {
     })
     expect(result.data.skills[5]).toMatchObject({
       action: 'installed',
-      name: 'opero-scripts',
-      targetPath: join(targetDir, 'opero-scripts'),
+      name: 'opero-rules',
+      targetPath: join(targetDir, 'opero-rules'),
     })
     expect(result.data.skills[6]).toMatchObject({
       action: 'installed',
+      name: 'opero-scripts',
+      targetPath: join(targetDir, 'opero-scripts'),
+    })
+    expect(result.data.skills[7]).toMatchObject({
+      action: 'installed',
       name: 'opero-view-layouts',
       targetPath: join(targetDir, 'opero-view-layouts'),
+    })
+    expect(result.data.skills[8]).toMatchObject({
+      action: 'installed',
+      name: 'opero-workflows',
+      targetPath: join(targetDir, 'opero-workflows'),
     })
     expect(await readFile(join(targetDir, 'opero-cli', 'SKILL.md'), 'utf8')).toContain('name: opero-cli')
     expect(await readFile(join(targetDir, 'opero-dictionaries', 'SKILL.md'), 'utf8')).toContain('name: opero-dictionaries')
     expect(await readFile(join(targetDir, 'opero-dynamic-modules', 'SKILL.md'), 'utf8')).toContain('name: opero-dynamic-modules')
     expect(await readFile(join(targetDir, 'opero-dynamic-objects', 'SKILL.md'), 'utf8')).toContain('name: opero-dynamic-objects')
     expect(await readFile(join(targetDir, 'opero-queries', 'SKILL.md'), 'utf8')).toContain('name: opero-queries')
+    expect(await readFile(join(targetDir, 'opero-rules', 'SKILL.md'), 'utf8')).toContain('name: opero-rules')
     expect(await readFile(join(targetDir, 'opero-scripts', 'SKILL.md'), 'utf8')).toContain('name: opero-scripts')
     expect(await readFile(join(targetDir, 'opero-view-layouts', 'SKILL.md'), 'utf8')).toContain('name: opero-view-layouts')
+    expect(await readFile(join(targetDir, 'opero-workflows', 'SKILL.md'), 'utf8')).toContain('name: opero-workflows')
 
     const manifest = JSON.parse(await readFile(join(targetDir, 'opero-cli', INSTALLED_SKILL_MANIFEST), 'utf8')) as InstalledSkillManifest
     expect(manifest).toMatchObject({
@@ -170,11 +192,19 @@ describe('skills install', () => {
     })
     expect(second.data.skills[5]).toMatchObject({
       action: 'skipped',
-      name: 'opero-scripts',
+      name: 'opero-rules',
     })
     expect(second.data.skills[6]).toMatchObject({
       action: 'skipped',
+      name: 'opero-scripts',
+    })
+    expect(second.data.skills[7]).toMatchObject({
+      action: 'skipped',
       name: 'opero-view-layouts',
+    })
+    expect(second.data.skills[8]).toMatchObject({
+      action: 'skipped',
+      name: 'opero-workflows',
     })
   })
 
@@ -216,11 +246,19 @@ describe('skills install', () => {
     })
     expect(second.data.skills[5]).toMatchObject({
       action: 'updated',
-      name: 'opero-scripts',
+      name: 'opero-rules',
     })
     expect(second.data.skills[6]).toMatchObject({
       action: 'updated',
+      name: 'opero-scripts',
+    })
+    expect(second.data.skills[7]).toMatchObject({
+      action: 'updated',
       name: 'opero-view-layouts',
+    })
+    expect(second.data.skills[8]).toMatchObject({
+      action: 'updated',
+      name: 'opero-workflows',
     })
   })
 

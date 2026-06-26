@@ -57,6 +57,25 @@ Use the single-type response as the source of truth for that field type:
 
 This is more authoritative than stale OpenAPI types or copied examples.
 
+## Read Forms And View Layouts
+
+When creating a regular object, use `createDefaultForm: true` unless the user
+explicitly does not want default forms/layouts. This creates default `CREATE`,
+`VIEW`, and `EDIT` forms plus a form-owned View Layout container.
+
+When editing an existing object, especially when adding fields, inspect current
+forms and layout availability before planning what users will see:
+
+```bash
+opero --json request get /v1/custom-modules/<moduleKey>/objects/<objectKey>/forms
+opero --json request get /v1/custom-modules/<moduleKey>/objects/<objectKey>/forms/defaults
+```
+
+Each form may expose `viewLayoutId`, `layoutAvailability`, `usableTypes`, and
+`layoutWarnings`. Use `viewLayoutId` with `opero-view-layouts` when the user
+wants new or changed fields visible on a form. Ask before updating layouts when
+the original request only mentioned a schema/object change.
+
 ## What To Look For
 
 - Existing object and field keys.
@@ -67,6 +86,9 @@ This is more authoritative than stale OpenAPI types or copied examples.
 - Outgoing references to other objects.
 - Whether the object is singleton.
 - Whether record operations are enabled in the external profile.
+- Existing forms, default form ids, and form-owned `viewLayoutId` values.
+- Whether a new or changed field should appear on create, view, or edit
+  layouts.
 
 If a user says "add this to the form", route to forms or View Layouts. If they
 say "store this value on records", plan a field schema change first.

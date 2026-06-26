@@ -59,6 +59,17 @@ import RulesRelatedCustomObject from '../src/commands/rules/related-custom-objec
 import RulesStepTypes from '../src/commands/rules/step-types.js'
 import RulesUpdate from '../src/commands/rules/update.js'
 import RulesValidateScript from '../src/commands/rules/validate-script.js'
+import WorkflowTemplatesCreateWorkflow from '../src/commands/workflow-templates/create-workflow.js'
+import WorkflowsCreate from '../src/commands/workflows/create.js'
+import WorkflowsDiscardDraft from '../src/commands/workflows/discard-draft.js'
+import WorkflowsDraftSave from '../src/commands/workflows/draft/save.js'
+import WorkflowsPublicationsCreateDraft from '../src/commands/workflows/publications/create-draft.js'
+import WorkflowsPublish from '../src/commands/workflows/publish.js'
+import WorkflowsRuntimeExecuteTransition from '../src/commands/workflows/runtime/execute-transition.js'
+import WorkflowsRuntimeStart from '../src/commands/workflows/runtime/start.js'
+import WorkflowsRuntimeUpdateAuthor from '../src/commands/workflows/runtime/update-author.js'
+import WorkflowsTasksReassign from '../src/commands/workflows/tasks/reassign.js'
+import WorkflowsUpdate from '../src/commands/workflows/update.js'
 
 type CommandInstance = {
   createApiClient: ReturnType<typeof vi.fn>
@@ -363,6 +374,69 @@ describe('custom data write commands', () => {
   })
 })
 
+describe('workflow commands', () => {
+  it('maps workflow definition and template write requests from body files', async () => {
+    const {bodyFile, cleanup} = await createBodyFile({name: 'Approval workflow'})
+    const client = mockClient()
+
+    await runCommand(WorkflowsCreate, client, {flags: {'body-file': bodyFile}})
+    await runCommand(WorkflowsUpdate, client, {args: {workflowId: 'workflow 1'}, flags: {'body-file': bodyFile}})
+    await runCommand(WorkflowsDraftSave, client, {args: {workflowId: 'workflow 1'}, flags: {'body-file': bodyFile}})
+    await runCommand(WorkflowsPublish, client, {args: {workflowId: 'workflow 1'}, flags: {'body-file': bodyFile}})
+    await runCommand(WorkflowsDiscardDraft, client, {args: {workflowId: 'workflow 1'}})
+    await runCommand(WorkflowsPublicationsCreateDraft, client, {
+      args: {id: 'workflow 1', publicationId: 'publication 1'},
+    })
+    await runCommand(WorkflowTemplatesCreateWorkflow, client, {
+      args: {templateId: 'template 1'},
+      flags: {'body-file': bodyFile},
+    })
+
+    expect(client.post).toHaveBeenCalledWith('/v1/workflows', {body: {name: 'Approval workflow'}})
+    expect(client.patch).toHaveBeenCalledWith('/v1/workflows/workflow%201', {body: {name: 'Approval workflow'}})
+    expect(client.request).toHaveBeenCalledWith('PUT', '/v1/workflows/workflow%201/draft', {body: {name: 'Approval workflow'}})
+    expect(client.post).toHaveBeenCalledWith('/v1/workflows/workflow%201/publish', {body: {name: 'Approval workflow'}})
+    expect(client.post).toHaveBeenCalledWith('/v1/workflows/workflow%201/discard-draft')
+    expect(client.post).toHaveBeenCalledWith('/v1/workflows/workflow%201/publications/publication%201/create-draft')
+    expect(client.post).toHaveBeenCalledWith('/v1/workflow-templates/template%201/create-workflow', {
+      body: {name: 'Approval workflow'},
+    })
+    await cleanup()
+  })
+
+  it('maps workflow runtime and task write requests from body files', async () => {
+    const {bodyFile, cleanup} = await createBodyFile({workflowId: 'workflow 1'})
+    const client = mockClient()
+
+    await runCommand(WorkflowsRuntimeStart, client, {
+      args: {targetId: 'record 1'},
+      flags: {'body-file': bodyFile, 'module-key': 'crm', 'object-key': 'deal', 'target-type': 'DYNAMIC_OBJECT_RECORD'},
+    })
+    await runCommand(WorkflowsRuntimeUpdateAuthor, client, {
+      args: {instanceId: 'instance 1'},
+      flags: {'body-file': bodyFile},
+    })
+    await runCommand(WorkflowsRuntimeExecuteTransition, client, {
+      args: {instanceId: 'instance 1', transitionId: 'transition 1'},
+      flags: {'body-file': bodyFile},
+    })
+    await runCommand(WorkflowsTasksReassign, client, {args: {taskId: 'task 1'}, flags: {'body-file': bodyFile}})
+
+    expect(client.post).toHaveBeenCalledWith('/v1/workflows/runtime/targets/DYNAMIC_OBJECT_RECORD/record%201/instances', {
+      body: {workflowId: 'workflow 1'},
+      query: {moduleKey: 'crm', objectKey: 'deal'},
+    })
+    expect(client.patch).toHaveBeenCalledWith('/v1/workflows/runtime/instances/instance%201/author', {
+      body: {workflowId: 'workflow 1'},
+    })
+    expect(client.post).toHaveBeenCalledWith('/v1/workflows/runtime/instances/instance%201/transitions/transition%201', {
+      body: {workflowId: 'workflow 1'},
+    })
+    expect(client.post).toHaveBeenCalledWith('/v1/workflows/tasks/task%201/reassign', {body: {workflowId: 'workflow 1'}})
+    await cleanup()
+  })
+})
+
 async function createBodyFile(body: unknown) {
   const dir = await mkdtemp(join(tmpdir(), 'opero-body-'))
   const bodyFile = join(dir, 'body.json')
@@ -402,5 +476,6 @@ function mockClient() {
     get: vi.fn().mockResolvedValue({data: 'ok'}),
     patch: vi.fn().mockResolvedValue({data: 'ok'}),
     post: vi.fn().mockResolvedValue({data: 'ok'}),
+    request: vi.fn().mockResolvedValue({data: 'ok'}),
   }
 }

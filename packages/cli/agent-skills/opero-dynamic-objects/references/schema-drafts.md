@@ -79,8 +79,14 @@ data impact and required confirmations are present.
 
 ## `createDefaultForm`
 
-When `draft.object.createDefaultForm` is `true`, applying a create-object draft
-also creates default custom object forms and form-owned View Layout containers.
+For new regular objects, set `draft.object.createDefaultForm` to `true` unless
+the user explicitly does not want default forms/layouts. Applying that
+create-object draft also creates default custom object forms and a form-owned
+View Layout container.
+
+Do not use `createDefaultForm` for subordinate objects. The backend rejects
+default form creation for subordinate dynamic objects.
+
 Expected post-create state:
 
 - default form ids are set for the object's `CREATE`, `VIEW`, and `EDIT` flows;
@@ -98,6 +104,17 @@ opero --json request get /v1/custom-modules/<moduleKey>/objects/<objectKey>/form
 
 Use the returned `viewLayoutId` with `opero-view-layouts`; do not create a
 separate `DYNAMIC_OBJECT` layout for the same `formId`.
+
+## Updating Fields And Layouts
+
+Adding a field to schema does not automatically add it to existing View Layouts.
+When an object edit adds or changes fields:
+
+1. Inspect object forms and defaults.
+2. Inspect the form-owned layouts through their `viewLayoutId` values.
+3. Ask whether the new or changed fields should appear on create, view, edit,
+   or all layouts.
+4. If approved, use `opero-view-layouts` to update and publish those layouts.
 
 ## Apply
 

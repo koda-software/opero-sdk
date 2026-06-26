@@ -166,6 +166,35 @@ opero --json view-layouts runtime dynamic-object relation-tables target-layout <
 opero --json view-layouts runtime dynamic-object relation-tables query <recordId> <relationFieldKey> --surface DYNAMIC_OBJECT --mode VIEW --body-file relation-query.json
 ```
 
+Workflows:
+
+```bash
+opero --json workflow-templates list
+opero workflow-templates create-workflow <templateId> --body-file workflow.json
+opero --json workflows list
+opero workflows create --body-file workflow.json
+opero --json workflows get <workflowId>
+opero workflows update <workflowId> --body-file metadata.json
+opero --json workflows draft get <workflowId>
+opero workflows draft save <workflowId> --body-file draft.json
+opero workflows publish <workflowId> --body-file publish.json
+opero workflows discard-draft <workflowId>
+opero --json workflows publications list <workflowId>
+opero workflows publications create-draft <workflowId> <publicationId>
+opero --json workflows runtime create-options --target-type DYNAMIC_OBJECT_RECORD --module-key crm --object-key deal
+opero --json workflows runtime target-state <recordId> --target-type DYNAMIC_OBJECT_RECORD --module-key crm --object-key deal
+opero workflows runtime start <recordId> --target-type DYNAMIC_OBJECT_RECORD --module-key crm --object-key deal --body-file start.json
+opero --json workflows runtime get <instanceId>
+opero --json workflows runtime replay <instanceId>
+opero workflows runtime update-author <instanceId> --body-file author.json
+opero workflows runtime execute-transition <instanceId> <transitionId> --body-file transition.json
+opero --json workflows runtime history <instanceId>
+opero --json workflows tasks list
+opero --json workflows tasks get <taskId>
+opero workflows tasks reassign <taskId> --body-file reassign.json
+opero --json workflows assignment-candidates lookup --source-type stage --source-id <stageId> --candidate-type membership
+```
+
 Rules:
 
 ```bash
@@ -182,6 +211,9 @@ opero rules context-schema <id> --step-position 1
 opero rules execute <id> --body-file execute.json
 opero --json rules executions <id>
 opero --json rules execution <id> <execId>
+opero --json rules related-custom-module <moduleKey>
+opero --json rules related-custom-object <moduleKey> <objectKey>
+opero --json rules related-custom-field <fieldDefinitionId>
 opero rules delete <id>
 ```
 

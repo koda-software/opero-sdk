@@ -138,6 +138,27 @@
       "view-layouts versions": {
         "description": "Read and restore View Layout versions."
       },
+      "workflow-templates": {
+        "description": "List workflow templates and create workflows from templates."
+      },
+      "workflows": {
+        "description": "Manage workflow definitions, drafts, publications, runtime instances, and tasks."
+      },
+      "workflows assignment-candidates": {
+        "description": "Look up valid workflow assignment candidates."
+      },
+      "workflows draft": {
+        "description": "Read and save workflow drafts."
+      },
+      "workflows publications": {
+        "description": "Read workflow publications and restore drafts."
+      },
+      "workflows runtime": {
+        "description": "Read and execute workflow runtime instances."
+      },
+      "workflows tasks": {
+        "description": "Read and manage workflow tasks."
+      },
       "skills": {
         "description": "List and install Opero agent skills."
       },

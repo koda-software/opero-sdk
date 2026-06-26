@@ -2,6 +2,10 @@
 
 Blocks are the building units of a View Layout.
 
+View Layout blocks follow the Puck editor data model: author the screen as
+ordered regions containing component-like blocks, with nested blocks under
+`children` and editable component props in `config` and `presentation`.
+
 ## Block Anatomy
 
 Most draft blocks have this shape:

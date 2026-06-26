@@ -32,8 +32,10 @@ describe('skills doctor', () => {
       expect.objectContaining({name: 'opero-dynamic-modules'}),
       expect.objectContaining({name: 'opero-dynamic-objects'}),
       expect.objectContaining({name: 'opero-queries'}),
+      expect.objectContaining({name: 'opero-rules'}),
       expect.objectContaining({name: 'opero-scripts'}),
       expect.objectContaining({name: 'opero-view-layouts'}),
+      expect.objectContaining({name: 'opero-workflows'}),
     ])
     expect(result.data.targets).toEqual([
       expect.objectContaining({
@@ -67,12 +69,22 @@ describe('skills doctor', () => {
           }),
           expect.objectContaining({
             command: 'opero skills install codex --scope repo',
+            name: 'opero-rules',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install codex --scope repo',
             name: 'opero-scripts',
             status: 'missing',
           }),
           expect.objectContaining({
             command: 'opero skills install codex --scope repo',
             name: 'opero-view-layouts',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install codex --scope repo',
+            name: 'opero-workflows',
             status: 'missing',
           }),
         ],
@@ -108,12 +120,22 @@ describe('skills doctor', () => {
           }),
           expect.objectContaining({
             command: 'opero skills install claude --scope repo',
+            name: 'opero-rules',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install claude --scope repo',
             name: 'opero-scripts',
             status: 'missing',
           }),
           expect.objectContaining({
             command: 'opero skills install claude --scope repo',
             name: 'opero-view-layouts',
+            status: 'missing',
+          }),
+          expect.objectContaining({
+            command: 'opero skills install claude --scope repo',
+            name: 'opero-workflows',
             status: 'missing',
           }),
         ],
@@ -169,12 +191,22 @@ describe('skills doctor', () => {
     })
     expect(result.data.targets[0].skills[5]).toMatchObject({
       installedVersion: version,
-      name: 'opero-scripts',
+      name: 'opero-rules',
       status: 'current',
     })
     expect(result.data.targets[0].skills[6]).toMatchObject({
       installedVersion: version,
+      name: 'opero-scripts',
+      status: 'current',
+    })
+    expect(result.data.targets[0].skills[7]).toMatchObject({
+      installedVersion: version,
       name: 'opero-view-layouts',
+      status: 'current',
+    })
+    expect(result.data.targets[0].skills[8]).toMatchObject({
+      installedVersion: version,
+      name: 'opero-workflows',
       status: 'current',
     })
     expect(result.data.targets[1].skills[0]).toMatchObject({
@@ -204,12 +236,22 @@ describe('skills doctor', () => {
     })
     expect(result.data.targets[1].skills[5]).toMatchObject({
       installedVersion: '0.2.1-test',
-      name: 'opero-scripts',
+      name: 'opero-rules',
       status: 'outdated',
     })
     expect(result.data.targets[1].skills[6]).toMatchObject({
       installedVersion: '0.2.1-test',
+      name: 'opero-scripts',
+      status: 'outdated',
+    })
+    expect(result.data.targets[1].skills[7]).toMatchObject({
+      installedVersion: '0.2.1-test',
       name: 'opero-view-layouts',
+      status: 'outdated',
+    })
+    expect(result.data.targets[1].skills[8]).toMatchObject({
+      installedVersion: '0.2.1-test',
+      name: 'opero-workflows',
       status: 'outdated',
     })
   })
@@ -249,6 +291,7 @@ describe('skills doctor', () => {
     expect(output).toContain('opero-dynamic-modules')
     expect(output).toContain('opero-dynamic-objects')
     expect(output).toContain('opero-queries')
+    expect(output).toContain('opero-rules')
     expect(output).toContain('opero-scripts')
     expect(output).toContain('opero-view-layouts')
     expect(output).toContain('Codex user')

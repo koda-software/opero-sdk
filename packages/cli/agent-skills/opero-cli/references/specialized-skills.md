@@ -18,9 +18,13 @@ Use when the task involves:
 - Transition properties or rules.
 - Workflow lifecycle.
 - Creating, editing, validating, or explaining workflow behavior.
+- Workflow runtime state, instances, tasks, assignments, or transition
+  execution.
 
 Do not rely only on generic CLI knowledge for workflow changes. Use product docs
-and implementation research before writing or applying workflow payloads.
+and implementation research before writing or applying workflow payloads. Prefer
+first-class commands such as `opero workflows ...` and
+`opero workflow-templates ...` over raw requests.
 
 ## `opero-dictionaries`
 
@@ -92,8 +96,8 @@ Use when the task involves:
 - Available execution context.
 - Script validation.
 - Creating or updating scripts.
-- Inspecting execution history.
 - Translating user automation requests into scripts.
+- Rule `RUN_SCRIPT` code inside an automation rule.
 
 Script tasks should validate scripts before saving or activating them whenever
 validation commands or endpoints exist.
@@ -101,6 +105,25 @@ validation commands or endpoints exist.
 For Custom Scripts, use the `opero-scripts` skill. It explains the important
 distinction between Custom Script save-time validation and automation rule
 script validation.
+
+## `opero-rules`
+
+Use when the task involves:
+
+- Automation rules.
+- Rule triggers.
+- Rule steps and step config.
+- Rule context keys or branching.
+- Context schemas for rule drafts or saved rules.
+- Creating, updating, activating, disabling, deleting, executing, or debugging
+  rules.
+- Rule execution history.
+- Related-rule impact checks for custom modules, objects, or fields.
+
+Rule tasks should load builder metadata before writing payloads, create
+side-effect rules inactive first, inspect context before writing rule scripts or
+templates, and use execution history for debugging. Use `opero-scripts` for
+detailed `RUN_SCRIPT` body authoring when needed.
 
 ## `opero-queries`
 

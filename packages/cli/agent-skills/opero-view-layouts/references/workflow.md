@@ -7,6 +7,10 @@ layout contains regions and blocks. Blocks can represent fields, sections, tabs,
 relation tables, buttons, custom HTML, built-in surface components, or dashboard
 items.
 
+View Layout draft content uses a Puck editor data model: regions contain ordered
+root blocks, blocks have component-like types, props live in `config` and
+`presentation`, and nested layout is represented through block `children`.
+
 Important terms:
 
 - `surface`: page family, such as `DYNAMIC_OBJECT`, `CONTRACTOR`,
