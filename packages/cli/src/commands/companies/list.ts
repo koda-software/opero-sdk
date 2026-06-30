@@ -1,5 +1,5 @@
 import {listFlags, ListCommand} from '../../list-command.js'
-import {buildCompanyListShortcuts, COMPANY_REQUEST_OPTIONS, companyListFlags} from './shared.js'
+import {buildCompanyListShortcuts, COMPANY_REQUEST_OPTIONS, companyListFlags} from '../../companies/shared.js'
 
 export default class CompaniesList extends ListCommand {
   static description = 'List companies in the token organization.'

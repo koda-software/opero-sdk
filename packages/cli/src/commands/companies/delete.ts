@@ -4,7 +4,7 @@ import {apiPath} from '../../api/path.js'
 import {OperoCliError} from '../../api/errors.js'
 import {promptConfirm} from '../../cli/prompts.js'
 import {WriteCommand} from '../../write-command.js'
-import {COMPANY_REQUEST_OPTIONS} from './shared.js'
+import {COMPANY_REQUEST_OPTIONS} from '../../companies/shared.js'
 
 export default class CompaniesDelete extends WriteCommand {
   static args = {

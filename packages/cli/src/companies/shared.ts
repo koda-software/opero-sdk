@@ -1,8 +1,8 @@
 import {Flags} from '@oclif/core'
 
-import {OperoCliError} from '../../api/errors.js'
-import {readJsonBodyFile} from '../../api/payload.js'
-import type {Query} from '../../api/query.js'
+import {OperoCliError} from '../api/errors.js'
+import {readJsonBodyFile} from '../api/payload.js'
+import type {Query} from '../api/query.js'
 
 const FILTER_FIELDS = new Set(['id', 'name', 'slug', 'status', 'isDefault', 'createdAt'])
 const SORT_FIELDS = FILTER_FIELDS

@@ -1,5 +1,5 @@
 import {WriteCommand} from '../../write-command.js'
-import {buildCompanyCreateBody, COMPANY_REQUEST_OPTIONS, companyBodyFlags} from './shared.js'
+import {buildCompanyCreateBody, COMPANY_REQUEST_OPTIONS, companyBodyFlags} from '../../companies/shared.js'
 
 export default class CompaniesCreate extends WriteCommand {
   static description = 'Create a company in the token organization.'

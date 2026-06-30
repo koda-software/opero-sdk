@@ -2,7 +2,7 @@ import {Args} from '@oclif/core'
 
 import {apiPath} from '../../api/path.js'
 import {ReadCommand} from '../../read-command.js'
-import {COMPANY_REQUEST_OPTIONS} from './shared.js'
+import {COMPANY_REQUEST_OPTIONS} from '../../companies/shared.js'
 
 export default class CompaniesGet extends ReadCommand {
   static args = {

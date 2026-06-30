@@ -2,7 +2,7 @@ import {Args} from '@oclif/core'
 
 import {apiPath} from '../../api/path.js'
 import {WriteCommand} from '../../write-command.js'
-import {buildCompanyUpdateBody, COMPANY_REQUEST_OPTIONS, companyBodyFlags} from './shared.js'
+import {buildCompanyUpdateBody, COMPANY_REQUEST_OPTIONS, companyBodyFlags} from '../../companies/shared.js'
 
 export default class CompaniesUpdate extends WriteCommand {
   static args = {
