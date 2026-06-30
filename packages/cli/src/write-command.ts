@@ -1,5 +1,6 @@
 import {Flags} from '@oclif/core'
 
+import type {RequestOptions} from './api/client.js'
 import {OperoCliError} from './api/errors.js'
 import {readJsonBodyFile} from './api/payload.js'
 import {BaseCommand} from './base-command.js'
@@ -21,19 +22,20 @@ export type BodyFileFlags = {
 type WriteFlags = GlobalConfigFlags & OutputFormatFlags & Record<string, unknown>
 
 export abstract class WriteCommand extends BaseCommand {
-  protected async deleteJson(path: string, flags: WriteFlags, query?: Query): Promise<unknown> {
+  protected async deleteJson(path: string, flags: WriteFlags, query?: Query, options: Omit<RequestOptions, 'query'> = {}): Promise<unknown> {
     const {settings} = await this.loadSettings(flags)
     const client = this.createApiClient(settings)
-    const result = query === undefined ? await client.delete(path) : await client.delete(path, {query})
+    const requestOptions = query === undefined ? options : {...options, query}
+    const result = Object.keys(requestOptions).length === 0 ? await client.delete(path) : await client.delete(path, requestOptions)
 
     if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
   }
 
-  protected async patchJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown, query?: Query): Promise<unknown> {
+  protected async patchJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown, query?: Query, options: Omit<RequestOptions, 'body' | 'query'> = {}): Promise<unknown> {
     const {settings} = await this.loadSettings(flags)
     const client = this.createApiClient(settings)
-    const result = await client.patch(path, writeOptions(body ?? (await readRequiredJsonBodyFile(flags['body-file'])), query))
+    const result = await client.patch(path, writeOptions(body ?? (await readRequiredJsonBodyFile(flags['body-file'])), query, options))
 
     if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
@@ -48,10 +50,10 @@ export abstract class WriteCommand extends BaseCommand {
     return result
   }
 
-  protected async postJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown, query?: Query): Promise<unknown> {
+  protected async postJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown, query?: Query, options: Omit<RequestOptions, 'body' | 'query'> = {}): Promise<unknown> {
     const {settings} = await this.loadSettings(flags)
     const client = this.createApiClient(settings)
-    const result = await client.post(path, writeOptions(body ?? (await readRequiredJsonBodyFile(flags['body-file'])), query))
+    const result = await client.post(path, writeOptions(body ?? (await readRequiredJsonBodyFile(flags['body-file'])), query, options))
 
     if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
@@ -69,15 +71,15 @@ export abstract class WriteCommand extends BaseCommand {
   protected async putJson(path: string, flags: BodyFileFlags & WriteFlags, body?: unknown, query?: Query): Promise<unknown> {
     const {settings} = await this.loadSettings(flags)
     const client = this.createApiClient(settings)
-    const result = await client.request('PUT', path, writeOptions(body ?? (await readRequiredJsonBodyFile(flags['body-file'])), query))
+    const result = await client.request('PUT', path, writeOptions(body ?? (await readRequiredJsonBodyFile(flags['body-file'])), query, {}))
 
     if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result
   }
 }
 
-function writeOptions(body: unknown, query: Query | undefined): {body: unknown; query?: Query} {
-  return query === undefined ? {body} : {body, query}
+function writeOptions(body: unknown, query: Query | undefined, options: Omit<RequestOptions, 'body' | 'query'>): RequestOptions {
+  return query === undefined ? {...options, body} : {...options, body, query}
 }
 
 async function readRequiredJsonBodyFile(path: string | undefined): Promise<unknown> {

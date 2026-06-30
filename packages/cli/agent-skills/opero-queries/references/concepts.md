@@ -31,6 +31,19 @@ Saved queries can be:
 
 Agents usually create or edit organization queries.
 
+## Execution Modes
+
+Saved queries can default to:
+
+- `COMPANY`: execute in the active company context.
+- `ORGANIZATION_REPORTING`: execute across companies in the organization and
+  require reporting permission.
+
+Use schema discovery table metadata, especially `availableExecutionModes`, to
+choose an allowed mode. For `COMPANY` execution with organization tokens, pass
+select a company with `opero companies select <companyId>`, pass
+`--company-id`, or set `OPERO_COMPANY_ID` when executing.
+
 ## Query Key
 
 The `key` is a stable machine-facing identifier. Scripts, layouts, automation,

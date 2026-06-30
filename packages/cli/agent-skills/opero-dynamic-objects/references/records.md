@@ -23,6 +23,11 @@ opero custom-records update-singleton <moduleKey> <objectKey> --body-file record
 
 ## Record Safety
 
+- For organization tokens, use `opero companies select <companyId>`, pass
+  `--company-id <companyId>`, or set `OPERO_COMPANY_ID` when reading or
+  mutating company-scoped records.
+- Record responses include `company_id` when returned by the API; treat it as
+  the owning company identifier, not as an editable field value.
 - Inspect object fields before writing records.
 - Use field keys from schema; do not invent field keys.
 - Check writable fields from `custom-objects get`.

@@ -60,6 +60,9 @@
       "config": {
         "description": "Manage Opero CLI configuration."
       },
+      "companies": {
+        "description": "Manage companies in the token organization."
+      },
       "contractors": {
         "description": "Manage Opero contractors."
       },

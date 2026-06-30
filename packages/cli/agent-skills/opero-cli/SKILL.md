@@ -33,7 +33,11 @@ different integration path.
 
 5. Use raw requests only when no curated command covers the needed endpoint.
 
-6. For product documentation beyond this skill, use:
+6. For repeated company-scoped runtime work, select a default company with
+   `opero companies select <companyId>`. For one-off calls, pass
+   `--company-id <companyId>` or set `OPERO_COMPANY_ID`.
+
+7. For product documentation beyond this skill, use:
 
    - Full documentation: `https://docs.kodasoft.pl`
    - Agent-friendly summary: `https://docs.kodasoft.pl/llms.txt`

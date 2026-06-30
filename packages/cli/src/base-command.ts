@@ -17,6 +17,9 @@ export abstract class BaseCommand extends Command {
     'base-url': Flags.string({
       description: 'Opero API base URL.',
     }),
+    'company-id': Flags.string({
+      description: 'Target company ID for company-scoped runtime endpoints. Can also be set with OPERO_COMPANY_ID.',
+    }),
     table: Flags.boolean({
       description: 'Format output as a table for human scanning.',
     }),
@@ -45,6 +48,7 @@ export abstract class BaseCommand extends Command {
     return new ApiClient({
       apiToken: settings.apiToken,
       baseUrl: settings.baseUrl,
+      companyId: settings.companyId,
       timeoutMs: settings.timeoutMs,
       userAgent: `${this.config.bin}/${this.config.version}`,
     })

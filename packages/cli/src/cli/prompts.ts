@@ -69,6 +69,11 @@ export async function promptSecret(question: string): Promise<string> {
   })
 }
 
+export async function promptConfirm(question: string): Promise<boolean> {
+  const answer = (await promptText(`${question} Type yes to confirm`)).toLowerCase()
+  return answer === 'yes' || answer === 'y'
+}
+
 function ensureInteractive(): void {
   if (!process.stdin.isTTY || !process.stdout.isTTY) {
     throw new OperoCliError({

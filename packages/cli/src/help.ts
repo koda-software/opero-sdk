@@ -12,7 +12,7 @@ const TOPIC_GROUPS = [
     title: 'Setup',
   },
   {
-    items: ['contractors', 'currencies', 'dictionaries', 'service-catalog'],
+    items: ['companies', 'contractors', 'currencies', 'dictionaries', 'service-catalog'],
     title: 'Reference Data',
   },
   {

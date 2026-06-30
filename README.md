@@ -93,6 +93,21 @@ OPERO_API_TOKEN=ek_... \
 opero --json ping
 ```
 
+For company-scoped runtime endpoints, pass the target company explicitly:
+
+```bash
+opero companies select <companyId>
+opero --company-id <companyId> --json contractors list
+OPERO_COMPANY_ID=<companyId> opero --json workflows tasks list
+```
+
+Company-management commands under `opero companies ...` do not use
+`X-Company-Id`; they operate in the organization attached to an ORGANIZATION API
+token.
+
+`--company-id` and `OPERO_COMPANY_ID` override the selected company for one-off
+commands.
+
 ## First Commands
 
 Check CLI config, auth, and API reachability:
@@ -131,16 +146,10 @@ List bundled agent skills:
 opero --json skills list
 ```
 
-The current bundle includes `opero-cli` for general CLI usage,
-`opero-dictionaries` for dictionary CRUD, entries, imports, exports, and safe
-option-list management,
-`opero-dynamic-modules` for custom module metadata and schema inspection,
-`opero-dynamic-objects` for object schema, fields, relationships, records, and
-object-scoped schema drafts,
-`opero-queries` for saved SQL query authoring and schema discovery,
-`opero-scripts` for Custom Script workflows, context, and validation, and
-`opero-view-layouts` for View Layout discovery, draft construction,
-validation, publishing, runtime data, and custom fields.
+The current bundle includes `opero-cli`, `opero-dictionaries`,
+`opero-dynamic-modules`, `opero-dynamic-objects`, `opero-queries`,
+`opero-rules`, `opero-scripts`, `opero-view-layouts`, and
+`opero-workflows`.
 
 Install Opero agent skills for Codex or Claude:
 
@@ -199,6 +208,17 @@ opero --json contractors get <id>
 opero contractors create --body-file contractor.json
 opero contractors update <id> --body-file contractor.json
 opero contractors update-status <id> --body-file status.json
+
+opero --json companies list
+opero --json companies list --filter status=ACTIVE --sort createdAt:asc
+opero --json companies get <companyId>
+opero companies select <companyId>
+opero companies create --name "Acme Poland" --slug acme-poland
+opero companies create --body-file company.json
+opero companies update <companyId> --name "Acme Poland Updated"
+opero companies update <companyId> --body-file company.json
+opero companies delete <companyId>
+opero companies delete <companyId> --yes
 
 opero --json dictionaries list
 opero --json dictionaries get <id>

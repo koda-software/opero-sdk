@@ -31,6 +31,21 @@ List endpoints support shared flags where the API supports them:
 `--filter-json`, `--sort-json`, and JSON-array `--columns` values are validated
 before the request. `--columns id,name` is sent as a JSON array string.
 
+## Company Targeting
+
+Use `--company-id <companyId>` or `OPERO_COMPANY_ID=<companyId>` when an
+organization token needs to target company-scoped runtime data. The CLI sends
+the value as `X-Company-Id`.
+
+For repeated work, save a default target company:
+
+```bash
+opero companies select <companyId>
+```
+
+`--company-id` and `OPERO_COMPANY_ID` override the selected company for one
+command.
+
 ## Reference Data
 
 ```bash
@@ -55,6 +70,36 @@ opero contractors create --body-file contractor.json
 opero contractors update <id> --body-file contractor.json
 opero contractors update-status <id> --body-file status.json
 ```
+
+## Companies
+
+Company commands manage companies in the API token organization. They require
+ORGANIZATION API tokens; COMPANY tokens are rejected. These endpoints do not use
+`X-Company-Id`.
+
+```bash
+opero --json companies list
+opero --json companies list --filter status=ACTIVE --sort createdAt:asc
+opero --json companies get <companyId>
+opero companies select <companyId>
+opero companies create --name "Acme Poland" --slug acme-poland
+opero companies create --body-file company.json
+opero companies update <companyId> --name "Acme Poland Updated"
+opero companies update <companyId> --body-file company.json
+opero companies delete <companyId>
+opero companies delete <companyId> --yes
+```
+
+Expected permissions are `api.companies.read` for reads and
+`api.companies.manage` for writes.
+
+Delete prompts for confirmation unless `--yes` is passed. Backend constraints
+can block delete with `409`, for example default companies or companies with
+active memberships.
+
+`companies select` stores a default company ID for company-scoped runtime
+endpoints. It does not call the API and does not affect company-management
+endpoint scoping.
 
 ## Custom Data
 

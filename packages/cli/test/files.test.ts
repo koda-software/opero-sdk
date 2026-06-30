@@ -35,7 +35,7 @@ describe('ApiClient file transport', () => {
 
   it('uploads multipart files with auth and optional fields', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(jsonResponse({data: {id: 'file-1'}}))
-    const client = new ApiClient(clientOptions)
+    const client = new ApiClient({...clientOptions, companyId: 'company-1'})
 
     const result = await client.postMultipart(
       '/v1/files/attachments',
@@ -57,6 +57,7 @@ describe('ApiClient file transport', () => {
     expect(String(url)).toBe('https://api.example/v1/files/attachments')
     expect(init?.method).toBe('POST')
     expect(init?.headers).toMatchObject({
+      'X-Company-Id': 'company-1',
       authorization: 'Bearer test-token',
     })
     expect((init?.headers as Record<string, string>)['content-type']).toBeUndefined()
@@ -72,7 +73,7 @@ describe('ApiClient file transport', () => {
         status: 206,
       }),
     )
-    const client = new ApiClient(clientOptions)
+    const client = new ApiClient({...clientOptions, companyId: 'company-1'})
 
     const response = await client.download('/v1/files/file-1/download', {
       headers: {Range: 'bytes=0-9'},
@@ -83,7 +84,36 @@ describe('ApiClient file transport', () => {
     expect(response.body).toBeTruthy()
     expect(fetchMock.mock.calls[0][1]?.headers).toMatchObject({
       Range: 'bytes=0-9',
+      'X-Company-Id': 'company-1',
       accept: 'application/octet-stream',
+    })
+  })
+
+  it('lets explicit request headers override the configured company header', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(jsonResponse({data: {ok: true}}))
+    const client = new ApiClient({...clientOptions, companyId: 'configured-company'})
+
+    await client.get('/v1/contractors', {
+      headers: {
+        'X-Company-Id': 'request-company',
+      },
+    })
+
+    expect(fetchMock.mock.calls[0][1]?.headers).toMatchObject({
+      'X-Company-Id': 'request-company',
+    })
+  })
+
+  it('can suppress the configured company header for organization-scoped endpoints', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(jsonResponse({data: []}))
+    const client = new ApiClient({...clientOptions, companyId: 'company-1'})
+
+    await client.get('/v1/companies', {
+      companyScoped: false,
+    })
+
+    expect(fetchMock.mock.calls[0][1]?.headers).not.toMatchObject({
+      'X-Company-Id': 'company-1',
     })
   })
 

@@ -109,6 +109,7 @@ Environment variables:
 ```text
 OPERO_API_TOKEN
 OPERO_BASE_URL
+OPERO_COMPANY_ID
 OPERO_TIMEOUT_MS
 ```
 
@@ -182,6 +183,11 @@ Show resolved config:
 ```bash
 opero --json config show
 ```
+
+For company-scoped runtime endpoints, set the target company with
+`opero companies select <companyId>`, `--company-id`, or `OPERO_COMPANY_ID`.
+The resolved value is sent as `X-Company-Id`. For one-off calls, `--company-id`
+and `OPERO_COMPANY_ID` override the selected company.
 
 Validate and save an API token:
 
@@ -324,10 +330,22 @@ Current bundled skills:
 
 - `opero-cli`: general Opero CLI usage, diagnostics, output, raw requests, and
   routing to specialized Opero skills.
+- `opero-dictionaries`: dictionary CRUD, entries, import/export, and safe
+  option-list management.
+- `opero-dynamic-modules`: custom module metadata, schema summaries, and
+  delete impact.
+- `opero-dynamic-objects`: object schema, fields, relationships, records,
+  singleton records, and schema drafts.
 - `opero-queries`: saved SQL query schema discovery, authoring, parameters,
   validation, create/update/execute lifecycle, and result contracts.
+- `opero-rules`: automation rules, triggers, steps, context schemas, execution,
+  and debugging.
 - `opero-scripts`: Custom Script creation/update workflows, script types,
   context, save-time validation, dependencies, and safe runtime assumptions.
+- `opero-view-layouts`: View Layout discovery, draft construction, validation,
+  publishing, runtime data, and custom fields.
+- `opero-workflows`: workflow definitions, drafts, publications, runtime
+  instances, tasks, assignments, and transitions.
 
 List bundled skills:
 
@@ -484,6 +502,15 @@ Additional non-auth headers:
 opero --json request get /v1/files/<id>/download \
   --header Range=bytes=1000-
 ```
+
+Company targeting:
+
+```bash
+opero --company-id <companyId> --json request get /v1/contractors
+```
+
+Prefer `--company-id` or `OPERO_COMPANY_ID` over manually passing
+`--header X-Company-Id=...`.
 
 The CLI rejects manual `Authorization` headers. Use `OPERO_API_TOKEN`,
 `--api-token`, or `opero auth login`.
@@ -735,6 +762,66 @@ opero custom-scripts delete <id>
 
 Delete is immediate. It does not prompt for confirmation.
 
+### Companies
+
+Company CRUD uses ORGANIZATION API tokens. COMPANY tokens are rejected. These
+endpoints do not use `X-Company-Id`; scope comes from the organization attached
+to the API token.
+
+```text
+GET    /v1/companies              api.companies.read    ListOf(ExternalCompanyDto)
+GET    /v1/companies/:companyId   api.companies.read    DataOf(ExternalCompanyDto)
+POST   /v1/companies              api.companies.manage  201 DataOf(ExternalCompanyDto)
+PATCH  /v1/companies/:companyId   api.companies.manage  DataOf(ExternalCompanyDto)
+DELETE /v1/companies/:companyId   api.companies.manage  204 No Content
+```
+
+Curated commands:
+
+```bash
+opero --json companies list
+opero --json companies list --filter status=ACTIVE --sort createdAt:asc
+opero --json companies get <companyId>
+opero companies select <companyId>
+opero companies create --name "Acme Poland" --slug acme-poland
+opero companies create --body-file company.json
+opero companies update <companyId> --name "Acme Poland Updated"
+opero companies update <companyId> --body-file company.json
+opero companies delete <companyId>
+opero companies delete <companyId> --yes
+```
+
+Create flags:
+
+- `--name` is required unless `--body-file` is used.
+- `--slug` is optional; when omitted the backend derives it from name.
+- `--status` accepts `ACTIVE` or `INACTIVE`.
+- `--is-default` makes the company default.
+- `--nip`, `--tax-country`, `--regon`, and `--krs` map to tax/registry fields.
+
+Update accepts the same fields as a partial payload. Use `--body-file` for
+explicit `null` values or fields that are not convenient as CLI flags.
+
+Delete prompts for confirmation unless `--yes` is passed.
+
+`companies select` stores the selected company ID in CLI config for subsequent
+company-scoped runtime endpoints. It does not call the API and does not change
+company-management endpoint scoping.
+
+Backend constraints:
+
+- Company slug is globally unique.
+- Default company cannot be deleted.
+- Default company cannot be unset directly with `isDefault: false`.
+- Setting `isDefault: true` makes that company default and clears default on
+  other companies in the same organization.
+- Company with active memberships cannot be deleted.
+- Cross-organization company IDs return `404`.
+
+Expected errors: `401` for missing/invalid token, `403` for missing permission
+or COMPANY token, `404` for not found, `400` for validation, and `409` for
+duplicate slug or blocked delete constraints.
+
 ### Queries
 
 Manage saved SQL queries:
@@ -753,12 +840,15 @@ opero queries delete <id>
 
 `queries schema` returns tables and columns available to custom SQL queries in
 the API token organization scope. It includes static RLS-protected tables and
-organization-owned `runtime_dyn` custom object tables. The API token must have
-`api.saved_queries.read`.
+organization-owned `runtime_dyn` custom object tables. Table metadata includes
+`scope`, `availableExecutionModes`, and, when applicable, `companyIdColumn`.
+The API token must have `api.saved_queries.read`.
 
 `queries list` returns query metadata and omits SQL. Use `queries get <id>` for
 full SQL, parameters, and inferred result schema. Validate payloads before
-create/update, and pass execution values as `{ "params": { ... } }`.
+create/update. Saved query payloads can set `defaultExecutionMode` to `COMPANY`
+or `ORGANIZATION_REPORTING`; execute payloads can pass `executionMode` with the
+same values and runtime values as `{ "params": { ... } }`.
 
 ### View Layouts
 
@@ -1054,6 +1144,12 @@ opero auth logout
 opero auth status
 opero config set
 opero config show
+opero companies create
+opero companies delete
+opero companies get
+opero companies list
+opero companies select
+opero companies update
 opero contractors create
 opero contractors get
 opero contractors list

@@ -1,5 +1,7 @@
 import {describe, expect, it, vi} from 'vitest'
 
+import CompaniesGet from '../src/commands/companies/get.js'
+import CompaniesList from '../src/commands/companies/list.js'
 import ContractorsGet from '../src/commands/contractors/get.js'
 import ContractorsList from '../src/commands/contractors/list.js'
 import CurrenciesList from '../src/commands/currencies/list.js'
@@ -53,6 +55,13 @@ describe('curated read commands', () => {
       flags: {},
       options: {query: undefined},
       path: '/v1/currencies',
+    },
+    {
+      args: {companyId: 'company 1'},
+      command: CompaniesGet,
+      flags: {},
+      options: {companyScoped: false, query: undefined},
+      path: '/v1/companies/company%201',
     },
     {
       args: {id: 'contractor 1'},
@@ -163,6 +172,11 @@ describe('curated read commands', () => {
   it.each([
     {
       args: {},
+      command: CompaniesList,
+      path: '/v1/companies',
+    },
+    {
+      args: {},
       command: ContractorsList,
       path: '/v1/contractors',
     },
@@ -227,6 +241,7 @@ describe('curated read commands', () => {
     expect(result).toEqual({data: 'ok'})
     expect(client.get).toHaveBeenCalledOnce()
     expect(client.get).toHaveBeenCalledWith(path, {
+      ...(command === CompaniesList ? {companyScoped: false} : {}),
       query: {
         columns: '["id","name"]',
         count: 'hasMore',
@@ -271,6 +286,43 @@ describe('curated read commands', () => {
         sourceId: 'stage 1',
         sourceType: 'stage',
       },
+    })
+  })
+
+  it('maps company list shortcut filters and sorts', async () => {
+    const {client} = await runCommand(CompaniesList, {
+      flags: {
+        filter: ['status=ACTIVE', 'isDefault=false'],
+        sort: ['createdAt:asc'],
+      },
+    })
+
+    expect(client.get).toHaveBeenCalledWith('/v1/companies', {
+      companyScoped: false,
+      query: {
+        filters: JSON.stringify({
+          op: 'AND',
+          items: [
+            {field: 'status', operator: 'eq', value: 'ACTIVE'},
+            {field: 'isDefault', operator: 'eq', value: false},
+          ],
+        }),
+        sort: JSON.stringify([{direction: 'asc', field: 'createdAt'}]),
+      },
+    })
+  })
+
+  it('passes company targeting flags through shared settings resolution', async () => {
+    const {command} = await runCommand(ContractorsList, {
+      flags: {
+        'company-id': 'company-1',
+        limit: 10,
+      },
+    })
+
+    expect(command.loadSettings).toHaveBeenCalledWith({
+      'company-id': 'company-1',
+      limit: 10,
     })
   })
 })

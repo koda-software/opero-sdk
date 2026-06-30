@@ -4,6 +4,7 @@ import {appendQuery, type Query} from './query.js'
 export type ApiClientOptions = {
   apiToken?: string
   baseUrl: string
+  companyId?: string
   timeoutMs: number
   userAgent: string
 }
@@ -11,6 +12,7 @@ export type ApiClientOptions = {
 export type RequestOptions = {
   authRequired?: boolean
   body?: unknown
+  companyScoped?: boolean
   headers?: Record<string, string>
   query?: Query
 }
@@ -34,12 +36,14 @@ export type MultipartOptions = RequestOptions & {
 export class ApiClient {
   private readonly apiToken?: string
   private readonly baseUrl: string
+  private readonly companyId?: string
   private readonly timeoutMs: number
   private readonly userAgent: string
 
   constructor(options: ApiClientOptions) {
     this.apiToken = options.apiToken
     this.baseUrl = options.baseUrl
+    this.companyId = options.companyId
     this.timeoutMs = options.timeoutMs
     this.userAgent = options.userAgent
   }
@@ -133,6 +137,7 @@ export class ApiClient {
     try {
       const headers: Record<string, string> = {
         accept: 'application/json',
+        ...(this.companyId && options.companyScoped !== false ? {'X-Company-Id': this.companyId} : {}),
         'user-agent': this.userAgent,
         ...options.headers,
       }

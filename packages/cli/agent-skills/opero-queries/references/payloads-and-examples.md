@@ -11,6 +11,7 @@ Create and validate payloads use this shape:
   "name": "Active assets by owner",
   "key": "active-assets-by-owner",
   "description": "Lists active assets assigned to an owner.",
+  "defaultExecutionMode": "COMPANY",
   "sql": "select asset.id as asset_id, asset.name as asset_name from runtime_dyn.\"dyn_assets\" as asset where asset.owner_id = :ownerId and asset.archived_at is null order by asset.name asc, asset.id asc",
   "parameters": [
     {
@@ -28,6 +29,8 @@ Common fields:
 - `name`: human-facing name.
 - `key`: stable machine-facing key.
 - `description`: optional purpose and consumer notes.
+- `defaultExecutionMode`: optional default mode, usually `COMPANY`; use
+  `ORGANIZATION_REPORTING` only for cross-company reporting queries.
 - `sql`: read-only SQL.
 - `parameters`: named parameter declarations.
 
@@ -53,6 +56,7 @@ Execute payloads use a `params` wrapper:
 
 ```json
 {
+  "executionMode": "COMPANY",
   "params": {
     "ownerId": "00000000-0000-0000-0000-000000000000"
   }

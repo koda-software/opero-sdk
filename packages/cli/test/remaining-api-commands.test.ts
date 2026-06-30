@@ -3,6 +3,9 @@ import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {describe, expect, it, vi} from 'vitest'
 
+import CompaniesCreate from '../src/commands/companies/create.js'
+import CompaniesDelete from '../src/commands/companies/delete.js'
+import CompaniesUpdate from '../src/commands/companies/update.js'
 import ContractorsCreate from '../src/commands/contractors/create.js'
 import ContractorsUpdate from '../src/commands/contractors/update.js'
 import ContractorsUpdateStatus from '../src/commands/contractors/update-status.js'
@@ -249,6 +252,69 @@ describe('queries commands', () => {
 })
 
 describe('custom data write commands', () => {
+  it('maps company write requests from direct flags', async () => {
+    const client = mockClient()
+
+    await runCommand(CompaniesCreate, client, {
+      flags: {
+        'is-default': true,
+        name: 'Acme Poland',
+        nip: '1234567890',
+        slug: 'acme-poland',
+        status: 'ACTIVE',
+        'tax-country': 'PL',
+      },
+    })
+    await runCommand(CompaniesUpdate, client, {
+      args: {companyId: 'company 1'},
+      flags: {
+        name: 'Acme Poland Updated',
+        status: 'INACTIVE',
+      },
+    })
+    await runCommand(CompaniesDelete, client, {args: {companyId: 'company 1'}, flags: {yes: true}})
+
+    expect(client.post).toHaveBeenCalledWith('/v1/companies', {
+      body: {
+        isDefault: true,
+        name: 'Acme Poland',
+        nip: '1234567890',
+        slug: 'acme-poland',
+        status: 'ACTIVE',
+        taxCountry: 'PL',
+      },
+      companyScoped: false,
+    })
+    expect(client.patch).toHaveBeenCalledWith('/v1/companies/company%201', {
+      body: {
+        name: 'Acme Poland Updated',
+        status: 'INACTIVE',
+      },
+      companyScoped: false,
+    })
+    expect(client.delete).toHaveBeenCalledWith('/v1/companies/company%201', {
+      companyScoped: false,
+    })
+  })
+
+  it('maps company create and update requests from body files', async () => {
+    const {bodyFile, cleanup} = await createBodyFile({name: 'Acme Poland', status: 'ACTIVE'})
+    const client = mockClient()
+
+    await runCommand(CompaniesCreate, client, {flags: {'body-file': bodyFile}})
+    await runCommand(CompaniesUpdate, client, {args: {companyId: 'company 1'}, flags: {'body-file': bodyFile}})
+
+    expect(client.post).toHaveBeenCalledWith('/v1/companies', {
+      body: {name: 'Acme Poland', status: 'ACTIVE'},
+      companyScoped: false,
+    })
+    expect(client.patch).toHaveBeenCalledWith('/v1/companies/company%201', {
+      body: {name: 'Acme Poland', status: 'ACTIVE'},
+      companyScoped: false,
+    })
+    await cleanup()
+  })
+
   it('maps contractor write requests from body files', async () => {
     const {bodyFile, cleanup} = await createBodyFile({status: 'ACTIVE'})
     const client = mockClient()

@@ -78,10 +78,12 @@ query engine.
 ## Execution Behavior
 
 Saved queries execute through a read-only path with Opero organization context
-set server-side. Pass named runtime values in a `params` object:
+set server-side. Pass named runtime values in a `params` object. When needed,
+choose the execution mode explicitly:
 
 ```json
 {
+  "executionMode": "COMPANY",
   "params": {
     "ownerId": "00000000-0000-0000-0000-000000000000",
     "status": "ACTIVE"
@@ -92,6 +94,14 @@ set server-side. Pass named runtime values in a `params` object:
 The agent should not add an `orgId` parameter unless the business data model
 truly has an organization field exposed in schema and the consumer explicitly
 needs it.
+
+Execution modes:
+
+- `COMPANY`: use the active target company. For organization tokens, select a
+  company with `opero companies select <companyId>`, pass `--company-id`, or set
+  `OPERO_COMPANY_ID` when the endpoint needs a target company.
+- `ORGANIZATION_REPORTING`: run across all companies in the active organization
+  and require reporting permission.
 
 Typical execution results include:
 

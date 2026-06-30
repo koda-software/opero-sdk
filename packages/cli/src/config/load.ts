@@ -6,6 +6,7 @@ import type {AuthSource, OperoConfig, ResolvedSettings} from './types.js'
 export type GlobalConfigFlags = {
   'api-token'?: string
   'base-url'?: string
+  'company-id'?: string
   'timeout-ms'?: number
 }
 
@@ -32,6 +33,7 @@ export function resolveSettings(args: {
 }): ResolvedSettings {
   const env = args.env ?? process.env
   const baseUrl = args.flags['base-url'] ?? env[ENV.baseUrl] ?? args.config.baseUrl ?? DEFAULT_BASE_URL
+  const companyId = args.flags['company-id'] ?? env[ENV.companyId] ?? args.config.companyId
   const timeoutMs = parseTimeout(args.flags['timeout-ms'] ?? env[ENV.timeoutMs] ?? args.config.timeoutMs)
   const tokenResolution = resolveApiToken(args.flags['api-token'], env[ENV.apiToken], args.config.apiToken)
 
@@ -39,6 +41,7 @@ export function resolveSettings(args: {
     apiToken: tokenResolution.apiToken,
     authSource: tokenResolution.authSource,
     baseUrl: normalizeBaseUrl(baseUrl),
+    ...(companyId ? {companyId} : {}),
     configPath: args.configPath,
     timeoutMs,
   }

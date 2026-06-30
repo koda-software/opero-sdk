@@ -8,6 +8,10 @@ Manual execution works for active rules whose trigger type is `MANUAL`.
 opero rules execute <ruleId> --body-file execute.json
 ```
 
+For organization tokens, use `opero companies select <companyId>`, pass
+`--company-id <companyId>`, or set `OPERO_COMPANY_ID` when the rule execution
+reads or mutates company-scoped runtime data.
+
 Payload:
 
 ```json

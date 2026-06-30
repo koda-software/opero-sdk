@@ -11,6 +11,7 @@ export async function writeConfig(configPath: string, config: OperoConfig): Prom
 function sortConfig(config: OperoConfig): OperoConfig {
   return {
     ...(config.baseUrl ? {baseUrl: config.baseUrl} : {}),
+    ...(config.companyId ? {companyId: config.companyId} : {}),
     ...(config.timeoutMs ? {timeoutMs: config.timeoutMs} : {}),
     ...(config.apiToken ? {apiToken: config.apiToken} : {}),
   }

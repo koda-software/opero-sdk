@@ -100,6 +100,7 @@ Environment variables:
 ```text
 OPERO_API_TOKEN
 OPERO_BASE_URL
+OPERO_COMPANY_ID
 OPERO_TIMEOUT_MS
 ```
 
@@ -108,6 +109,29 @@ Show resolved config:
 ```bash
 opero --json config show
 ```
+
+## Company Targeting
+
+Some runtime and company-scoped endpoints require a target company when the API
+token is organization-scoped. For repeated work, save a selected company:
+
+```bash
+opero companies select <companyId>
+```
+
+For one-off commands, use either:
+
+```bash
+opero --company-id <companyId> --json workflows tasks list
+OPERO_COMPANY_ID=<companyId> opero --json custom-records list <moduleKey> <objectKey>
+```
+
+The CLI sends this as `X-Company-Id`. Do not add that header manually for
+curated commands. For raw requests, prefer `--company-id`; use
+`--header X-Company-Id=<companyId>` only when testing low-level behavior.
+
+Resolution order is `--company-id`, then `OPERO_COMPANY_ID`, then the company
+saved by `opero companies select`.
 
 ## Diagnostics
 

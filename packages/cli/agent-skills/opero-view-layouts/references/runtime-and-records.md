@@ -3,6 +3,11 @@
 Runtime endpoints use published View Layouts. Draft changes do not affect
 runtime until they are published.
 
+For organization tokens, use `opero companies select <companyId>`, pass
+`--company-id <companyId>`, or set `OPERO_COMPANY_ID` when resolving, reading
+runtime data, mutating records, or loading relation-table runtime data for
+company-scoped records.
+
 ## Resolve A Layout
 
 Resolve returns the selected published layout and the block tree to render:
@@ -154,6 +159,7 @@ Runtime endpoints check:
 
 - API token permissions;
 - organization scope;
+- target company header for organization tokens where required;
 - custom object exposure through an external profile;
 - readable/writable/filterable/sortable profile rules;
 - published layout mode and block availability;

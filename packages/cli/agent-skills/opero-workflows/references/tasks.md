@@ -2,6 +2,10 @@
 
 Workflow tasks are work-queue items created by active workflow instances.
 
+For organization tokens, use `opero companies select <companyId>`, pass
+`--company-id <companyId>`, or set `OPERO_COMPANY_ID` when listing, reading, or
+reassigning tasks for company-scoped workflow instances.
+
 ## Commands
 
 ```bash

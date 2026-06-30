@@ -55,6 +55,20 @@ opero --json request get /v1/files/<id>/download \
   --header Range=bytes=1000-
 ```
 
+Company targeting:
+
+```bash
+opero companies select <companyId>
+opero --company-id <companyId> --json request get /v1/contractors
+```
+
+Prefer `--company-id` or `OPERO_COMPANY_ID` over manually passing
+`--header X-Company-Id=...`. For repeated work, use the selected company saved
+by `opero companies select`.
+
+For company CRUD, prefer curated `opero companies ...` commands. They require
+ORGANIZATION API tokens and do not use `X-Company-Id`.
+
 ## Rules
 
 - Do not pass `Authorization` manually. The CLI rejects it.

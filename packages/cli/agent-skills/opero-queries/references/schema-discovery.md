@@ -28,6 +28,9 @@ The response is wrapped:
         "qualifiedName": "runtime_dyn.\"dyn_assets\"",
         "objectName": "Asset",
         "description": "Asset Management - Asset (key: asset)",
+        "scope": "company_runtime",
+        "availableExecutionModes": ["COMPANY", "ORGANIZATION_REPORTING"],
+        "companyIdColumn": "companyId",
         "columns": [
           {
             "name": "id",
@@ -48,6 +51,11 @@ Table fields:
 - `schema`: database schema, usually `public` or `runtime_dyn`.
 - `qualifiedName`: exact SQL table reference to use.
 - `columns`: queryable columns.
+- `scope`: whether the table is organization configuration data or
+  company-runtime data.
+- `availableExecutionModes`: saved-query execution modes where the table is
+  allowed.
+- `companyIdColumn`: owning company column when the table exposes one directly.
 - `objectName`: dynamic object display name when available.
 - `description`: module/object context for dynamic tables when available.
 
@@ -69,6 +77,11 @@ The schema includes:
 Dynamic tables represent custom objects for the current organization. Their
 names often start with `dyn_`; quoted qualified names must be copied exactly
 from `qualifiedName`.
+
+Use `availableExecutionModes` when deciding whether a query should run as
+`COMPANY` or `ORGANIZATION_REPORTING`. `ORGANIZATION_REPORTING` runs across
+companies and requires reporting permission; `COMPANY` uses the active target
+company.
 
 ## How To Pick Tables
 

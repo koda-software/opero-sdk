@@ -58,6 +58,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/companies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List companies */
+        get: operations["CompaniesV1Controller_findAll_v1"];
+        put?: never;
+        /** Create company */
+        post: operations["CompaniesV1Controller_create_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get company */
+        get: operations["CompaniesV1Controller_findOne_v1"];
+        put?: never;
+        post?: never;
+        /** Delete company */
+        delete: operations["CompaniesV1Controller_remove_v1"];
+        options?: never;
+        head?: never;
+        /** Update company */
+        patch: operations["CompaniesV1Controller_update_v1"];
+        trace?: never;
+    };
     "/v1/dictionaries": {
         parameters: {
             query?: never;
@@ -2254,6 +2291,93 @@ export interface components {
         DataArrayOfCurrencyResponseDto: {
             data: components["schemas"]["CurrencyResponseDto"][];
         };
+        CreateExternalCompanyDto: {
+            /** @example Acme Poland */
+            name: string;
+            /**
+             * @description Globally unique URL-safe company slug. Lowercase letters, numbers, and single hyphen separators only.
+             * @example acme-poland
+             */
+            slug?: string;
+            /**
+             * @default ACTIVE
+             * @enum {string}
+             */
+            status: "ACTIVE" | "INACTIVE";
+            /**
+             * @description Whether this company is the default company for the organization.
+             * @default false
+             */
+            isDefault: boolean;
+            nip?: string;
+            taxCountry?: string;
+            regon?: string;
+            krs?: string;
+        };
+        /** @enum {string} */
+        CompanyStatus: "ACTIVE" | "INACTIVE";
+        ExternalCompanyResponseDto: {
+            id: string;
+            organizationId: string;
+            name: string;
+            slug: string;
+            status: components["schemas"]["CompanyStatus"];
+            isDefault: boolean;
+            nip?: string | null;
+            taxCountry?: string | null;
+            regon?: string | null;
+            krs?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DataOfExternalCompanyResponseDto: {
+            data: components["schemas"]["ExternalCompanyResponseDto"];
+        };
+        PaginationMetaDto: {
+            /** @example 1 */
+            page: number;
+            /** @example 20 */
+            limit: number;
+            /**
+             * @description Exact total item count. Present for count=exact and may be omitted for count=none or count=hasMore.
+             * @example 100
+             */
+            total?: number;
+            /**
+             * @description Whether another page exists. Present for endpoints that implement count=hasMore.
+             * @example true
+             */
+            hasMore?: boolean;
+        };
+        ListOfExternalCompanyResponseDto: {
+            data: components["schemas"]["ExternalCompanyResponseDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
+        };
+        UpdateExternalCompanyDto: {
+            /** @example Acme Poland */
+            name?: string;
+            /**
+             * @description Globally unique URL-safe company slug. Lowercase letters, numbers, and single hyphen separators only.
+             * @example acme-poland
+             */
+            slug?: string;
+            /**
+             * @default ACTIVE
+             * @enum {string}
+             */
+            status: "ACTIVE" | "INACTIVE";
+            /**
+             * @description Whether this company is the default company for the organization.
+             * @default false
+             */
+            isDefault: boolean;
+            nip?: string;
+            taxCountry?: string;
+            regon?: string;
+            krs?: string;
+        };
         /**
          * @description Controls how entry keys are assigned. CUSTOM requires callers to provide key. VALUE_KEBAB generates key from value. AUTO_INCREMENT generates the next numeric key.
          * @enum {string}
@@ -2374,22 +2498,6 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-        };
-        PaginationMetaDto: {
-            /** @example 1 */
-            page: number;
-            /** @example 20 */
-            limit: number;
-            /**
-             * @description Exact total item count. Present for count=exact and may be omitted for count=none or count=hasMore.
-             * @example 100
-             */
-            total?: number;
-            /**
-             * @description Whether another page exists. Present for endpoints that implement count=hasMore.
-             * @example true
-             */
-            hasMore?: boolean;
         };
         ListOfExternalDictionaryResponseDto: {
             data: components["schemas"]["ExternalDictionaryResponseDto"][];
@@ -3260,6 +3368,18 @@ export interface components {
             qualifiedName: string;
             columns: components["schemas"]["SchemaColumnDto"][];
             /**
+             * @description Scope of the table for saved-query execution and reporting hints.
+             * @enum {string}
+             */
+            scope: "organization_config" | "company_runtime";
+            /** @description Execution modes where this table can be used. */
+            availableExecutionModes: ("COMPANY" | "ORGANIZATION_REPORTING")[];
+            /**
+             * @description Column that identifies the owning company when the table exposes one directly.
+             * @example companyId
+             */
+            companyIdColumn?: string | null;
+            /**
              * @description Human-readable object name (dynamic tables only)
              * @example Equipment
              */
@@ -3277,6 +3397,11 @@ export interface components {
         DataOfQuerySchemaResponseDto: {
             data: components["schemas"]["QuerySchemaResponseDto"];
         };
+        /**
+         * @description Default execution mode shown by clients. Executions can still request a specific mode.
+         * @enum {string}
+         */
+        SavedQueryExecutionMode: "COMPANY" | "ORGANIZATION_REPORTING";
         SavedQueryParameterDto: {
             name: string;
             /** @enum {string} */
@@ -3285,6 +3410,11 @@ export interface components {
             description?: string;
         };
         CreateSavedQueryDto: {
+            /**
+             * @description Default execution mode shown by clients. Executions can still request a specific mode.
+             * @default COMPANY
+             */
+            defaultExecutionMode: components["schemas"]["SavedQueryExecutionMode"];
             name: string;
             key: string;
             description?: string;
@@ -3332,6 +3462,11 @@ export interface components {
             data: components["schemas"]["ExternalSavedQueryResponseDto"];
         };
         UpdateSavedQueryDto: {
+            /**
+             * @description Default execution mode shown by clients. Executions can still request a specific mode.
+             * @default COMPANY
+             */
+            defaultExecutionMode: components["schemas"]["SavedQueryExecutionMode"];
             name?: string;
             key?: string;
             description?: string;
@@ -3339,6 +3474,11 @@ export interface components {
             parameters?: components["schemas"]["SavedQueryParameterDto"][];
         };
         ExecuteSavedQueryDto: {
+            /**
+             * @description COMPANY uses the active company. ORGANIZATION_REPORTING runs across all companies in the active organization and requires reporting permission.
+             * @default COMPANY
+             */
+            executionMode: components["schemas"]["SavedQueryExecutionMode"];
             params?: Record<string, never>;
         };
         ExternalSavedQueryExecutionResultDto: {
@@ -3379,7 +3519,7 @@ export interface components {
             regon?: string;
             /** @example 0000012345 */
             krs?: string;
-            /** @example +48 123 456 789 */
+            /** @example +48 600 111 222 */
             phone?: string;
             /**
              * Format: email
@@ -3444,7 +3584,7 @@ export interface components {
             position?: string;
             /** @example Sales */
             department?: string;
-            /** @example +48 123 456 789 */
+            /** @example +48 600 111 222 */
             phone?: string;
             /**
              * Format: email
@@ -3804,7 +3944,7 @@ export interface components {
             regon?: string;
             /** @example 0000012345 */
             krs?: string;
-            /** @example +48 123 456 789 */
+            /** @example +48 600 111 222 */
             phone?: string;
             /**
              * Format: email
@@ -6235,6 +6375,8 @@ export interface components {
             id: string;
             /** @example org-123 */
             org_id: string;
+            /** @example company-123 */
+            company_id: string;
             /**
              * Format: date-time
              * @example 2024-01-01T00:00:00.000Z
@@ -7013,7 +7155,7 @@ export interface components {
             id: string;
             name: string;
             /** @enum {string} */
-            kind: "ORGANIZATION" | "USER";
+            kind: "ORGANIZATION" | "COMPANY" | "USER";
             isActive: boolean;
         };
         WorkflowHistoryActorsResponseDto: {
@@ -7610,6 +7752,295 @@ export interface operations {
                 };
             };
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CompaniesV1Controller_findAll_v1: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page. Maximum 100. */
+                limit?: number;
+                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
+                count?: "exact" | "none" | "hasMore";
+                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
+                filters?: string;
+                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
+                sort?: string;
+                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
+                columns?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOfExternalCompanyResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CompaniesV1Controller_create_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateExternalCompanyDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCompanyResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CompaniesV1Controller_findOne_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCompanyResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CompaniesV1Controller_remove_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Company deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CompaniesV1Controller_update_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateExternalCompanyDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataOfExternalCompanyResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9256,7 +9687,10 @@ export interface operations {
                 /** @description Comma-separated expandable field keys to inline in the response under _expanded. Supports REFERENCE, USER, USER_MULTI, CONTRACTOR, and CONTRACTOR_MULTI fields. E.g. "equipment_id,site_id". Dangling references resolve to null. */
                 expand?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 moduleKey: string;
                 objectKey: string;
@@ -9310,7 +9744,10 @@ export interface operations {
     CustomDataV1Controller_createRecord_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 moduleKey: string;
                 objectKey: string;
@@ -9379,7 +9816,10 @@ export interface operations {
                 /** @description Comma-separated expandable field keys. Only fields allowed by the object API exposure profile can be expanded. */
                 expand?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 moduleKey: string;
                 objectKey: string;
@@ -9434,7 +9874,10 @@ export interface operations {
     CustomDataV1Controller_deleteRecord_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 moduleKey: string;
                 objectKey: string;
@@ -9487,7 +9930,10 @@ export interface operations {
     CustomDataV1Controller_updateRecord_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 moduleKey: string;
                 objectKey: string;
@@ -9557,7 +10003,10 @@ export interface operations {
                 /** @description Comma-separated expandable field keys. Only fields allowed by the object API exposure profile can be expanded. */
                 expand?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 moduleKey: string;
                 objectKey: string;
@@ -9611,7 +10060,10 @@ export interface operations {
     CustomDataV1Controller_updateSingletonRecord_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 moduleKey: string;
                 objectKey: string;
@@ -11030,7 +11482,10 @@ export interface operations {
                 /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
                 columns?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -11081,7 +11536,10 @@ export interface operations {
     ContractorsV1Controller_create_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -11144,7 +11602,10 @@ export interface operations {
     ContractorsV1Controller_findOne_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -11189,7 +11650,10 @@ export interface operations {
     ContractorsV1Controller_update_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -11254,7 +11718,10 @@ export interface operations {
     ContractorsV1Controller_updateStatus_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -11656,7 +12123,10 @@ export interface operations {
     FilesV1Controller_uploadAttachment_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -11706,7 +12176,10 @@ export interface operations {
     FilesV1Controller_findOne_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -11744,6 +12217,8 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
                 /** @description Optional byte range, e.g. bytes=1000000- */
                 Range?: string;
             };
@@ -11806,7 +12281,10 @@ export interface operations {
                 /** @description API-supported target entity type. Use "contractor" for contractors or "custom_record.<moduleKey>.<objectKey>" for records of an exposed custom object, for example "custom_record.crm.deal". */
                 entityType: string;
             };
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -11857,7 +12335,10 @@ export interface operations {
     EntityAttachmentsV1Controller_create_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -11920,7 +12401,10 @@ export interface operations {
     EntityAttachmentsV1Controller_remove_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -11964,7 +12448,10 @@ export interface operations {
     EntityAttachmentsV1Controller_update_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -12034,7 +12521,10 @@ export interface operations {
                 /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
                 columns?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Target entity identifier in the token organization. */
                 entityId: string;
@@ -12090,7 +12580,10 @@ export interface operations {
     EntityCommentsV1Controller_findOne_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -12135,7 +12628,10 @@ export interface operations {
     EntityCommentsV1Controller_remove_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -12179,7 +12675,10 @@ export interface operations {
     EntityCommentsV1Controller_update_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -12236,7 +12735,10 @@ export interface operations {
     EntityCommentsV1Controller_create_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -12987,7 +13489,10 @@ export interface operations {
     RulesV1Controller_execute_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -13170,7 +13675,10 @@ export interface operations {
                 scopeId?: string;
                 dashboardKey?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -13378,7 +13886,10 @@ export interface operations {
                 scopeId?: string;
                 dashboardKey?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -13447,7 +13958,10 @@ export interface operations {
                 scopeId?: string;
                 dashboardKey?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -13523,7 +14037,10 @@ export interface operations {
                 scopeId?: string;
                 dashboardKey?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Dynamic record ID */
                 recordId: string;
@@ -13603,7 +14120,10 @@ export interface operations {
                 scopeId?: string;
                 dashboardKey?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -13676,7 +14196,10 @@ export interface operations {
                 /** @description Selected target row dynamic form id. When omitted, backend falls back to the target object default form for targetMode. */
                 targetFormId?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Parent one-to-many reference field key */
                 relationFieldKey: string;
@@ -13747,7 +14270,10 @@ export interface operations {
                 /** @description Selected target row dynamic form id. When omitted, backend falls back to the target object default form for targetMode. */
                 targetFormId?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Target company for organization API tokens on runtime endpoints. Required for ORGANIZATION tokens. COMPANY tokens are fixed to their stored company and cannot target another company. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Parent dynamic record ID */
                 recordId: string;
@@ -14529,7 +15055,10 @@ export interface operations {
                 /** @description Required when targetType is DYNAMIC_OBJECT_RECORD. */
                 objectKey?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -14577,7 +15106,10 @@ export interface operations {
                 /** @description Dynamic object key. Required when targetType is DYNAMIC_OBJECT_RECORD. */
                 objectKey?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
                 /** @description Target record ID */
@@ -14637,7 +15169,10 @@ export interface operations {
                 /** @description Dynamic object key. Required when targetType is DYNAMIC_OBJECT_RECORD. */
                 objectKey?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 targetType: "SALES_INVOICE" | "COST_INVOICE" | "CONTRACTOR" | "DYNAMIC_OBJECT_RECORD";
                 /** @description Target record ID */
@@ -14704,7 +15239,10 @@ export interface operations {
     WorkflowsRuntimeV1Controller_getInstance_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Workflow instance ID */
                 instanceId: string;
@@ -14750,7 +15288,10 @@ export interface operations {
     WorkflowsRuntimeV1Controller_getReplay_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Workflow instance ID */
                 instanceId: string;
@@ -14796,7 +15337,10 @@ export interface operations {
     WorkflowsRuntimeV1Controller_updateAuthor_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Workflow instance ID */
                 instanceId: string;
@@ -14854,7 +15398,10 @@ export interface operations {
     WorkflowsRuntimeV1Controller_executeTransition_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Workflow instance ID */
                 instanceId: string;
@@ -14914,7 +15461,10 @@ export interface operations {
     WorkflowsRuntimeV1Controller_getHistory_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Workflow instance ID */
                 instanceId: string;
@@ -14973,7 +15523,10 @@ export interface operations {
                 /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
                 columns?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -15016,7 +15569,10 @@ export interface operations {
     WorkflowsTasksV1Controller_findOne_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Workflow task ID */
                 taskId: string;
@@ -15062,7 +15618,10 @@ export interface operations {
     WorkflowsTasksV1Controller_reassign_v1: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
+                "X-Company-Id"?: string;
+            };
             path: {
                 /** @description Workflow task ID */
                 taskId: string;

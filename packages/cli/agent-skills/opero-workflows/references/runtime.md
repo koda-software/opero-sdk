@@ -3,6 +3,14 @@
 Runtime commands work with active workflow instances for records. They do not
 change workflow definitions.
 
+For organization tokens, use `opero companies select <companyId>`, pass
+`--company-id <companyId>`, or set `OPERO_COMPANY_ID` when reading target state,
+starting instances, reading runtime instances, executing transitions, or reading
+workflow history for company-scoped records.
+
+Workflow history actor records can identify API token actors as
+`ORGANIZATION`, `COMPANY`, or `USER`.
+
 ## Commands
 
 ```bash
@@ -54,4 +62,5 @@ The runtime execute command uses transition ID.
 - A target can have only one active workflow instance at a time.
 - Transition conditions still apply to external API calls.
 - Restricted transitions may require runtime override permission.
+- Organization tokens may need a target company for runtime endpoints.
 - Stage read-only/edit restrictions for record mutation are handled separately.
