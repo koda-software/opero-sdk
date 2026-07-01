@@ -18,11 +18,14 @@ export default class FilesUpload extends BaseCommand {
     const {flags} = await this.parse(FilesUpload)
     const {settings} = await this.loadSettings(flags)
     const client = this.createApiClient(settings)
-    const result = await client.postMultipart('/v1/files/attachments', {
-      bytes: await readUploadFile(flags.file),
-      fieldName: 'file',
-      filename: basename(flags.file),
-    })
+    const result = await client.postMultipart(
+      this.companyApiPath('/v1/companies/{companyId}/files/attachments', settings),
+      {
+        bytes: await readUploadFile(flags.file),
+        fieldName: 'file',
+        filename: basename(flags.file),
+      },
+    )
 
     if (!this.jsonEnabled()) this.printOutput(result, flags)
     return result

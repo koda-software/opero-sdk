@@ -28,7 +28,7 @@ opero --json request get /v1/currencies
 Query parameters:
 
 ```bash
-opero --json request get /v1/contractors \
+opero --json request get /v1/companies/<companyId>/contractors \
   --query page=1 \
   --query limit=10
 ```
@@ -39,32 +39,35 @@ multiple values for that key.
 JSON body from a file:
 
 ```bash
-opero --json request post /v1/contractors --body-file contractor.json
+opero --json request post /v1/companies/<companyId>/contractors --body-file contractor.json
 ```
 
 JSON body from stdin:
 
 ```bash
-cat contractor.json | opero --json request post /v1/contractors --body-file -
+cat contractor.json | opero --json request post /v1/companies/<companyId>/contractors --body-file -
 ```
 
 Additional non-auth headers:
 
 ```bash
-opero --json request get /v1/files/<id>/download \
+opero --json request get /v1/companies/<companyId>/files/<id>/download \
   --header Range=bytes=1000-
 ```
 
-Company targeting:
+Header-backed company targeting:
 
 ```bash
 opero companies select <companyId>
-opero --company-id <companyId> --json request get /v1/contractors
+opero --company-id <companyId> --json request get /v1/header-backed-endpoint
 ```
 
 Prefer `--company-id` or `OPERO_COMPANY_ID` over manually passing
-`--header X-Company-Id=...`. For repeated work, use the selected company saved
-by `opero companies select`.
+`--header X-Company-Id=...`. For header-backed company-scoped endpoints,
+`X-Company-Id` is required for ORGANIZATION API tokens and unnecessary for
+COMPANY API tokens. For `/v1/companies/<companyId>/...` endpoints, the company
+comes from the route and the CLI does not add `X-Company-Id`. For repeated work,
+use the selected company saved by `opero companies select`.
 
 For company CRUD, prefer curated `opero companies ...` commands. They require
 ORGANIZATION API tokens and do not use `X-Company-Id`.

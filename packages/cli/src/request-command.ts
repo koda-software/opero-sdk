@@ -7,7 +7,7 @@ import {BaseCommand} from './base-command.js'
 
 export const rawRequestArgs = {
   path: Args.string({
-    description: 'API path, for example /v1/contractors.',
+    description: 'API path, for example /v1/companies/<companyId>/contractors.',
     required: true,
   }),
 }

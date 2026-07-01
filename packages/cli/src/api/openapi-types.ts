@@ -896,7 +896,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/contractors": {
+    "/v1/companies/{companyId}/contractors": {
         parameters: {
             query?: never;
             header?: never;
@@ -917,7 +917,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/contractors/{id}": {
+    "/v1/companies/{companyId}/contractors/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -938,7 +938,7 @@ export interface paths {
         patch: operations["ContractorsV1Controller_update_v1"];
         trace?: never;
     };
-    "/v1/contractors/{id}/status": {
+    "/v1/companies/{companyId}/contractors/{id}/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -958,7 +958,7 @@ export interface paths {
         patch: operations["ContractorsV1Controller_updateStatus_v1"];
         trace?: never;
     };
-    "/v1/service-catalog/items": {
+    "/v1/companies/{companyId}/service-catalog/items": {
         parameters: {
             query?: never;
             header?: never;
@@ -979,7 +979,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/service-catalog/items/{id}": {
+    "/v1/companies/{companyId}/service-catalog/items/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1000,7 +1000,7 @@ export interface paths {
         patch: operations["ServiceCatalogV1Controller_update_v1"];
         trace?: never;
     };
-    "/v1/service-catalog/items/{id}/archive": {
+    "/v1/companies/{companyId}/service-catalog/items/{id}/archive": {
         parameters: {
             query?: never;
             header?: never;
@@ -1020,7 +1020,7 @@ export interface paths {
         patch: operations["ServiceCatalogV1Controller_archive_v1"];
         trace?: never;
     };
-    "/v1/service-catalog/items/{id}/restore": {
+    "/v1/companies/{companyId}/service-catalog/items/{id}/restore": {
         parameters: {
             query?: never;
             header?: never;
@@ -1040,7 +1040,7 @@ export interface paths {
         patch: operations["ServiceCatalogV1Controller_restore_v1"];
         trace?: never;
     };
-    "/v1/files/attachments": {
+    "/v1/companies/{companyId}/files/attachments": {
         parameters: {
             query?: never;
             header?: never;
@@ -1060,7 +1060,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/files/{id}": {
+    "/v1/companies/{companyId}/files/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1077,7 +1077,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/files/{id}/download": {
+    "/v1/companies/{companyId}/files/{id}/download": {
         parameters: {
             query?: never;
             header?: never;
@@ -1094,7 +1094,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/entity-attachments": {
+    "/v1/companies/{companyId}/entity-attachments": {
         parameters: {
             query?: never;
             header?: never;
@@ -1112,7 +1112,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/entity-attachments/{id}": {
+    "/v1/companies/{companyId}/entity-attachments/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1130,24 +1130,7 @@ export interface paths {
         patch: operations["EntityAttachmentsV1Controller_update_v1"];
         trace?: never;
     };
-    "/v1/entity-comments/{entityType}/{entityId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List entity comments */
-        get: operations["EntityCommentsV1Controller_findAll_v1"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/entity-comments/{id}": {
+    "/v1/companies/{companyId}/entity-comments/comments/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1166,7 +1149,7 @@ export interface paths {
         patch: operations["EntityCommentsV1Controller_update_v1"];
         trace?: never;
     };
-    "/v1/entity-comments": {
+    "/v1/companies/{companyId}/entity-comments": {
         parameters: {
             query?: never;
             header?: never;
@@ -1177,6 +1160,23 @@ export interface paths {
         put?: never;
         /** Create entity comment */
         post: operations["EntityCommentsV1Controller_create_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/companies/{companyId}/entity-comments/{entityType}/{entityId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List entity comments */
+        get: operations["EntityCommentsV1Controller_findAll_v1"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -4273,10 +4273,6 @@ export interface components {
             /** @description User or API token that authored the comment. */
             author?: (components["schemas"]["ExternalCommentUserActorDto"] | components["schemas"]["ExternalCommentApiTokenActorDto"]) | null;
         };
-        ListOfExternalEntityCommentDto: {
-            data: components["schemas"]["ExternalEntityCommentDto"][];
-            meta: components["schemas"]["PaginationMetaDto"];
-        };
         DataOfExternalEntityCommentDto: {
             data: components["schemas"]["ExternalEntityCommentDto"];
         };
@@ -4315,6 +4311,10 @@ export interface components {
              *     }
              */
             metadata?: Record<string, never> | null;
+        };
+        ListOfExternalEntityCommentDto: {
+            data: components["schemas"]["ExternalEntityCommentDto"][];
+            meta: components["schemas"]["PaginationMetaDto"];
         };
         RuleTriggerDescriptorDto: {
             /** @enum {string} */
@@ -11482,11 +11482,10 @@ export interface operations {
                 /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
                 columns?: string;
             };
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
+            header?: never;
+            path: {
+                companyId: unknown;
             };
-            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -11536,11 +11535,10 @@ export interface operations {
     ContractorsV1Controller_create_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
+            header?: never;
+            path: {
+                companyId: unknown;
             };
-            path?: never;
             cookie?: never;
         };
         requestBody: {
@@ -11602,12 +11600,10 @@ export interface operations {
     ContractorsV1Controller_findOne_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
+            header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -11650,12 +11646,10 @@ export interface operations {
     ContractorsV1Controller_update_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
+            header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -11718,12 +11712,10 @@ export interface operations {
     ContractorsV1Controller_updateStatus_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
+            header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -11794,7 +11786,9 @@ export interface operations {
                 search?: string;
             };
             header?: never;
-            path?: never;
+            path: {
+                companyId: unknown;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -11845,7 +11839,9 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                companyId: unknown;
+            };
             cookie?: never;
         };
         requestBody: {
@@ -11910,6 +11906,7 @@ export interface operations {
             header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -11955,6 +11952,7 @@ export interface operations {
             header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12020,6 +12018,7 @@ export interface operations {
             header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12073,6 +12072,7 @@ export interface operations {
             header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12123,11 +12123,10 @@ export interface operations {
     FilesV1Controller_uploadAttachment_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
+            header?: never;
+            path: {
+                companyId: unknown;
             };
-            path?: never;
             cookie?: never;
         };
         requestBody: {
@@ -12176,12 +12175,10 @@ export interface operations {
     FilesV1Controller_findOne_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
+            header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12217,13 +12214,12 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
                 /** @description Optional byte range, e.g. bytes=1000000- */
                 Range?: string;
             };
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12281,11 +12277,10 @@ export interface operations {
                 /** @description API-supported target entity type. Use "contractor" for contractors or "custom_record.<moduleKey>.<objectKey>" for records of an exposed custom object, for example "custom_record.crm.deal". */
                 entityType: string;
             };
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
+            header?: never;
+            path: {
+                companyId: unknown;
             };
-            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -12335,11 +12330,10 @@ export interface operations {
     EntityAttachmentsV1Controller_create_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
+            header?: never;
+            path: {
+                companyId: unknown;
             };
-            path?: never;
             cookie?: never;
         };
         requestBody: {
@@ -12401,12 +12395,10 @@ export interface operations {
     EntityAttachmentsV1Controller_remove_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
+            header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12448,12 +12440,10 @@ export interface operations {
     EntityAttachmentsV1Controller_update_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
+            header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12505,87 +12495,13 @@ export interface operations {
             };
         };
     };
-    EntityCommentsV1Controller_findAll_v1: {
-        parameters: {
-            query?: {
-                /** @description Page number (1-based) */
-                page?: number;
-                /** @description Items per page. Maximum 100. */
-                limit?: number;
-                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
-                count?: "exact" | "none" | "hasMore";
-                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
-                filters?: string;
-                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
-                sort?: string;
-                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
-                columns?: string;
-            };
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
-            path: {
-                /** @description Target entity identifier in the token organization. */
-                entityId: string;
-                /** @description API-supported target entity type. Use "contractor" for contractors or "custom_record.<moduleKey>.<objectKey>" for records of an exposed custom object, for example "custom_record.crm.deal". */
-                entityType: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ListOfExternalEntityCommentDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponseDto"];
-                };
-            };
-        };
-    };
     EntityCommentsV1Controller_findOne_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
+            header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12628,12 +12544,10 @@ export interface operations {
     EntityCommentsV1Controller_remove_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
+            header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12675,12 +12589,10 @@ export interface operations {
     EntityCommentsV1Controller_update_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
-            };
+            header?: never;
             path: {
                 id: string;
+                companyId: unknown;
             };
             cookie?: never;
         };
@@ -12735,11 +12647,10 @@ export interface operations {
     EntityCommentsV1Controller_create_v1: {
         parameters: {
             query?: never;
-            header?: {
-                /** @description Firma docelowa dla tokenów API organizacji na endpointach runtime. Wymagane dla tokenów ORGANIZATION. Tokeny COMPANY są przypisane do zapisanej firmy i nie mogą wskazać innej firmy. */
-                "X-Company-Id"?: string;
+            header?: never;
+            path: {
+                companyId: unknown;
             };
-            path?: never;
             cookie?: never;
         };
         requestBody: {
@@ -12754,6 +12665,76 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DataOfExternalEntityCommentDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    EntityCommentsV1Controller_findAll_v1: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page. Maximum 100. */
+                limit?: number;
+                /** @description Count strategy. exact keeps current total-count behavior, none skips totals, hasMore lets endpoints return whether another page exists when implemented. */
+                count?: "exact" | "none" | "hasMore";
+                /** @description JSON-encoded recursive filter tree. Example: {"op":"AND","items":[{"field":"status","operator":"eq","value":"ACTIVE"}]} */
+                filters?: string;
+                /** @description JSON-encoded ordered sort rule list. Example: [{"field":"createdAt","direction":"desc"}] */
+                sort?: string;
+                /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
+                columns?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Target entity identifier in the token organization. */
+                entityId: string;
+                /** @description API-supported target entity type. Use "contractor" for contractors or "custom_record.<moduleKey>.<objectKey>" for records of an exposed custom object, for example "custom_record.crm.deal". */
+                entityType: string;
+                companyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOfExternalEntityCommentDto"];
                 };
             };
             400: {

@@ -14,6 +14,13 @@ export default class ServiceCatalogList extends ListCommand {
 
   async run(): Promise<unknown> {
     const {flags} = await this.parse(ServiceCatalogList)
-    return this.getList('/v1/service-catalog/items', flags, {search: flags.search})
+    const {settings} = await this.loadSettings(flags)
+    const client = this.createApiClient(settings)
+    const result = await client.get(this.companyApiPath('/v1/companies/{companyId}/service-catalog/items', settings), {
+      query: this.buildListQuery(flags, {search: flags.search}),
+    })
+
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
+    return result
   }
 }

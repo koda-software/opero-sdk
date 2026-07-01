@@ -1,4 +1,4 @@
-import {bodyFileFlag, WriteCommand} from '../../write-command.js'
+import {bodyFileFlag, readRequiredJsonBodyFile, WriteCommand} from '../../write-command.js'
 
 export default class ServiceCatalogCreate extends WriteCommand {
   static description = 'Create a service catalog item.'
@@ -7,6 +7,13 @@ export default class ServiceCatalogCreate extends WriteCommand {
 
   async run(): Promise<unknown> {
     const {flags} = await this.parse(ServiceCatalogCreate)
-    return this.postJson('/v1/service-catalog/items', flags)
+    const {settings} = await this.loadSettings(flags)
+    const client = this.createApiClient(settings)
+    const result = await client.post(this.companyApiPath('/v1/companies/{companyId}/service-catalog/items', settings), {
+      body: await readRequiredJsonBodyFile(flags['body-file']),
+    })
+
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
+    return result
   }
 }

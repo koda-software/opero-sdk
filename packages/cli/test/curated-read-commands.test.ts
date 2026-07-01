@@ -68,7 +68,7 @@ describe('curated read commands', () => {
       command: ContractorsGet,
       flags: {},
       options: {query: undefined},
-      path: '/v1/contractors/contractor%201',
+      path: '/v1/companies/company%201/contractors/contractor%201',
     },
     {
       args: {id: 'dictionary 1'},
@@ -178,7 +178,7 @@ describe('curated read commands', () => {
     {
       args: {},
       command: ContractorsList,
-      path: '/v1/contractors',
+      path: '/v1/companies/company%201/contractors',
     },
     {
       args: {},
@@ -343,6 +343,7 @@ async function runCommand(Command: CommandConstructor, options: RunOptions) {
       apiToken: 'test-token',
       authSource: 'flag',
       baseUrl: 'https://api.example',
+      companyId: 'company 1',
       timeoutMs: 30_000,
     },
   })

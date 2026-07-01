@@ -1,6 +1,5 @@
 import {Args} from '@oclif/core'
 
-import {apiPath} from '../../api/path.js'
 import {ReadCommand} from '../../read-command.js'
 
 export default class FilesGet extends ReadCommand {
@@ -16,6 +15,13 @@ export default class FilesGet extends ReadCommand {
 
   async run(): Promise<unknown> {
     const {args, flags} = await this.parse(FilesGet)
-    return this.getJson(apiPath('/v1/files/{id}', args), flags)
+    const {settings} = await this.loadSettings(flags)
+    const client = this.createApiClient(settings)
+    const result = await client.get(this.companyApiPath('/v1/companies/{companyId}/files/{id}', settings, args), {
+      query: undefined,
+    })
+
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
+    return result
   }
 }

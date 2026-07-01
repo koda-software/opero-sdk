@@ -137,7 +137,7 @@ export class ApiClient {
     try {
       const headers: Record<string, string> = {
         accept: 'application/json',
-        ...(this.companyId && options.companyScoped !== false ? {'X-Company-Id': this.companyId} : {}),
+        ...(this.companyId && shouldSendCompanyHeader(path, options) ? {'X-Company-Id': this.companyId} : {}),
         'user-agent': this.userAgent,
         ...options.headers,
       }
@@ -182,6 +182,15 @@ export class ApiClient {
       clearTimeout(timeout)
     }
   }
+}
+
+function shouldSendCompanyHeader(path: string, options: RequestOptions): boolean {
+  if (options.companyScoped === false) return false
+  return !isCompanyRoutePath(path)
+}
+
+function isCompanyRoutePath(path: string): boolean {
+  return /^\/v1\/companies\/[^/?#]+(?:\/|$)/.test(path)
 }
 
 async function parseResponse(response: Response): Promise<unknown> {

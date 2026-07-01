@@ -295,6 +295,9 @@ opero files download <fileId> --out ./invoice.pdf
 Downloads refuse to overwrite existing files unless `--force` is provided. Use
 `--create-dirs` when the output parent directory should be created.
 
+File attachment upload/read/download commands require a selected company or
+`--company-id`; the CLI sends the company in the scoped path.
+
 Service catalog commands:
 
 ```bash
@@ -306,6 +309,8 @@ opero service-catalog archive <id>
 opero service-catalog restore <id>
 ```
 
+Service catalog commands require a selected company or `--company-id`.
+
 Entity attachment commands:
 
 ```bash
@@ -314,6 +319,8 @@ opero --json entity-attachments create --entity-type contractor --entity-id <id>
 opero entity-attachments update <id> --body-file attachment.json
 opero entity-attachments delete <id>
 ```
+
+Entity attachment commands require a selected company or `--company-id`.
 
 Entity comment commands:
 
@@ -324,6 +331,9 @@ opero --json entity-comments create --entity-type contractor --entity-id <id> --
 opero entity-comments update <id> --body-file comment.json
 opero entity-comments delete <id>
 ```
+
+Entity comment commands require a selected company or `--company-id`. The CLI
+uses the backend `comments/<id>` detail/update/delete route internally.
 
 Rule commands:
 
@@ -363,14 +373,20 @@ before a curated command exists.
 
 ```bash
 opero --json request get /v1/currencies
-opero --json request get /v1/contractors --query limit=10
-opero --json request post /v1/contractors --body-file contractor.json
-opero --json request patch /v1/contractors/<id> --body-file contractor.json
-opero --json request delete /v1/entity-comments/<id>
+opero --json request get /v1/companies/<companyId>/contractors --query limit=10
+opero --json request post /v1/companies/<companyId>/contractors --body-file contractor.json
+opero --json request patch /v1/companies/<companyId>/contractors/<id> --body-file contractor.json
+opero --json request delete /v1/companies/<companyId>/entity-comments/comments/<id>
 ```
 
 Raw non-GET requests are live writes. The CLI does not ask for an extra
 confirmation.
+
+For header-backed company-scoped endpoints, `--company-id` and
+`OPERO_COMPANY_ID` send `X-Company-Id`. That header is required for
+ORGANIZATION API tokens and unnecessary for COMPANY API tokens. For
+`/v1/companies/<companyId>/...` endpoints, the company comes from the route and
+the CLI does not add `X-Company-Id`.
 
 ## OpenAPI Contract
 

@@ -7,6 +7,13 @@ export default class ContractorsList extends ListCommand {
 
   async run(): Promise<unknown> {
     const {flags} = await this.parse(ContractorsList)
-    return this.getList('/v1/contractors', flags)
+    const {settings} = await this.loadSettings(flags)
+    const client = this.createApiClient(settings)
+    const result = await client.get(this.companyApiPath('/v1/companies/{companyId}/contractors', settings), {
+      query: this.buildListQuery(flags),
+    })
+
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
+    return result
   }
 }

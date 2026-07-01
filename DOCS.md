@@ -186,8 +186,9 @@ opero --json config show
 
 For company-scoped runtime endpoints, set the target company with
 `opero companies select <companyId>`, `--company-id`, or `OPERO_COMPANY_ID`.
-The resolved value is sent as `X-Company-Id`. For one-off calls, `--company-id`
-and `OPERO_COMPANY_ID` override the selected company.
+Route-scoped commands use that value in `/v1/companies/{companyId}/...` paths.
+Header-backed endpoints send it as `X-Company-Id`. For one-off calls,
+`--company-id` and `OPERO_COMPANY_ID` override the selected company.
 
 Validate and save an API token:
 
@@ -479,7 +480,7 @@ opero --json request get /v1/currencies
 Query parameters:
 
 ```bash
-opero --json request get /v1/contractors \
+opero --json request get /v1/companies/<companyId>/contractors \
   --query page=1 \
   --query limit=10
 ```
@@ -487,30 +488,33 @@ opero --json request get /v1/contractors \
 Request body from a file:
 
 ```bash
-opero --json request post /v1/contractors --body-file contractor.json
+opero --json request post /v1/companies/<companyId>/contractors --body-file contractor.json
 ```
 
 Request body from stdin:
 
 ```bash
-cat contractor.json | opero --json request post /v1/contractors --body-file -
+cat contractor.json | opero --json request post /v1/companies/<companyId>/contractors --body-file -
 ```
 
 Additional non-auth headers:
 
 ```bash
-opero --json request get /v1/files/<id>/download \
+opero --json request get /v1/companies/<companyId>/files/<id>/download \
   --header Range=bytes=1000-
 ```
 
-Company targeting:
+Header-backed company targeting:
 
 ```bash
-opero --company-id <companyId> --json request get /v1/contractors
+opero --company-id <companyId> --json request get /v1/header-backed-endpoint
 ```
 
 Prefer `--company-id` or `OPERO_COMPANY_ID` over manually passing
-`--header X-Company-Id=...`.
+`--header X-Company-Id=...`. For header-backed company-scoped endpoints,
+`X-Company-Id` is required for ORGANIZATION API tokens and unnecessary for
+COMPANY API tokens. For `/v1/companies/<companyId>/...` endpoints, the company
+comes from the route and the CLI does not add `X-Company-Id`.
 
 The CLI rejects manual `Authorization` headers. Use `OPERO_API_TOKEN`,
 `--api-token`, or `opero auth login`.
@@ -575,6 +579,9 @@ Update contractor status:
 ```bash
 opero contractors update-status <id> --body-file status.json
 ```
+
+Contractor commands require a selected company or `--company-id`; the CLI sends
+the company in the scoped path.
 
 ### Dictionaries
 
@@ -896,8 +903,13 @@ Upload an attachment file:
 opero --json files upload --file ./invoice.pdf
 ```
 
-The upload command sends `multipart/form-data` to `POST /v1/files/attachments`
+The upload command sends `multipart/form-data` to
+`POST /v1/companies/{companyId}/files/attachments`
 using the OpenAPI field name `file`.
+
+Attachment upload, metadata, and download commands require a selected company or
+`--company-id`. The CLI uses `/v1/companies/{companyId}/files/...` paths and
+does not add `X-Company-Id` for those route-scoped requests.
 
 Get file metadata:
 
@@ -963,6 +975,8 @@ opero service-catalog restore <id>
 Archive and restore are immediate PATCH requests. They do not prompt for
 confirmation.
 
+Service catalog commands require a selected company or `--company-id`.
+
 ### Entity Attachments
 
 List attachments for an entity:
@@ -1009,8 +1023,10 @@ opero entity-attachments delete <id>
 
 Delete is immediate. It does not prompt for confirmation.
 
-The current OpenAPI snapshot does not expose `GET /v1/entity-attachments/{id}`,
-so there is no `entity-attachments get` command.
+Entity attachment commands require a selected company or `--company-id`. The
+current OpenAPI snapshot does not expose `GET
+/v1/companies/{companyId}/entity-attachments/{id}`, so there is no
+`entity-attachments get` command.
 
 ### Entity Comments
 
@@ -1073,6 +1089,10 @@ opero entity-comments delete <id>
 ```
 
 Delete is immediate. It does not prompt for confirmation.
+
+Entity comment commands require a selected company or `--company-id`. Detail,
+update, and delete use `/v1/companies/{companyId}/entity-comments/comments/{id}`
+internally.
 
 ### Rules
 

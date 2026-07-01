@@ -34,8 +34,9 @@ before the request. `--columns id,name` is sent as a JSON array string.
 ## Company Targeting
 
 Use `--company-id <companyId>` or `OPERO_COMPANY_ID=<companyId>` when an
-organization token needs to target company-scoped runtime data. The CLI sends
-the value as `X-Company-Id`.
+organization token needs to target company-scoped runtime data. Route-scoped
+commands use the value in `/v1/companies/{companyId}/...` paths. Header-backed
+endpoints use it as `X-Company-Id`.
 
 For repeated work, save a default target company:
 
@@ -70,6 +71,10 @@ opero contractors create --body-file contractor.json
 opero contractors update <id> --body-file contractor.json
 opero contractors update-status <id> --body-file status.json
 ```
+
+Contractor commands require company context. Select a company first with
+`opero companies select <companyId>`, or pass `--company-id <companyId>` on the
+command.
 
 ## Companies
 
@@ -263,6 +268,10 @@ opero rules delete <id>
 ```
 
 ## Files, Attachments, Comments, Service Catalog
+
+These commands require company context. Select a company first with
+`opero companies select <companyId>`, or pass `--company-id <companyId>` on the
+command.
 
 Files:
 

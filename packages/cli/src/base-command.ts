@@ -4,6 +4,7 @@ import pc from 'picocolors'
 
 import {ApiClient} from './api/client.js'
 import {OperoCliError} from './api/errors.js'
+import {apiPath} from './api/path.js'
 import {loadConfig, type GlobalConfigFlags, resolveSettings} from './config/load.js'
 import type {OperoConfig, ResolvedSettings} from './config/types.js'
 import {renderOutput, type OutputFormatFlags} from './output.js'
@@ -51,6 +52,13 @@ export abstract class BaseCommand extends Command {
       companyId: settings.companyId,
       timeoutMs: settings.timeoutMs,
       userAgent: `${this.config.bin}/${this.config.version}`,
+    })
+  }
+
+  protected companyApiPath(template: string, settings: ResolvedSettings, values: Record<string, string> = {}): string {
+    return apiPath(template, {
+      ...values,
+      companyId: this.requireCompanyId(settings),
     })
   }
 
@@ -116,6 +124,15 @@ export abstract class BaseCommand extends Command {
 
   protected printOutput(value: unknown, flags: OutputFormatFlags): void {
     renderOutput(value, flags)
+  }
+
+  private requireCompanyId(settings: ResolvedSettings): string {
+    if (settings.companyId) return settings.companyId
+    throw new OperoCliError({
+      code: 'USAGE_ERROR',
+      exitCode: 2,
+      message: 'This endpoint requires a company. Run opero companies select <companyId>, pass --company-id, or set OPERO_COMPANY_ID.',
+    })
   }
 }
 

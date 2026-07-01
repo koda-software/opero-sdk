@@ -1,6 +1,5 @@
 import {Flags} from '@oclif/core'
 
-import {apiPath} from '../../api/path.js'
 import {listFlags, ListCommand} from '../../list-command.js'
 
 export default class EntityCommentsList extends ListCommand {
@@ -20,12 +19,17 @@ export default class EntityCommentsList extends ListCommand {
 
   async run(): Promise<unknown> {
     const {flags} = await this.parse(EntityCommentsList)
-    return this.getList(
-      apiPath('/v1/entity-comments/{entityType}/{entityId}', {
+    const {settings} = await this.loadSettings(flags)
+    const client = this.createApiClient(settings)
+    const result = await client.get(
+      this.companyApiPath('/v1/companies/{companyId}/entity-comments/{entityType}/{entityId}', settings, {
         entityId: flags['entity-id'],
         entityType: flags['entity-type'],
       }),
-      flags,
+      {query: this.buildListQuery(flags)},
     )
+
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
+    return result
   }
 }

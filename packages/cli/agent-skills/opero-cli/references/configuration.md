@@ -126,8 +126,9 @@ opero --company-id <companyId> --json workflows tasks list
 OPERO_COMPANY_ID=<companyId> opero --json custom-records list <moduleKey> <objectKey>
 ```
 
-The CLI sends this as `X-Company-Id`. Do not add that header manually for
-curated commands. For raw requests, prefer `--company-id`; use
+Route-scoped commands use this value in `/v1/companies/{companyId}/...` paths.
+Header-backed endpoints use it as `X-Company-Id`. Do not add that header
+manually for curated commands. For raw requests, prefer `--company-id`; use
 `--header X-Company-Id=<companyId>` only when testing low-level behavior.
 
 Resolution order is `--company-id`, then `OPERO_COMPANY_ID`, then the company

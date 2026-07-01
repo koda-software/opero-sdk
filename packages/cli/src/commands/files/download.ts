@@ -1,6 +1,5 @@
 import {Args, Flags} from '@oclif/core'
 
-import {apiPath} from '../../api/path.js'
 import {BaseCommand} from '../../base-command.js'
 import {writeDownloadFile} from '../../files/io.js'
 
@@ -36,7 +35,7 @@ export default class FilesDownload extends BaseCommand {
     const {args, flags} = await this.parse(FilesDownload)
     const {settings} = await this.loadSettings(flags)
     const client = this.createApiClient(settings)
-    const response = await client.download(apiPath('/v1/files/{id}/download', args), {
+    const response = await client.download(this.companyApiPath('/v1/companies/{companyId}/files/{id}/download', settings, args), {
       headers: flags.range ? {Range: flags.range} : undefined,
     })
 

@@ -39,16 +39,23 @@ export default class EntityAttachmentsCreate extends WriteCommand {
 
   async run(): Promise<unknown> {
     const {flags} = await this.parse(EntityAttachmentsCreate)
-    return this.postJson('/v1/entity-attachments', flags, {
-      description: flags.description,
-      displayName: flags['display-name'],
-      entityId: flags['entity-id'],
-      entityType: flags['entity-type'],
-      fileId: flags['file-id'],
-      kind: flags.kind,
-      metadata: parseMetadata(flags['metadata-json']),
-      position: flags.position,
+    const {settings} = await this.loadSettings(flags)
+    const client = this.createApiClient(settings)
+    const result = await client.post(this.companyApiPath('/v1/companies/{companyId}/entity-attachments', settings), {
+      body: {
+        description: flags.description,
+        displayName: flags['display-name'],
+        entityId: flags['entity-id'],
+        entityType: flags['entity-type'],
+        fileId: flags['file-id'],
+        kind: flags.kind,
+        metadata: parseMetadata(flags['metadata-json']),
+        position: flags.position,
+      },
     })
+
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
+    return result
   }
 }
 

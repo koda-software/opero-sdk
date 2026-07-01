@@ -82,7 +82,7 @@ function writeOptions(body: unknown, query: Query | undefined, options: Omit<Req
   return query === undefined ? {...options, body} : {...options, body, query}
 }
 
-async function readRequiredJsonBodyFile(path: string | undefined): Promise<unknown> {
+export async function readRequiredJsonBodyFile(path: string | undefined): Promise<unknown> {
   const body = await readJsonBodyFile(path)
   if (body === undefined) {
     throw new OperoCliError({

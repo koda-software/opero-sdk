@@ -44,7 +44,7 @@ describe('service catalog commands', () => {
       },
     })
 
-    expect(client.get).toHaveBeenCalledWith('/v1/service-catalog/items', {
+    expect(client.get).toHaveBeenCalledWith('/v1/companies/company%201/service-catalog/items', {
       query: {
         columns: '["id","name"]',
         limit: 10,
@@ -59,7 +59,7 @@ describe('service catalog commands', () => {
 
     await runCommand(ServiceCatalogGet, client, {args: {id: 'item 1'}})
 
-    expect(client.get).toHaveBeenCalledWith('/v1/service-catalog/items/item%201', {query: undefined})
+    expect(client.get).toHaveBeenCalledWith('/v1/companies/company%201/service-catalog/items/item%201', {query: undefined})
   })
 
   it('creates and updates service catalog items from body files', async () => {
@@ -71,10 +71,10 @@ describe('service catalog commands', () => {
     await runCommand(ServiceCatalogCreate, client, {flags: {'body-file': bodyFile}})
     await runCommand(ServiceCatalogUpdate, client, {args: {id: 'item 1'}, flags: {'body-file': bodyFile}})
 
-    expect(client.post).toHaveBeenCalledWith('/v1/service-catalog/items', {
+    expect(client.post).toHaveBeenCalledWith('/v1/companies/company%201/service-catalog/items', {
       body: {code: 'HOSTING', name: 'Hosting'},
     })
-    expect(client.patch).toHaveBeenCalledWith('/v1/service-catalog/items/item%201', {
+    expect(client.patch).toHaveBeenCalledWith('/v1/companies/company%201/service-catalog/items/item%201', {
       body: {code: 'HOSTING', name: 'Hosting'},
     })
     await rm(dir, {force: true, recursive: true})
@@ -86,8 +86,8 @@ describe('service catalog commands', () => {
     await runCommand(ServiceCatalogArchive, client, {args: {id: 'item 1'}})
     await runCommand(ServiceCatalogRestore, client, {args: {id: 'item 1'}})
 
-    expect(client.patch).toHaveBeenCalledWith('/v1/service-catalog/items/item%201/archive')
-    expect(client.patch).toHaveBeenCalledWith('/v1/service-catalog/items/item%201/restore')
+    expect(client.patch).toHaveBeenCalledWith('/v1/companies/company%201/service-catalog/items/item%201/archive')
+    expect(client.patch).toHaveBeenCalledWith('/v1/companies/company%201/service-catalog/items/item%201/restore')
   })
 })
 
@@ -102,7 +102,7 @@ describe('entity attachment commands', () => {
       },
     })
 
-    expect(client.get).toHaveBeenCalledWith('/v1/entity-attachments', {
+    expect(client.get).toHaveBeenCalledWith('/v1/companies/company%201/entity-attachments', {
       query: {
         entityId: 'contractor 1',
         entityType: 'contractor',
@@ -126,7 +126,7 @@ describe('entity attachment commands', () => {
       },
     })
 
-    expect(client.post).toHaveBeenCalledWith('/v1/entity-attachments', {
+    expect(client.post).toHaveBeenCalledWith('/v1/companies/company%201/entity-attachments', {
       body: {
         description: 'Signed agreement',
         displayName: 'Agreement',
@@ -164,10 +164,10 @@ describe('entity attachment commands', () => {
     await runCommand(EntityAttachmentsUpdate, client, {args: {id: 'attachment 1'}, flags: {'body-file': bodyFile}})
     await runCommand(EntityAttachmentsDelete, client, {args: {id: 'attachment 1'}})
 
-    expect(client.patch).toHaveBeenCalledWith('/v1/entity-attachments/attachment%201', {
+    expect(client.patch).toHaveBeenCalledWith('/v1/companies/company%201/entity-attachments/attachment%201', {
       body: {displayName: 'Updated'},
     })
-    expect(client.delete).toHaveBeenCalledWith('/v1/entity-attachments/attachment%201')
+    expect(client.delete).toHaveBeenCalledWith('/v1/companies/company%201/entity-attachments/attachment%201')
     await rm(dir, {force: true, recursive: true})
   })
 })
@@ -186,7 +186,7 @@ describe('entity comment commands', () => {
       },
     })
 
-    expect(client.get).toHaveBeenCalledWith('/v1/entity-comments/contractor/contractor%201', {
+    expect(client.get).toHaveBeenCalledWith('/v1/companies/company%201/entity-comments/contractor/contractor%201', {
       query: {
         columns: '["id","body"]',
         limit: 5,
@@ -200,7 +200,7 @@ describe('entity comment commands', () => {
 
     await runCommand(EntityCommentsGet, client, {args: {id: 'comment 1'}})
 
-    expect(client.get).toHaveBeenCalledWith('/v1/entity-comments/comment%201', {query: undefined})
+    expect(client.get).toHaveBeenCalledWith('/v1/companies/company%201/entity-comments/comments/comment%201', {query: undefined})
   })
 
   it('creates entity comments from direct body flags', async () => {
@@ -215,7 +215,7 @@ describe('entity comment commands', () => {
       },
     })
 
-    expect(client.post).toHaveBeenCalledWith('/v1/entity-comments', {
+    expect(client.post).toHaveBeenCalledWith('/v1/companies/company%201/entity-comments', {
       body: {
         body: 'Please verify billing address',
         entityId: 'contractor 1',
@@ -239,7 +239,7 @@ describe('entity comment commands', () => {
       },
     })
 
-    expect(client.post).toHaveBeenCalledWith('/v1/entity-comments', {
+    expect(client.post).toHaveBeenCalledWith('/v1/companies/company%201/entity-comments', {
       body: {
         body: 'From file',
         entityId: 'contractor 1',
@@ -286,10 +286,10 @@ describe('entity comment commands', () => {
     await runCommand(EntityCommentsUpdate, client, {args: {id: 'comment 1'}, flags: {'body-file': bodyFile}})
     await runCommand(EntityCommentsDelete, client, {args: {id: 'comment 1'}})
 
-    expect(client.patch).toHaveBeenCalledWith('/v1/entity-comments/comment%201', {
+    expect(client.patch).toHaveBeenCalledWith('/v1/companies/company%201/entity-comments/comments/comment%201', {
       body: {body: 'Updated'},
     })
-    expect(client.delete).toHaveBeenCalledWith('/v1/entity-comments/comment%201')
+    expect(client.delete).toHaveBeenCalledWith('/v1/companies/company%201/entity-comments/comments/comment%201')
     await rm(dir, {force: true, recursive: true})
   })
 })
@@ -307,6 +307,7 @@ async function runCommand(Command: CommandConstructor, client: Record<string, un
       authSource: 'flag',
       baseUrl: 'https://api.example',
       timeoutMs: 30_000,
+      companyId: 'company 1',
     },
   })
   command.createApiClient = vi.fn().mockReturnValue(client)

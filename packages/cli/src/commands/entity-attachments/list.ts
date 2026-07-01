@@ -18,9 +18,16 @@ export default class EntityAttachmentsList extends ReadCommand {
 
   async run(): Promise<unknown> {
     const {flags} = await this.parse(EntityAttachmentsList)
-    return this.getJson('/v1/entity-attachments', flags, {
-      entityId: flags['entity-id'],
-      entityType: flags['entity-type'],
+    const {settings} = await this.loadSettings(flags)
+    const client = this.createApiClient(settings)
+    const result = await client.get(this.companyApiPath('/v1/companies/{companyId}/entity-attachments', settings), {
+      query: {
+        entityId: flags['entity-id'],
+        entityType: flags['entity-type'],
+      },
     })
+
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
+    return result
   }
 }

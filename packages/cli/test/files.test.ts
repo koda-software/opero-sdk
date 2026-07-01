@@ -33,12 +33,12 @@ describe('ApiClient file transport', () => {
     vi.restoreAllMocks()
   })
 
-  it('uploads multipart files with auth and optional fields', async () => {
+  it('uploads multipart files without a company header for company route paths', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(jsonResponse({data: {id: 'file-1'}}))
     const client = new ApiClient({...clientOptions, companyId: 'company-1'})
 
     const result = await client.postMultipart(
-      '/v1/files/attachments',
+      '/v1/companies/company-1/files/attachments',
       {
         bytes: new Blob(['hello']),
         fieldName: 'file',
@@ -54,12 +54,12 @@ describe('ApiClient file transport', () => {
     expect(result).toEqual({data: {id: 'file-1'}})
     expect(fetchMock).toHaveBeenCalledOnce()
     const [url, init] = fetchMock.mock.calls[0]
-    expect(String(url)).toBe('https://api.example/v1/files/attachments')
+    expect(String(url)).toBe('https://api.example/v1/companies/company-1/files/attachments')
     expect(init?.method).toBe('POST')
     expect(init?.headers).toMatchObject({
-      'X-Company-Id': 'company-1',
       authorization: 'Bearer test-token',
     })
+    expect(init?.headers).not.toMatchObject({'X-Company-Id': 'company-1'})
     expect((init?.headers as Record<string, string>)['content-type']).toBeUndefined()
     expect(init?.body).toBeInstanceOf(FormData)
     expect((init?.body as FormData).get('file')).toBeInstanceOf(Blob)
@@ -75,7 +75,7 @@ describe('ApiClient file transport', () => {
     )
     const client = new ApiClient({...clientOptions, companyId: 'company-1'})
 
-    const response = await client.download('/v1/files/file-1/download', {
+    const response = await client.download('/v1/companies/company-1/files/file-1/download', {
       headers: {Range: 'bytes=0-9'},
     })
 
@@ -84,16 +84,16 @@ describe('ApiClient file transport', () => {
     expect(response.body).toBeTruthy()
     expect(fetchMock.mock.calls[0][1]?.headers).toMatchObject({
       Range: 'bytes=0-9',
-      'X-Company-Id': 'company-1',
       accept: 'application/octet-stream',
     })
+    expect(fetchMock.mock.calls[0][1]?.headers).not.toMatchObject({'X-Company-Id': 'company-1'})
   })
 
   it('lets explicit request headers override the configured company header', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(jsonResponse({data: {ok: true}}))
     const client = new ApiClient({...clientOptions, companyId: 'configured-company'})
 
-    await client.get('/v1/contractors', {
+    await client.get('/v1/header-backed-endpoint', {
       headers: {
         'X-Company-Id': 'request-company',
       },
@@ -131,7 +131,7 @@ describe('ApiClient file transport', () => {
     )
     const client = new ApiClient(clientOptions)
 
-    await expect(client.download('/v1/files/missing/download')).rejects.toBeInstanceOf(ApiError)
+    await expect(client.download('/v1/companies/company-1/files/missing/download')).rejects.toBeInstanceOf(ApiError)
   })
 })
 
@@ -185,7 +185,7 @@ describe('file commands', () => {
     })
 
     expect(result).toEqual({data: {id: 'file-1'}})
-    expect(client.get).toHaveBeenCalledWith('/v1/files/file%201', {query: undefined})
+    expect(client.get).toHaveBeenCalledWith('/v1/companies/company%201/files/file%201', {query: undefined})
   })
 
   it('wires files upload to multipart endpoint', async () => {
@@ -200,7 +200,7 @@ describe('file commands', () => {
 
     expect(result).toEqual({data: {id: 'file-1'}})
     expect(client.postMultipart).toHaveBeenCalledOnce()
-    expect(client.postMultipart.mock.calls[0][0]).toBe('/v1/files/attachments')
+    expect(client.postMultipart.mock.calls[0][0]).toBe('/v1/companies/company%201/files/attachments')
     expect(client.postMultipart.mock.calls[0][1]).toMatchObject({
       fieldName: 'file',
       filename: 'sample.txt',
@@ -242,7 +242,7 @@ describe('file commands', () => {
         status: 206,
       },
     })
-    expect(client.download).toHaveBeenCalledWith('/v1/files/file%201/download', {
+    expect(client.download).toHaveBeenCalledWith('/v1/companies/company%201/files/file%201/download', {
       headers: {Range: 'bytes=0-9'},
     })
     expect(await readFile(out, 'utf8')).toBe('downloaded')
@@ -263,6 +263,7 @@ async function runCommand(Command: CommandConstructor, client: Record<string, un
       authSource: 'flag',
       baseUrl: 'https://api.example',
       timeoutMs: 30_000,
+      companyId: 'company 1',
     },
   })
   command.createApiClient = vi.fn().mockReturnValue(client)

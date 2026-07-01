@@ -31,7 +31,14 @@ export default class EntityCommentsCreate extends WriteCommand {
 
   async run(): Promise<unknown> {
     const {flags} = await this.parse(EntityCommentsCreate)
-    return this.postJson('/v1/entity-comments', flags, await buildCreateBody(flags))
+    const {settings} = await this.loadSettings(flags)
+    const client = this.createApiClient(settings)
+    const result = await client.post(this.companyApiPath('/v1/companies/{companyId}/entity-comments', settings), {
+      body: await buildCreateBody(flags),
+    })
+
+    if (!this.jsonEnabled()) this.printOutput(result, flags)
+    return result
   }
 }
 

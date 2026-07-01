@@ -323,9 +323,9 @@ describe('custom data write commands', () => {
     await runCommand(ContractorsUpdate, client, {args: {id: 'contractor 1'}, flags: {'body-file': bodyFile}})
     await runCommand(ContractorsUpdateStatus, client, {args: {id: 'contractor 1'}, flags: {'body-file': bodyFile}})
 
-    expect(client.post).toHaveBeenCalledWith('/v1/contractors', {body: {status: 'ACTIVE'}})
-    expect(client.patch).toHaveBeenCalledWith('/v1/contractors/contractor%201', {body: {status: 'ACTIVE'}})
-    expect(client.patch).toHaveBeenCalledWith('/v1/contractors/contractor%201/status', {body: {status: 'ACTIVE'}})
+    expect(client.post).toHaveBeenCalledWith('/v1/companies/company%201/contractors', {body: {status: 'ACTIVE'}})
+    expect(client.patch).toHaveBeenCalledWith('/v1/companies/company%201/contractors/contractor%201', {body: {status: 'ACTIVE'}})
+    expect(client.patch).toHaveBeenCalledWith('/v1/companies/company%201/contractors/contractor%201/status', {body: {status: 'ACTIVE'}})
     await cleanup()
   })
 
@@ -526,6 +526,7 @@ async function runCommand(Command: CommandConstructor, client: ReturnType<typeof
       apiToken: 'test-token',
       authSource: 'flag',
       baseUrl: 'https://api.example',
+      companyId: 'company 1',
       timeoutMs: 30_000,
     },
   })
