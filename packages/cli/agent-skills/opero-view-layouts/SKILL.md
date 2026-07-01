@@ -27,6 +27,10 @@ Read only the reference needed for the task:
 - `references/blocks.md`: block anatomy, sources, refs, field blocks,
   sections, tabs, relation tables, buttons, custom HTML, built-ins, and layout
   placement.
+- `references/designing-layouts.md`: product-oriented form design heuristics,
+  mode-specific layouts, section order, grid widths, columns, tabs, labels,
+  secondary regions, relation tables, actions, custom HTML, visibility, scripts,
+  and when to use those features.
 - `references/drafts-validation-publish.md`: full draft saves, preserving
   existing structure, validation states, publishing, versions, assignments, and
   public form publishing.
@@ -94,7 +98,8 @@ approves.
 
 6. Build an explicit layout plan from the user's desired view: regions, block
    groups, sections, columns, tabs, fields, relation tables, staged custom
-   fields, ordering, and modes.
+   fields, ordering, and modes. For design or reorganization requests, read
+   `references/designing-layouts.md` before drafting JSON.
 7. Save a full draft payload with all regions and all blocks that should remain:
 
    ```bash

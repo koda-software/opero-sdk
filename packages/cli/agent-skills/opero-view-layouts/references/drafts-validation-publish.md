@@ -18,9 +18,9 @@ objects. Preserve existing `presentation` values unless the user asks to change
 field display behavior.
 
 Use `scriptBindings` for layout script hooks such as `optionFilter`,
-`fieldVisibility`, `fieldReadonly`, and `fieldDefault`. Do not store option
-filter script ids in dynamic object field `options`; `options.optionFilterScriptId`
-is not supported.
+`fieldVisibility`, `fieldReadonly`, `fieldDefault`, and `fieldChange`. Do not
+store option filter script ids in dynamic object field `options`;
+`options.optionFilterScriptId` is not supported.
 
 Command:
 
@@ -67,6 +67,27 @@ Option filter binding shape:
   "config": {}
 }
 ```
+
+Field-change binding shape:
+
+```json
+{
+  "id": "binding_amount_field_change",
+  "scriptId": "script_id",
+  "hook": "fieldChange",
+  "target": {
+    "blockId": "field_amount",
+    "fieldKey": "amount"
+  },
+  "enabled": true,
+  "priority": 0,
+  "config": {}
+}
+```
+
+`fieldChange` bindings must target a field block. They run after the user
+changes the bound field in dynamic object create/edit forms and public dynamic
+forms. They do not run for view-only fields.
 
 When modifying an existing layout, start from the current draft or published
 version and edit it. Do not send a tiny partial draft unless the intent is to

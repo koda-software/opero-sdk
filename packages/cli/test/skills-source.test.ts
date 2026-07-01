@@ -156,6 +156,7 @@ describe('agent skills source', () => {
     expect(findReferencedMarkdownFiles(markdown)).toEqual([
       'references/blocks.md',
       'references/custom-fields.md',
+      'references/designing-layouts.md',
       'references/discovery-and-schema.md',
       'references/drafts-validation-publish.md',
       'references/runtime-and-records.md',

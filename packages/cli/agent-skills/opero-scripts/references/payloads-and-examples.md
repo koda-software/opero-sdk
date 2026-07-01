@@ -111,6 +111,61 @@ Type:
 FIELD_DEFAULT
 ```
 
+## Field Change
+
+Use case: after amount changes, compute a related value, update another form
+field, notify the user, or call an integration.
+
+```js
+if (ctx.event.value === ctx.event.previousValue) return;
+
+const net = Number(ctx.event.value ?? 0);
+const gross = Math.round(net * 1.23 * 100) / 100;
+ctx.form?.setValue?.('grossAmount', gross);
+
+await ctx.queries.run('audit_amount_change', {
+  previousValue: ctx.event.previousValue,
+  value: ctx.event.value
+});
+```
+
+Type:
+
+```text
+FIELD_CHANGE
+```
+
+Field-change scripts are async-capable and backend saves them as `ASYNC`. Their
+return value is ignored. The UI label is "On field change". They are
+field-targeted and non-DOM. They run after the user changes the bound field in
+dynamic object create/edit forms and public dynamic forms; they do not run for
+view-only fields.
+
+Attach this script through the View Layout draft `scriptBindings` array:
+
+```json
+{
+  "id": "binding_amount_field_change",
+  "scriptId": "script_id",
+  "hook": "fieldChange",
+  "target": {
+    "blockId": "field_amount",
+    "fieldKey": "amount"
+  },
+  "enabled": true,
+  "priority": 0,
+  "config": {}
+}
+```
+
+The runtime passes the event data under:
+
+```js
+ctx.event.previousValue
+ctx.event.value
+ctx.event.values
+```
+
 ## Before Action
 
 Use case: prevent submit while form errors exist.

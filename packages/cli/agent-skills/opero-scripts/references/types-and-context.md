@@ -24,6 +24,7 @@ body that belongs inside the generated function.
 | `FIELD_VISIBILITY` | `fieldVisibility` | `boolean` | sync only | Show or hide a field. |
 | `FIELD_READONLY` | `fieldReadonly` | `boolean` | sync only | Make a field readonly. |
 | `FIELD_DEFAULT` | `fieldDefault` | any value | sync only in v1 | Provide a default value in create mode. |
+| `FIELD_CHANGE` | `fieldChange` | ignored | async allowed; saved as `ASYNC` | Run after the bound field value changes. |
 | `BEFORE_ACTION` | `beforeAction` | `boolean` or `undefined` | async allowed | Run before a UI action; `false` can cancel. |
 | `AFTER_ACTION` | `afterAction` | ignored | async allowed | Run after a UI action. |
 | `ON_RENDER` | `onRender`, `onBlockRender` | ignored | sync only in v1 | Run after a surface or block renders. |
@@ -97,6 +98,21 @@ ctx.target.action
 ctx.event.result
 ```
 
+`FIELD_CHANGE` receives the changed value event:
+
+```js
+ctx.event.previousValue
+ctx.event.value
+ctx.event.values
+```
+
+The UI label is "On field change". The hook is field-targeted and non-DOM.
+`ctx.event.values` is the current form values snapshot after the change. Use
+`ctx.target.field` for the bound field and `ctx.record.values` for current
+record values. Field-change scripts run after user changes in dynamic object
+create/edit forms and public dynamic forms; they do not run for view-only
+fields.
+
 Template functions receive values directly:
 
 ```js
@@ -112,6 +128,8 @@ filter
 - `OPTION_FILTER`, `FIELD_VISIBILITY`, and `FIELD_READONLY` must return a
   boolean.
 - `FIELD_DEFAULT` should return the default value.
+- `FIELD_CHANGE` ignores return values. Use async helpers, notifications, or
+  form adapters for follow-up behavior.
 - `BEFORE_ACTION` may return `false` to cancel. `true` or `undefined` continues.
 - `AFTER_ACTION`, `ON_RENDER`, and `onBlockRender` ignore return values.
 - `TEMPLATE_FUNCTION` must return a value.
