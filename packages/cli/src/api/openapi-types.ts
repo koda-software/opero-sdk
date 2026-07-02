@@ -3216,7 +3216,7 @@ export interface components {
             name: string;
             description?: string;
             /** @enum {string} */
-            type: "OPTION_FILTER" | "FIELD_VISIBILITY" | "FIELD_READONLY" | "FIELD_DEFAULT" | "BEFORE_ACTION" | "AFTER_ACTION" | "ON_RENDER" | "TEMPLATE_FUNCTION" | "CUSTOM";
+            type: "OPTION_FILTER" | "FIELD_VISIBILITY" | "FIELD_READONLY" | "FIELD_DEFAULT" | "FIELD_CHANGE" | "BEFORE_ACTION" | "AFTER_ACTION" | "ON_RENDER" | "TEMPLATE_FUNCTION" | "CUSTOM";
             /** @description JavaScript function body or script body, depending on type. */
             code: string;
             metadata?: Record<string, never>;
@@ -3256,7 +3256,7 @@ export interface components {
             name: string;
             description?: string | null;
             /** @enum {string} */
-            type: "OPTION_FILTER" | "FIELD_VISIBILITY" | "FIELD_READONLY" | "FIELD_DEFAULT" | "BEFORE_ACTION" | "AFTER_ACTION" | "ON_RENDER" | "TEMPLATE_FUNCTION" | "CUSTOM";
+            type: "OPTION_FILTER" | "FIELD_VISIBILITY" | "FIELD_READONLY" | "FIELD_DEFAULT" | "FIELD_CHANGE" | "BEFORE_ACTION" | "AFTER_ACTION" | "ON_RENDER" | "TEMPLATE_FUNCTION" | "CUSTOM";
             /** @enum {string} */
             status: "ACTIVE" | "ARCHIVED";
             code: string;
@@ -3283,7 +3283,7 @@ export interface components {
             name?: string;
             description?: string | null;
             /** @enum {string} */
-            type?: "OPTION_FILTER" | "FIELD_VISIBILITY" | "FIELD_READONLY" | "FIELD_DEFAULT" | "BEFORE_ACTION" | "AFTER_ACTION" | "ON_RENDER" | "TEMPLATE_FUNCTION" | "CUSTOM";
+            type?: "OPTION_FILTER" | "FIELD_VISIBILITY" | "FIELD_READONLY" | "FIELD_DEFAULT" | "FIELD_CHANGE" | "BEFORE_ACTION" | "AFTER_ACTION" | "ON_RENDER" | "TEMPLATE_FUNCTION" | "CUSTOM";
             code?: string;
             metadata?: Record<string, never> | null;
         };
@@ -5623,7 +5623,7 @@ export interface components {
             id?: string;
             scriptId: string;
             /** @enum {string} */
-            hook: "optionFilter" | "fieldVisibility" | "fieldReadonly" | "fieldDefault" | "beforeAction" | "afterAction" | "onRender" | "onBlockRender";
+            hook: "optionFilter" | "fieldVisibility" | "fieldReadonly" | "fieldDefault" | "fieldChange" | "beforeAction" | "afterAction" | "onRender" | "onBlockRender";
             target: components["schemas"]["CustomScriptBindingTargetDto"];
             /** @default true */
             enabled: boolean;
@@ -10694,7 +10694,7 @@ export interface operations {
                 sort?: string;
                 /** @description JSON-encoded ordered list of requested columns. This is a validated presentation contract in v1. */
                 columns?: string;
-                type?: "OPTION_FILTER" | "FIELD_VISIBILITY" | "FIELD_READONLY" | "FIELD_DEFAULT" | "BEFORE_ACTION" | "AFTER_ACTION" | "ON_RENDER" | "TEMPLATE_FUNCTION" | "CUSTOM";
+                type?: "OPTION_FILTER" | "FIELD_VISIBILITY" | "FIELD_READONLY" | "FIELD_DEFAULT" | "FIELD_CHANGE" | "BEFORE_ACTION" | "AFTER_ACTION" | "ON_RENDER" | "TEMPLATE_FUNCTION" | "CUSTOM";
                 status?: "ACTIVE" | "ARCHIVED";
                 validationStatus?: "VALID" | "INVALID" | "NOT_VALIDATED";
                 executionMode?: "SYNC" | "ASYNC";
