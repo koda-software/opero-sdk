@@ -9,6 +9,7 @@ import {fetchRelease, findChecksumsAsset, findReleaseAsset} from '../update/gith
 import {installUpdate} from '../update/install.js'
 import {currentInstallLayout} from '../update/platform.js'
 import {isSourceCheckout} from '../update/source-checkout.js'
+import {formatSkillInstallTarget, reinstallManagedSkillInstalls, type ReinstallSkillInstallResult} from '../skills/registry.js'
 
 export default class Update extends BaseCommand {
   static description = 'Update standalone Opero CLI from GitHub Releases.'
@@ -42,6 +43,7 @@ export default class Update extends BaseCommand {
       currentVersion: string
       installPath?: string
       latestVersion: string
+      skillInstalls: ReinstallSkillInstallResult[]
       target: string
       updateAvailable: boolean
       updated: boolean
@@ -65,6 +67,7 @@ export default class Update extends BaseCommand {
           asset: asset.name,
           currentVersion,
           latestVersion: release.tag_name,
+          skillInstalls: [],
           target: layout.target,
           updateAvailable,
           updated: false,
@@ -103,6 +106,12 @@ export default class Update extends BaseCommand {
       onProgress: progress,
       tag: release.tag_name,
     })
+    const skillInstalls = await reinstallManagedSkillInstalls({
+      configDir: this.config.configDir,
+      cwd: process.cwd(),
+      executable: install.executable,
+      onProgress: progress,
+    })
 
     const result = {
       data: {
@@ -110,6 +119,7 @@ export default class Update extends BaseCommand {
         currentVersion,
         installPath: install.installPath,
         latestVersion: release.tag_name,
+        skillInstalls,
         target: layout.target,
         updateAvailable,
         updated: true,
@@ -119,9 +129,30 @@ export default class Update extends BaseCommand {
     if (!this.jsonEnabled()) {
       this.log(`Installed opero ${release.tag_name}`)
       this.log(`Binary: ${install.executable}`)
+      this.printSkillInstallResult(skillInstalls)
     }
 
     return result
+  }
+
+  private printSkillInstallResult(skillInstalls: ReinstallSkillInstallResult[]): void {
+    if (skillInstalls.length === 0) return
+
+    const refreshed = skillInstalls.filter((target) => target.status === 'refreshed')
+    const failed = skillInstalls.filter((target) => target.status === 'failed')
+    if (refreshed.length > 0) {
+      this.log(`Skills: refreshed ${refreshed.length} install target${refreshed.length === 1 ? '' : 's'}`)
+      for (const target of refreshed) {
+        this.log(`${pc.dim('-')} ${pc.cyan(formatSkillInstallTarget(target))} ${pc.dim(target.targetDir)}`)
+      }
+    }
+
+    if (failed.length > 0) {
+      this.log(pc.yellow(`Skills: ${failed.length} install target${failed.length === 1 ? '' : 's'} could not be refreshed`))
+      for (const target of failed) {
+        this.log(`${pc.dim('-')} ${pc.cyan(formatSkillInstallTarget(target))} ${pc.dim(target.targetDir)} ${pc.yellow(target.error ?? '')}`)
+      }
+    }
   }
 }
 

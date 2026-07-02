@@ -4,6 +4,7 @@ import pc from 'picocolors'
 import {BaseCommand} from '../../../base-command.js'
 import {installBundledSkills, type InstallSkillsResult} from '../../../skills/install.js'
 import type {SkillPlatform, SkillScope} from '../../../skills/platforms.js'
+import {recordSkillInstall} from '../../../skills/registry.js'
 
 export const installSkillFlags = {
   'dry-run': Flags.boolean({
@@ -36,6 +37,7 @@ export abstract class InstallSkillsCommand extends BaseCommand {
       targetDir: flags['target-dir'],
     })
 
+    await recordSkillInstall(this.config.configDir, result.data)
     if (!this.jsonEnabled()) this.printInstallResult(result)
     return result
   }

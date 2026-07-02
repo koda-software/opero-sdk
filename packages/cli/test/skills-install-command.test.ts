@@ -1,4 +1,4 @@
-import {mkdtemp, rm} from 'node:fs/promises'
+import {mkdtemp, readFile, rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {afterEach, describe, expect, it, vi} from 'vitest'
@@ -6,6 +6,7 @@ import {afterEach, describe, expect, it, vi} from 'vitest'
 import SkillsInstallClaude from '../src/commands/skills/install/claude.js'
 import SkillsInstallCodex from '../src/commands/skills/install/codex.js'
 import SkillsInstall from '../src/commands/skills/install.js'
+import {SKILL_INSTALL_REGISTRY, type SkillInstallRegistry} from '../src/skills/registry.js'
 
 let tempDirs: string[] = []
 
@@ -18,7 +19,8 @@ describe('skills install commands', () => {
 
   it('installs Codex skills through the command wrapper', async () => {
     const targetDir = await tempDir()
-    const command = new SkillsInstallCodex([], {version: '0.2.2-test'} as never)
+    const configDir = await tempDir()
+    const command = new SkillsInstallCodex([], {configDir, version: '0.2.2-test'} as never)
     command.parse = vi.fn().mockResolvedValue({
       args: {},
       flags: {
@@ -70,11 +72,21 @@ describe('skills install commands', () => {
         name: 'opero-workflows',
       }),
     ])
+
+    const registry = JSON.parse(await readFile(join(configDir, SKILL_INSTALL_REGISTRY), 'utf8')) as SkillInstallRegistry
+    expect(registry.installs).toEqual([
+      expect.objectContaining({
+        platform: 'codex',
+        scope: 'user',
+        targetDir,
+      }),
+    ])
   })
 
   it('installs Claude skills through the command wrapper', async () => {
     const targetDir = await tempDir()
-    const command = new SkillsInstallClaude([], {version: '0.2.2-test'} as never)
+    const configDir = await tempDir()
+    const command = new SkillsInstallClaude([], {configDir, version: '0.2.2-test'} as never)
     command.parse = vi.fn().mockResolvedValue({
       args: {},
       flags: {
@@ -145,7 +157,8 @@ describe('skills install commands', () => {
 
   it('prints human install feedback instead of generic object output', async () => {
     const targetDir = await tempDir()
-    const command = new SkillsInstallCodex([], {version: '0.2.2-test'} as never)
+    const configDir = await tempDir()
+    const command = new SkillsInstallCodex([], {configDir, version: '0.2.2-test'} as never)
     command.parse = vi.fn().mockResolvedValue({
       args: {},
       flags: {
