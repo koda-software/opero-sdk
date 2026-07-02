@@ -5,7 +5,7 @@ import {fetchRelease, findReleaseAsset} from './github.js'
 import {currentInstallLayout} from './platform.js'
 import {isSourceCheckout} from './source-checkout.js'
 
-const DEFAULT_INTERVAL_MS = 24 * 60 * 60 * 1000
+const DEFAULT_INTERVAL_MS = 60 * 60 * 1000
 const DEFAULT_TIMEOUT_MS = 1200
 
 export type UpdateNotice = {
@@ -39,18 +39,25 @@ export function startBackgroundUpdateCheck(options: StartOptions): BackgroundUpd
   if (!shouldCheckForUpdates(options)) return undefined
 
   const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), readTimeoutMs(options.env))
-  const promise = checkForUpdateNotice({
-    ...options,
-    signal: controller.signal,
-  })
-    .catch(() => undefined)
-    .finally(() => clearTimeout(timeout))
+  const promise = checkForUpdateNoticeWithTimeout(options, controller)
 
   return {
     abort: () => controller.abort(),
     promise,
   }
+}
+
+export async function checkForUpdateNoticeWithTimeout(
+  options: StartOptions,
+  controller = new AbortController(),
+): Promise<UpdateNotice | undefined> {
+  const timeout = setTimeout(() => controller.abort(), readTimeoutMs(options.env))
+  return await checkForUpdateNotice({
+    ...options,
+    signal: controller.signal,
+  })
+    .catch(() => undefined)
+    .finally(() => clearTimeout(timeout))
 }
 
 export async function checkForUpdateNotice(options: StartOptions & {signal?: AbortSignal}): Promise<UpdateNotice | undefined> {

@@ -8,7 +8,8 @@ import {apiPath} from './api/path.js'
 import {loadConfig, type GlobalConfigFlags, resolveSettings} from './config/load.js'
 import type {OperoConfig, ResolvedSettings} from './config/types.js'
 import {renderOutput, type OutputFormatFlags} from './output.js'
-import {type BackgroundUpdateCheck, startBackgroundUpdateCheck} from './update/background.js'
+import {checkForUpdateNoticeWithTimeout, shouldCheckForUpdates} from './update/background.js'
+import {promptUpdateChoice, runUpdateNow} from './update/interactive.js'
 
 export abstract class BaseCommand extends Command {
   static baseFlags = {
@@ -28,8 +29,6 @@ export abstract class BaseCommand extends Command {
       description: 'HTTP request timeout in milliseconds.',
     }),
   }
-
-  private backgroundUpdateCheck?: BackgroundUpdateCheck
 
   protected get configPath(): string {
     return join(this.config.configDir, 'config.json')
@@ -62,30 +61,13 @@ export abstract class BaseCommand extends Command {
     })
   }
 
-  protected async finally(error: Error | undefined): Promise<void> {
-    if (error) {
-      this.backgroundUpdateCheck?.abort()
-      return
-    }
-
-    const check = this.backgroundUpdateCheck
-    if (!check) return
-
-    const notice = await Promise.race([check.promise, sleep(250)])
-    if (!notice) {
-      check.abort()
-      return
-    }
-
-    process.stderr.write(
-      `${pc.cyan('Update available')}: ${notice.latestVersion} ` +
-        `${pc.dim(`(current ${notice.currentVersion}, ${notice.target})`)}. Run ${pc.bold('opero update')}.\n`,
-    )
-  }
-
   async init(): Promise<void> {
     await super.init()
-    this.backgroundUpdateCheck = startBackgroundUpdateCheck({
+    await this.maybeOfferUpdate()
+  }
+
+  protected async maybeOfferUpdate(): Promise<void> {
+    const options = {
       commandId: this.id,
       configDir: this.config.configDir,
       currentVersion: `v${this.config.version}`,
@@ -93,7 +75,21 @@ export abstract class BaseCommand extends Command {
       stderrIsTTY: process.stderr.isTTY,
       stdinIsTTY: process.stdin.isTTY,
       stdoutIsTTY: process.stdout.isTTY,
-    })
+    }
+
+    if (!shouldCheckForUpdates(options)) return
+
+    const notice = await checkForUpdateNoticeWithTimeout(options)
+    if (!notice) return
+
+    const choice = await promptUpdateChoice(notice).catch(() => 'skip' as const)
+    if (choice === 'skip') return
+
+    const result = runUpdateNow({cwd: process.cwd()})
+    if (result.status === 'updated') return
+
+    const detail = result.error ?? (result.exitCode === undefined ? 'unknown error' : `exit code ${result.exitCode}`)
+    process.stderr.write(`${pc.yellow('Update failed')}: ${detail}. Continuing with the current command.\n`)
   }
 
   protected async loadSettings(flags: GlobalConfigFlags): Promise<{config: OperoConfig; settings: ResolvedSettings}> {
@@ -145,11 +141,5 @@ function normalizeError(error: Error & {exitCode?: number}): OperoCliError {
     details: process.env.DEBUG ? error.stack : undefined,
     exitCode: error.exitCode ?? 1,
     message: error.message || 'Unexpected CLI failure',
-  })
-}
-
-async function sleep(ms: number): Promise<undefined> {
-  return await new Promise((resolve) => {
-    setTimeout(() => resolve(undefined), ms)
   })
 }

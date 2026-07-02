@@ -61,7 +61,7 @@ describe('background update checks', () => {
     await rm(dir, {force: true, recursive: true})
   })
 
-  it('debounces repeated checks', async () => {
+  it('debounces repeated checks for one hour', async () => {
     const dir = await mkdtemp(join(tmpdir(), 'opero-update-check-'))
     const fetch = vi.fn().mockResolvedValue(releaseResponse('v0.2.3'))
     vi.stubGlobal('fetch', fetch)
@@ -78,11 +78,60 @@ describe('background update checks', () => {
       configDir: dir,
       currentVersion: 'v0.2.2',
       jsonEnabled: false,
-      now: new Date('2026-06-24T10:05:00Z'),
+      now: new Date('2026-06-24T10:59:00Z'),
     })
 
     expect(second).toBeUndefined()
     expect(fetch).toHaveBeenCalledTimes(1)
+
+    const third = await checkForUpdateNotice({
+      commandId: 'currencies:list',
+      configDir: dir,
+      currentVersion: 'v0.2.2',
+      jsonEnabled: false,
+      now: new Date('2026-06-24T11:01:00Z'),
+    })
+
+    expect(third).toEqual({
+      currentVersion: 'v0.2.2',
+      latestVersion: 'v0.2.3',
+      target: 'linux-x64',
+    })
+    expect(fetch).toHaveBeenCalledTimes(2)
+    await rm(dir, {force: true, recursive: true})
+  })
+
+  it('allows custom debounce intervals', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'opero-update-check-'))
+    const fetch = vi.fn().mockResolvedValue(releaseResponse('v0.2.3'))
+    vi.stubGlobal('fetch', fetch)
+
+    await checkForUpdateNotice({
+      commandId: 'currencies:list',
+      configDir: dir,
+      currentVersion: 'v0.2.2',
+      env: {OPERO_UPDATE_CHECK_INTERVAL_MS: '60000'},
+      jsonEnabled: false,
+      now: new Date('2026-06-24T10:00:00Z'),
+    })
+    await checkForUpdateNotice({
+      commandId: 'currencies:list',
+      configDir: dir,
+      currentVersion: 'v0.2.2',
+      env: {OPERO_UPDATE_CHECK_INTERVAL_MS: '60000'},
+      jsonEnabled: false,
+      now: new Date('2026-06-24T10:00:30Z'),
+    })
+    await checkForUpdateNotice({
+      commandId: 'currencies:list',
+      configDir: dir,
+      currentVersion: 'v0.2.2',
+      env: {OPERO_UPDATE_CHECK_INTERVAL_MS: '60000'},
+      jsonEnabled: false,
+      now: new Date('2026-06-24T10:01:01Z'),
+    })
+
+    expect(fetch).toHaveBeenCalledTimes(2)
     await rm(dir, {force: true, recursive: true})
   })
 })
